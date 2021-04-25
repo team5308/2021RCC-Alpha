@@ -21,6 +21,10 @@ public final class Constants {
         public static final int DRIVE_LEFT_BACK = 14;
         public static final int DRIVE_RIGHT_FRONT = 13;
         public static final int DRIVE_RIGHT_BACK = 12;
+
+        public static final int MOTOR_SHOOTER_LEFT = 18;
+        public static final int MOTOR_SHOOTER_RIGHT = 19;
+        public static final int MOTOR_HOOD = 0;
     }
 
     public final class Deadband {
@@ -36,5 +40,13 @@ public final class Constants {
         public static final int kBaseR = 2;
         public static final int kClimberF = 3;
         public static final int kClimberR = 4;
+    }
+
+    public final class ShooterConstants {
+        
+    }
+
+    public final class Converters {
+        
     }
 }

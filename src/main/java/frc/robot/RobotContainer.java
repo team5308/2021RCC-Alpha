@@ -14,8 +14,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
 
@@ -33,12 +32,16 @@ public class RobotContainer {
 
   private final DriveSubsystem m_drive = new DriveSubsystem();
   private final PneumaticSubsystem m_pneumatic = new PneumaticSubsystem();
+  private final Shooter m_shooter = new Shooter();
+  private final Hood m_hood = new Hood();
 
   private Joystick m_leftJoy = new Joystick(0);
   private Joystick m_rightJoy = new Joystick(1);
 
   private JoystickButton m_leftButton1 = new JoystickButton(m_leftJoy, 1);
   private JoystickButton m_leftButton2 = new JoystickButton(m_leftJoy, 2);
+  private JoystickButton m_leftButton3 = new JoystickButton(m_leftJoy, 3);
+  private JoystickButton m_leftButton4 = new JoystickButton(m_leftJoy, 4);
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -54,8 +57,9 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    m_leftButton1.whenHeld(new InstantCommand(m_pneumatic::changeBaseOutput, m_pneumatic));
-    m_leftButton2.whenHeld(new InstantCommand(m_pneumatic::changeClimberOutput, m_pneumatic));
+    // m_leftButton1.whenHeld(new InstantCommand(m_pneumatic::changeBaseOutput, m_pneumatic));
+    // m_leftButton2.whenHeld(new InstantCommand(m_pneumatic::changeClimberOutput, m_pneumatic));
+    // m_leftButton3.whileHeld(new ShooterSetSpeed(m_shooter, 3000));
   }
 
 
