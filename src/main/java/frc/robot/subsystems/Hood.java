@@ -8,6 +8,7 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,8 +22,8 @@ public class Hood extends SubsystemBase {
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
 
   public Hood() {
-    m_hood_motor = new CANSparkMax(CanId.MOTOR_HOOD, MotorType.kBrushless);
     m_hood_motor.restoreFactoryDefaults();
+    m_hood_motor.setIdleMode(IdleMode.kBrake);
     m_pidController = m_hood_motor.getPIDController();
     m_encoder = m_hood_motor.getEncoder();
 

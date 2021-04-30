@@ -4,11 +4,18 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Vision extends SubsystemBase {
-  /** Creates a new Vision. */
-  public Vision() {}
+  
+  public Vision() {
+    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+
+  }
 
   @Override
   public void periodic() {

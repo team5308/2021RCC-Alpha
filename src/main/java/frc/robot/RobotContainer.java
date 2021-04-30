@@ -59,9 +59,9 @@ public class RobotContainer {
   private void configureButtonBindings() {
     // m_leftButton1.whenHeld(new InstantCommand(m_pneumatic::changeBaseOutput, m_pneumatic));
     // m_leftButton2.whenHeld(new InstantCommand(m_pneumatic::changeClimberOutput, m_pneumatic));
-    // m_leftButton3.whileHeld(new ShooterSetSpeed(m_shooter, 3000));
+    m_leftButton1.whenHeld(new ShooterSetSpeed(m_shooter, -4000));// minus sign?
+    // TODO: why cannot the shooter stop when I release the joystick
   }
-
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

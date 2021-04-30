@@ -43,10 +43,6 @@ public class Hopper extends SubsystemBase {
     m_hopper_motor.getStatorCurrent();
   }
 
-  public void shake() {
-
-  }
-
   public double RPMtoRawSensorUnit(double velocity) {
     return velocity * 2048 / 600;
   }
