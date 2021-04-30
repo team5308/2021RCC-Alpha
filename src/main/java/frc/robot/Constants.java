@@ -25,6 +25,8 @@ public final class Constants {
         public static final int MOTOR_SHOOTER_LEFT = 18;
         public static final int MOTOR_SHOOTER_RIGHT = 19;
         public static final int MOTOR_HOOD = 0;
+
+        public static final int MOTOR_HOPPER = 1;
     }
 
     public final class Deadband {

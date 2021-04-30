@@ -12,8 +12,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import frc.robot.Constants.CanId;
+import frc.robot.Constants.*;
 
 public class Hood extends SubsystemBase {
   private CANSparkMax m_hood_motor = new CANSparkMax(CanId.MOTOR_HOOD, MotorType.kBrushless);
