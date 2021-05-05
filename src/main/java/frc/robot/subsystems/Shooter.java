@@ -36,6 +36,8 @@ public class Shooter extends SubsystemBase implements ShooterInterface {
   private double targetSpeed;
   private double targetAngle;
 
+  private boolean shutdownmode;
+
   // TODO: calculate this converter's value and implement it to the shooter set
   // speed fragment
   double RPM_CONVERTER = 0;
@@ -49,7 +51,8 @@ public class Shooter extends SubsystemBase implements ShooterInterface {
   // PIDController(ShooterConstants.kP, ShooterConstants.kI, ShooterConstants.kD);
 
   public Shooter() {
-    configShooterFX();
+    shutdownmode = false;
+    configShooterFX(shutdownmode);
     m_tfx_shooter_left.setInverted(true);
 
     m_tfx_shooter_left.setNeutralMode(NeutralMode.Coast);
@@ -61,7 +64,19 @@ public class Shooter extends SubsystemBase implements ShooterInterface {
 
   @Override
   public void periodic() {
-    configShooterFX();
+    configShooterFX(shutdownmode);
+  }
+
+  public void setWorkMode() {
+    shutdownmode = false;
+  }
+
+  public void setShutMode() {
+    shutdownmode = true;
+  }
+
+  public void showShutdownMode() {
+    System.out.println(shutdownmode ? "Shooter Shutdown Mode" : "Shooter Work Mode");
   }
 
   public void StopMotor() {
@@ -119,20 +134,27 @@ public class Shooter extends SubsystemBase implements ShooterInterface {
   }
 
   // values: P 0.06,1; I 0.000125; D 0;
-  private void configShooterFX() {
-    if (RawSensorUnittoRPM(m_tfx_shooter_left.getSelectedSensorVelocity()) < 800) {
-      configWheel.slot0.kP = 0.03;
+  private void configShooterFX(boolean shutdown) {
+    if (shutdown) {
+      configWheel.slot0.kP = 0;
+      configWheel.slot0.kI = 0;
+      configWheel.slot0.kD = 0;
+      configWheel.openloopRamp = 1;
     } else {
-      configWheel.slot0.kP = 0.8;
-      System.out.println("Damn!");
+      if (RawSensorUnittoRPM(m_tfx_shooter_left.getSelectedSensorVelocity()) < 800) {
+        configWheel.slot0.kP = 0.03;
+      } else {
+        configWheel.slot0.kP = 0.8;
+        System.out.println("Damn!");
+      }
+      //TODO: get a suitable rawZone for Integration
+      // the fixed suitable integral starting point is 1850 when the speed is 3000RPM
+      int rawZone = 1; // 3000RPM - 1850
+      m_tfx_shooter_left.config_IntegralZone(0, (int) ((0.62 * targetSpeed + 14) * 2048 / 600));
+      m_tfx_shooter_right.config_IntegralZone(0, (int) ((0.62 * targetSpeed + 14) * 2048 / 600));
+      configWheel.slot0.kI = 0.000125;
+      configWheel.slot0.kD = 0;
+      configWheel.openloopRamp = 1;
     }
-    //TODO: get a suitable rawZone for Integration
-    // the fixed suitable integral starting point is 1850 when the speed is 3000RPM
-    int rawZone = 1; // 3000RPM - 1850
-    m_tfx_shooter_left.config_IntegralZone(0, (int) ((0.62 * targetSpeed + 14) * 2048 / 600));
-    m_tfx_shooter_right.config_IntegralZone(0, (int) ((0.62 * targetSpeed + 14) * 2048 / 600));
-    configWheel.slot0.kI = 0.000125;
-    configWheel.slot0.kD = 0;
-    configWheel.openloopRamp = 1;
   }
 }

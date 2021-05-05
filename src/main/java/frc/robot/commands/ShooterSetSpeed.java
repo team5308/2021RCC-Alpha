@@ -23,6 +23,8 @@ public class ShooterSetSpeed extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_shooter.setWorkMode();
+    m_shooter.showShutdownMode();
     m_shooter.setVelocity(m_speed);
     // m_shooter.getCurrent();
   }
@@ -30,7 +32,8 @@ public class ShooterSetSpeed extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    
+    m_shooter.setShutMode();
+    m_shooter.showShutdownMode();
   }
 
   // Returns true when the command should end.
