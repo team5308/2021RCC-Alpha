@@ -156,5 +156,11 @@ public class Shooter extends SubsystemBase implements ShooterInterface {
       configWheel.slot0.kD = 0;
       configWheel.openloopRamp = 1;
     }
+    System.out.println("P: "+configWheel.slot0.kP);
+  }
+
+  public void stopMotor() {
+    m_tfx_shooter_left.stopMotor();
+    m_tfx_shooter_right.stopMotor();
   }
 }

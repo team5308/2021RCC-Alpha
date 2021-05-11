@@ -27,6 +27,8 @@ public final class Constants {
         public static final int MOTOR_HOOD = 0;
 
         public static final int MOTOR_HOPPER = 1;
+
+        public static final int MOTOR_TURRET = 2;
     }
 
     public final class Deadband {
@@ -34,14 +36,14 @@ public final class Constants {
     }
 
     public final class Ports {
-        public static final int kPCMPort = 0;
+        public static final int kPCMPort = 3;
     }
 
     public final class PneumaticConstants {
-        public static final int kBaseF = 1;
-        public static final int kBaseR = 2;
-        public static final int kClimberF = 3;
-        public static final int kClimberR = 4;
+        public static final int kBaseF = 2;
+        public static final int kBaseR = 3;
+        public static final int kClimberF = 0;
+        public static final int kClimberR = 1;
     }
 
     public final class ShooterConstants {
