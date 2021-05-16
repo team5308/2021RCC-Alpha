@@ -16,7 +16,13 @@ public class Interfaces {
     }
 
     public interface TurretInterface {
-        
+        public void feederWork(double power);
+        public void zeroAngle();
+        public void showCurrentAngle();
+        public void powerRotate(double power);
+        public void autoSetAngle();
+        public double getSetpoint();
+        public void clearIAccum();
     }
 
     public interface DriveTrainInterface {

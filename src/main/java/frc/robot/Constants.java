@@ -29,6 +29,8 @@ public final class Constants {
         public static final int MOTOR_HOPPER = 1;
 
         public static final int MOTOR_TURRET = 2;
+        public static final int MOTOR_FEEDER_LEFT = 3;
+        public static final int MOTOR_FEEDER_RIGHT = 4;
     }
 
     public final class Deadband {
@@ -44,10 +46,18 @@ public final class Constants {
         public static final int kBaseR = 3;
         public static final int kClimberF = 0;
         public static final int kClimberR = 1;
+        public static final int kLockF = 4;
+        public static final int kLockR = 5;
+        public static final int kSSIntake = 6;
+
     }
 
     public final class ShooterConstants {
         
+    }
+
+    public final class BaseConstants {
+
     }
 
     public final class Converters {

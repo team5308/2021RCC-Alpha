@@ -8,13 +8,21 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
 import frc.robot.Constants.*;
+import frc.robot.Interfaces.TurretInterface;
+import frc.robot.subsystems.Vision.*;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Turret extends SubsystemBase {
+public class Turret extends SubsystemBase implements TurretInterface{
 
   private TalonFX m_turret_motor = new TalonFX(CanId.MOTOR_TURRET);
+
+  private TalonSRX m_feeder_tsrx = new TalonSRX(CanId.MOTOR_FEEDER_LEFT);
+  private VictorSPX m_feeder_tvictor = new VictorSPX(CanId.MOTOR_FEEDER_RIGHT);
 
   private double current_angle;
   private double setpoint = 0;
@@ -33,13 +41,16 @@ public class Turret extends SubsystemBase {
   double limelight_mount_height = 0;
   double limelight_mount_angle = 0;
   double gear_ratio = 1 / 13;
-  double minAngle = 0;
-  double maxAngle = 180;
+  double minAngle = -90;
+  double maxAngle = 90;
   private int encoderUnitsPerRotation = 4096;
 
   public Turret() {
     m_turret_motor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     m_turret_motor.setNeutralMode(NeutralMode.Brake);
+    m_feeder_tsrx.setNeutralMode(NeutralMode.Coast);
+    m_feeder_tvictor.setNeutralMode(NeutralMode.Coast);
+    m_feeder_tvictor.setInverted(true);
     m_turret_motor.config_kP(0, kP);
     m_turret_motor.config_kI(0, kI);
     m_turret_motor.config_kD(0, kD);
@@ -55,6 +66,11 @@ public class Turret extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void feederWork(double power) {
+    m_feeder_tsrx.set(ControlMode.PercentOutput, power);
+    m_feeder_tvictor.set(ControlMode.PercentOutput, power);
   }
 
   public void zeroAngle() {
@@ -84,7 +100,7 @@ public class Turret extends SubsystemBase {
     m_turret_motor.set(ControlMode.MotionMagic, degreesToEncoderUnits(getSetpoint()));
   }
 
-  private double getSetpoint() {
+  public double getSetpoint() {
     return setpoint;
   }
 
@@ -101,5 +117,4 @@ public class Turret extends SubsystemBase {
   {
     return (int) (degrees * (1.0 / gear_ratio) * (encoderUnitsPerRotation / 360.0));
   }
-
 }
