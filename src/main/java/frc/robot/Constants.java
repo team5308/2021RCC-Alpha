@@ -7,6 +7,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants.  This class should not be used for any other purpose.  All constants should be
@@ -49,7 +52,17 @@ public final class Constants {
         public static final int kLockF = 4;
         public static final int kLockR = 5;
         public static final int kSSIntake = 6;
+    }
 
+    public static final class PneuStatus {
+        public static final DoubleSolenoid.Value kClimberUp = Value.kForward;
+        public static final DoubleSolenoid.Value kClimberDown = Value.kReverse;
+        
+        public static final DoubleSolenoid.Value kBaseFast = Value.kForward;
+        public static final DoubleSolenoid.Value kBaseSlow = Value.kReverse;
+
+        public static final DoubleSolenoid.Value kIntakeUp = Value.kForward;
+        public static final DoubleSolenoid.Value kIntakeDown = Value.kReverse;
     }
 
     public final class ShooterConstants {
@@ -63,4 +76,5 @@ public final class Constants {
     public final class Converters {
         
     }
+    
 }

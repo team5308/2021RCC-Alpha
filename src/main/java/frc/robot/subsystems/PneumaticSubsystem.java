@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants.Ports;
 import frc.robot.Constants.PneumaticConstants;
+import frc.robot.Constants.PneuStatus;
 
 public class PneumaticSubsystem extends SubsystemBase {
   private Compressor m_compressor = new Compressor(Ports.kPCMPort);
@@ -43,14 +44,22 @@ public class PneumaticSubsystem extends SubsystemBase {
 
   public void changeClimberOutput()
   {
-    if (m_climberValue == Value.kForward)
-    {
-      m_ds_climber.set(m_climberValue = Value.kReverse);
+    m_climberValue = m_ds_climber.get();
+    if(m_climberValue == PneuStatus.kClimberDown) {
+      _setClimberOutput(PneuStatus.kClimberUp);
+    } else if(m_climberValue == PneuStatus.kClimberUp) {
+      _setClimberOutput(PneuStatus.kClimberDown);
     }
-    else if (m_climberValue == Value.kReverse)
-    {
-      m_ds_climber.set(m_climberValue = Value.kForward);
-    }
+  }
+
+  public void changeClimberOutput(final Value value)
+  {
+    _setClimberOutput(value);
+  }
+
+  public void _setClimberOutput(final Value value)
+  {
+    m_ds_climber.set(value);
   }
 
   public void changeBaseOutput()
