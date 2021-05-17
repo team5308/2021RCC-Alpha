@@ -57,9 +57,9 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    m_leftButton1.whenHeld(new InstantCommand(m_pneumatic::changeBaseOutput, m_pneumatic));
+    // m_leftButton1.whenHeld(new InstantCommand(m_pneumatic::changeBaseOutput, m_pneumatic));
     // m_leftButton2.whenHeld(new InstantCommand(m_pneumatic::changeClimberOutput, m_pneumatic));
-    // m_leftButton1.whenHeld(new ShooterSetSpeed(m_shooter, -2000));// minus sign?
+    m_leftButton1.whenHeld(new ShooterSetSpeed(m_shooter, -2000));// minus sign?
     // TODO: why cannot the shooter stop when I release the joystick
   }
   
@@ -76,13 +76,14 @@ public class RobotContainer {
 
   public void teleopInit() {
     configureButtonBindings();
-    m_pneumatic.CompressorBegin();
+    // m_pneumatic.CompressorBegin();
+    m_pneumatic.CompressorEnd();
     // final Command tankDriveCommand = new RunCommand(() -> m_drive.TankDrive(m_leftJoy.getY(), m_rightJoy.getY()), m_drive);
     final Command arcadeDriveCommand = new RunCommand(() -> m_drive.ArcadeDrive(m_leftJoy.getY(), m_leftJoy.getX()), m_drive);
     m_drive.setDefaultCommand(arcadeDriveCommand);
   }
 
   public void disableInit() {
-    m_pneumatic.CompressorEnd();
+    // m_pneumatic.CompressorEnd();
   }
 }
