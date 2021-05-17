@@ -11,9 +11,10 @@ import frc.robot.subsystems.PneumaticSubsystem;
 public class ArmUpCommand extends CommandBase {
   /** Creates a new ArmUpCommand. */
   private PneumaticSubsystem m_pneu;
-  public ArmUpCommand() {
+  public ArmUpCommand(PneumaticSubsystem _p) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_pneu);
+    addRequirements(_p);
+    m_pneu = _p;
   }
 
   // Called when the command is initially scheduled.

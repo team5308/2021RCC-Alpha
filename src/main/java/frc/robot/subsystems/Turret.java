@@ -68,9 +68,9 @@ public class Turret extends SubsystemBase implements TurretInterface{
     // This method will be called once per scheduler run
   }
 
-  public void feederWork(double power) {
-    m_feeder_tsrx.set(ControlMode.PercentOutput, power);
-    m_feeder_tvictor.set(ControlMode.PercentOutput, power);
+  public void feederWork() {
+    m_feeder_tsrx.set(ControlMode.PercentOutput, 0.4);
+    m_feeder_tvictor.set(ControlMode.PercentOutput, -0.4);
   }
 
   public void zeroAngle() {
@@ -116,5 +116,10 @@ public class Turret extends SubsystemBase implements TurretInterface{
   public int degreesToEncoderUnits(double degrees)
   {
     return (int) (degrees * (1.0 / gear_ratio) * (encoderUnitsPerRotation / 360.0));
+  }
+
+  @Override
+  public void feederWork(double power) {
+        
   }
 }
