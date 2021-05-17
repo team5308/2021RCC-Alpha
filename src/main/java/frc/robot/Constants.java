@@ -45,10 +45,10 @@ public final class Constants {
     }
 
     public final class PneumaticConstants {
-        public static final int kBaseF = 2;
-        public static final int kBaseR = 3;
-        public static final int kClimberF = 0;
-        public static final int kClimberR = 1;
+        public static final int kBaseF = 0;
+        public static final int kBaseR = 1;
+        public static final int kClimberF = 2;
+        public static final int kClimberR = 3;
         public static final int kLockF = 4;
         public static final int kLockR = 5;
         public static final int kSSIntake = 6;

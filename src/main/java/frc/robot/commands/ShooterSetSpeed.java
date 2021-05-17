@@ -6,13 +6,17 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Turret;
 
 public class ShooterSetSpeed extends CommandBase {
   private Shooter m_shooter;
+  private Turret m_turret;
   private double m_speed;
-  public ShooterSetSpeed(Shooter p_shooter, double p_speed) {
+  public ShooterSetSpeed(Shooter p_shooter, Turret p_turret, double p_speed) {
     addRequirements(p_shooter);
+    addRequirements(p_turret);
     m_shooter = p_shooter;
+    m_turret = p_turret;
     m_speed = p_speed;
   }
 

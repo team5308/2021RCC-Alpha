@@ -85,7 +85,7 @@ public class Shooter extends SubsystemBase implements ShooterInterface {
   }
 
   public double getVelocity() {
-    return m_tfx_shooter_left.getSelectedSensorVelocity();
+    return RawSensorUnittoRPM(m_tfx_shooter_left.getSelectedSensorVelocity());
   }
 
   public void setPower(double power) {
