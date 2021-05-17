@@ -27,6 +27,6 @@ public final class Main {
    */
   public static void main(String... args) {
     YangtzeLogger.getInstance();
-    RobotBase.startRobot(Robot::new)
+    RobotBase.startRobot(Robot::new);
   }
 }
