@@ -8,6 +8,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+
+import java.util.logging.Logger;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -26,6 +29,8 @@ import frc.robot.subsystems.*;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
+  private static Logger logger = Logger.getLogger("frc.RobotContainer");
+
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
@@ -58,6 +63,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+
+    logger.info("configureButtonBindings");
     // m_leftButton1.whenHeld(new InstantCommand(m_pneumatic::changeBaseOutput, m_pneumatic));
     // m_leftButton2.whenHeld(new InstantCommand(m_pneumatic::changeClimberOutput, m_pneumatic));
     m_leftButton1.whenHeld(new ShooterSetSpeed(m_shooter, m_turret, -2000));// minus sign?
@@ -86,6 +93,7 @@ public class RobotContainer {
   }
 
   public void disableInit() {
+    logger.info("disable init - ending compressor");
     m_pneumatic.CompressorEnd();
   }
 }
