@@ -46,18 +46,14 @@ public class PneumaticSubsystem extends SubsystemBase {
   {
     m_climberValue = m_ds_climber.get();
     if(m_climberValue == PneuStatus.kClimberDown) {
-      _setClimberOutput(PneuStatus.kClimberUp);
+      setClimberOutput(PneuStatus.kClimberUp);
     } else if(m_climberValue == PneuStatus.kClimberUp) {
-      _setClimberOutput(PneuStatus.kClimberDown);
+      setClimberOutput(PneuStatus.kClimberDown);
     }
   }
 
-  public void changeClimberOutput(final Value value)
-  {
-    _setClimberOutput(value);
-  }
 
-  public void _setClimberOutput(final Value value)
+  public void setClimberOutput(final Value value)
   {
     m_ds_climber.set(value);
   }
