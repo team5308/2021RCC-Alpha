@@ -8,7 +8,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -55,14 +56,16 @@ public final class Constants {
     }
 
     public static final class PneuStatus {
-        public static final DoubleSolenoid.Value kClimberUp = Value.kForward;
-        public static final DoubleSolenoid.Value kClimberDown = Value.kReverse;
+        public static final DoubleSolenoid.Value kClimberUp = DoubleSolenoid.Value.kForward;
+        public static final DoubleSolenoid.Value kClimberDown = DoubleSolenoid.Value.kReverse;
         
-        public static final DoubleSolenoid.Value kBaseClimb = Value.kForward;
-        public static final DoubleSolenoid.Value kBaseDrive = Value.kReverse;
+        public static final DoubleSolenoid.Value kBaseClimb = DoubleSolenoid.Value.kForward;
+        public static final DoubleSolenoid.Value kBaseDrive = DoubleSolenoid.Value.kReverse;
 
-        public static final DoubleSolenoid.Value kIntakeUp = Value.kForward;
-        public static final DoubleSolenoid.Value kIntakeDown = Value.kReverse;
+        public static final DoubleSolenoid.Value kClimberLock = DoubleSolenoid.Value.kForward;
+        public static final DoubleSolenoid.Value kClimberRelease = DoubleSolenoid.Value.kReverse;
+
+        public static final Boolean kIntakeRelease = true;
     }
 
     public final class ShooterConstants {

@@ -76,14 +76,22 @@ public class PneumaticSubsystem extends SubsystemBase {
 
   public void changeBaseOutput()
   {
-    if (m_baseValue == Value.kForward)
+    m_baseValue = m_ds_climber.get();
+    logger.info("Base change from " + str(m_baseValue));
+    if (m_baseValue == PneuStatus.kBaseClimb)
     {
-      m_ds_base.set(m_baseValue = Value.kReverse);
+      setBaseOutput(PneuStatus.kBaseDrive);
     }
-    else if (m_baseValue == Value.kReverse)
+    else if (m_baseValue == PneuStatus.kBaseDrive)
     {
-      m_ds_base.set(m_baseValue = Value.kForward);
+      setBaseOutput(PneuStatus.kBaseClimb);
     }
+  }
+
+  public void setBaseOutput(final Value value)
+  {
+    logger.info("Base output set to " + str(value));
+    m_ds_base.set(value);
   }
 
   public void changeLockOutput() {
