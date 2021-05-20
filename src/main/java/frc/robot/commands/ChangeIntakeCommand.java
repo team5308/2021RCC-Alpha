@@ -23,7 +23,7 @@ public class ChangeIntakeCommand extends InstantCommand {
     this(pneuSub, false, target);
   }
 
-  public ChangeIntakeCommand(PneumaticSubsystem pneuSub, boolean isChangeMode, boolean target) {
+  private ChangeIntakeCommand(PneumaticSubsystem pneuSub, boolean isChangeMode, boolean target) {
     addRequirements(pneuSub);
     this.target = target;
     this.isChangeMode = isChangeMode;

@@ -65,7 +65,7 @@ public final class Constants {
         public static final DoubleSolenoid.Value kClimberLock = DoubleSolenoid.Value.kForward;
         public static final DoubleSolenoid.Value kClimberRelease = DoubleSolenoid.Value.kReverse;
 
-        public static final Boolean kIntakeLock = true;
+        public static final Boolean kIntakeLock = false;
         public static final Boolean kIntakeRelease = !kIntakeLock;
     }
 
