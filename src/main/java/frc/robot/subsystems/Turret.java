@@ -100,8 +100,26 @@ public class Turret extends SubsystemBase implements TurretInterface{
     m_turret_motor.set(ControlMode.MotionMagic, degreesToEncoderUnits(getSetpoint()));
   }
 
-  public double getSetpoint() {
+  public double getSetpoint() 
+  {
+    setpoint = getTargetAngle() + getTurretAngle();
+    System.out.println(setpoint);
+    if (setpoint < 0 && setpoint > 180)
+    {
+      System.out.println("Target position out of turning limit! Turn! Turn!");
+      return setpoint < 0 ? 0 : 180;
+    }
     return setpoint;
+  }
+
+  public double getTargetAngle()
+  {
+    return 0.9 * Vision.getHeadingError();
+  }
+
+  public double getTurretAngle()
+  {
+    return encoderUnitsToDegrees(m_turret_motor.getSelectedSensorPosition());
   }
 
   public void clearIAccum() {

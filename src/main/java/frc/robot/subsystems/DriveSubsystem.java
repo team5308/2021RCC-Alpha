@@ -10,9 +10,14 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanId;
 import frc.robot.Constants.Deadband;
@@ -28,6 +33,9 @@ public class DriveSubsystem extends SubsystemBase {
   private DifferentialDrive m_diff = new DifferentialDrive(m_leftMotors, m_rightMotors);
   private TalonFXConfiguration configDrive = new TalonFXConfiguration();
 
+  private AHRS m_navX = new AHRS(SPI.Port.kMXP);
+  private final PowerDistributionPanel PDP = new PowerDistributionPanel(CanId.kPDP);
+
   public DriveSubsystem() {
     configBaseFX();
     m_leftMotorFront.setNeutralMode(NeutralMode.Brake);
@@ -39,11 +47,14 @@ public class DriveSubsystem extends SubsystemBase {
     m_leftMotorBack.configAllSettings(configDrive);
     m_rightMotorFront.configAllSettings(configDrive);
     m_rightMotorBack.configAllSettings(configDrive);
+  
+    
   }
 
   @Override
   public void periodic() {
     configBaseFX();
+    sensorUpdate();
   }
 
   public void TankDrive(double leftPower, double rightPower) {
@@ -63,5 +74,83 @@ public class DriveSubsystem extends SubsystemBase {
     configDrive.slot1.kI = 0;
     configDrive.slot1.kD = 0;
     configDrive.openloopRamp = 1;
+  }
+
+  public void resetGyro() {
+    m_navX.reset();
+  }
+
+  public double getGyro() {
+    return Math.IEEEremainder(Math.round(m_navX.getAngle() * 100) / 100, 360);
+  }
+
+  public double getRawGyro() {
+    return m_navX.getAngle();
+  }
+
+  public double getTurnRate() {
+    return m_navX.getRate();
+  }
+
+  public double getLeftPosition() {
+    return m_leftMotorFront.getSelectedSensorPosition();
+  }
+
+  public double getRightPosition() {
+    return m_rightMotorFront.getSelectedSensorPosition();
+  }
+
+  public double getLeftVelocity() {
+    return m_leftMotorFront.getSelectedSensorVelocity();
+  }
+
+  public double getRightVelocity() {
+    return m_rightMotorFront.getSelectedSensorVelocity();
+  }
+
+  public double getLeftCurrent() {
+    return m_leftMotorFront.getSupplyCurrent();
+  }
+
+  public double getRightCurrent() {
+    return m_rightMotorFront.getSupplyCurrent();
+  }
+
+  public double getBusVoltage() {
+    return 0.5 * (m_leftMotorFront.getBusVoltage() + m_rightMotorFront.getBusVoltage());
+  }
+
+  public double getPDPVoltage(){
+    return PDP.getVoltage();
+  }
+
+  public double getPDPTotalCurrent(){
+    return PDP.getTotalCurrent();
+  }
+
+  public double getPDPTotalPower(){
+    return PDP.getTotalPower();
+  }
+
+  public void sensorUpdate() {
+    SmartDashboard.putNumber("Bus Voltage", getBusVoltage());
+    SmartDashboard.putNumber("PDP Voltage", getPDPVoltage());
+    SmartDashboard.putNumber("PDP Current", getPDPTotalCurrent());
+    SmartDashboard.putNumber("PDP Power", getPDPTotalPower());
+
+    SmartDashboard.putNumber("Left Position", getLeftPosition());
+    SmartDashboard.putNumber("Right Position", getRightPosition());
+
+    SmartDashboard.putNumber("Left Velocity", getLeftVelocity());
+    SmartDashboard.putNumber("Right Velocity", getRightVelocity());
+
+    SmartDashboard.putNumber("Left Current", getLeftCurrent());
+    SmartDashboard.putNumber("Right Current", getRightCurrent());
+
+    SmartDashboard.putNumber("Gyro Value", getGyro());
+    SmartDashboard.putNumber("Gyro Raw", getRawGyro());
+    SmartDashboard.putNumber("Turn Rate", getTurnRate());
+    SmartDashboard.putNumber("Gyro Graph", getGyro());
+    SmartDashboard.putNumber("Gyro Raw Graph", getRawGyro());
   }
 }

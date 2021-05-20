@@ -28,13 +28,15 @@ public final class Constants {
 
         public static final int MOTOR_SHOOTER_LEFT = 18;
         public static final int MOTOR_SHOOTER_RIGHT = 19;
-        public static final int MOTOR_HOOD = 0;
+        public static final int MOTOR_HOOD = 26;
 
-        public static final int MOTOR_HOPPER = 1;
+        public static final int MOTOR_HOPPER = 36;
 
-        public static final int MOTOR_TURRET = 2;
-        public static final int MOTOR_FEEDER_LEFT = 3;
-        public static final int MOTOR_FEEDER_RIGHT = 4;
+        public static final int MOTOR_TURRET = 31;
+        public static final int MOTOR_FEEDER_LEFT = 24;
+        public static final int MOTOR_FEEDER_RIGHT = 22;
+
+        public static final int kPDP = 2;
     }
 
     public final class Deadband {
