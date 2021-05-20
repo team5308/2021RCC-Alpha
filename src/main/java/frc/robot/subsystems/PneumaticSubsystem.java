@@ -45,13 +45,11 @@ public class PneumaticSubsystem extends SubsystemBase {
 
   public void CompressorBegin() {
     logger.info("Compressor start");
-
     m_compressor.start();
   }
 
   public void CompressorEnd() {
     logger.info("Compressor stop");
-
     m_compressor.stop();
   }
 
@@ -95,34 +93,48 @@ public class PneumaticSubsystem extends SubsystemBase {
   }
 
   public void changeLockOutput() {
-    if (m_lockValue == Value.kForward)
+    m_lockValue = m_ds_lock.get();
+    logger.info("Lock change from " + str(m_lockValue));
+    if (m_lockValue == PneuStatus.kClimberLock)
     {
-      m_ds_lock.set(m_lockValue = Value.kReverse);
+      m_ds_lock.set(PneuStatus.kClimberRelease);
     }
-    else if (m_lockValue == Value.kReverse)
+    else if (m_lockValue == PneuStatus.kClimberRelease)
     {
-      m_ds_lock.set(m_lockValue = Value.kForward);
+      m_ds_lock.set(PneuStatus.kClimberLock);
     }
+  }
+
+  public void setLockOutput(final Value value) {
+    logger.info("Lock set to " + str(value));
+    m_ds_lock.set(value);
   }
 
   public void changeIntakeOutput() {
     boolean curIntakePos = m_ss_intake.get();
-    if (curIntakePos) {
-      logger.info("intake set false");
-      m_ss_intake.set(false);
-      // System.out.println("intake set false");
-    } else if (!curIntakePos) {
-      logger.info("intake set true");
-      m_ss_intake.set(true);
-      // System.out.println("intake set true");
-    }
+    logger.info("Intake change from " + checkIntakeStatus(curIntakePos) + (curIntakePos ? "(true)" : "(false)"));
+    setIntakeOutput(!curIntakePos);
+  }
+
+  public void setIntakeOutput(final boolean value) {
+    logger.info("intake set to " + checkIntakeStatus(value));
+    m_ss_intake.set(value);
   }
 
   public static String str(final Value v) {
-    if(v == Value.kForward) {
+    if(v == Value.kForward) 
+    {
       return "kForward";
-    } else if (v == Value.kReverse) {
+    } 
+    else if (v == Value.kReverse) 
+    {
       return "kReverse";
-    } else return "kOff";
+    } 
+    else return "kOff";
+  }
+
+  private static String checkIntakeStatus(boolean curPos)
+  {
+    return curPos ^ PneuStatus.kIntakeLock ? "Release" : "Lock";
   }
 }
