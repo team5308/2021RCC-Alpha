@@ -33,10 +33,12 @@ public class PneumaticSubsystem extends SubsystemBase {
     logger.config("m_ds_climber : kForward");
     logger.config("m_ds_base : kForward");
     logger.config("m_ss_intake : false");
+    logger.config("m_ds_lock : ")
 
-    m_ds_climber.set(Value.kForward);
-    m_ds_base.set(Value.kForward);
-    m_ss_intake.set(false);
+    m_ds_climber.set(PneuStatus.kClimberUp);
+    m_ds_base.set(PneuStatus.kBaseDrive);
+    m_ss_intake.set(PneuStatus.kIntakeLock);
+    m_ds_lock.set(PneuStatus.kClimberLock);
   }
 
   @Override

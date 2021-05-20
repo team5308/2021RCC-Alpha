@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -54,6 +55,13 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+
+    SmartDashboard.putData("Shooter", m_shooter);
+    SmartDashboard.putData("Pneumatic", m_pneumatic);
+    SmartDashboard.putData("Turret", m_turret);
+    SmartDashboard.putData("Hood", m_hood);
+    SmartDashboard.putData("Drive", m_drive);
+
   }
 
   /**
