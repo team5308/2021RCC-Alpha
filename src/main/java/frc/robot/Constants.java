@@ -34,6 +34,8 @@ public final class Constants {
         public static final int MOTOR_TURRET = 2;
         public static final int MOTOR_FEEDER_LEFT = 3;
         public static final int MOTOR_FEEDER_RIGHT = 4;
+
+        public static final int kPDP = 2;
     }
 
     public final class Deadband {
