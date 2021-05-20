@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.Constants.PneuStatus;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
@@ -49,6 +50,8 @@ public class RobotContainer {
   private JoystickButton m_leftButton2 = new JoystickButton(m_leftJoy, 2);
   private JoystickButton m_leftButton3 = new JoystickButton(m_leftJoy, 3);
   private JoystickButton m_leftButton4 = new JoystickButton(m_leftJoy, 4);
+
+  private final ChangeBaseCommand m_changeBaseCommand = new ChangeBaseCommand(m_pneumatic);
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -61,6 +64,8 @@ public class RobotContainer {
     SmartDashboard.putData("Turret", m_turret);
     SmartDashboard.putData("Hood", m_hood);
     SmartDashboard.putData("Drive", m_drive);
+ 
+    SmartDashboard.putData("ChangeBaseCommand", m_changeBaseCommand);
 
   }
 
@@ -80,7 +85,7 @@ public class RobotContainer {
     // m_leftButton1.whenHeld(new ArmUpCommand(m_pneumatic));
     // TODO: why cannot the shooter stop when I release the joystick
 
-    m_leftButton1.whenPressed(new ChangeLockCommand(m_pneumatic));
+    m_leftButton1.whenPressed(m_changeBaseCommand);
   }
   
   /**
@@ -97,6 +102,7 @@ public class RobotContainer {
     configureButtonBindings();
     logger.info("teleopInit - start compressor");
     m_pneumatic.CompressorBegin();
+    m_pneumatic.setBaseOutput(PneuStatus.kBaseDrive);
     // final Command tankDriveCommand = new RunCommand(() -> m_drive.TankDrive(m_leftJoy.getY(), m_rightJoy.getY()), m_drive);
     final Command arcadeDriveCommand = new RunCommand(() -> m_drive.ArcadeDrive(m_leftJoy.getY(), m_leftJoy.getX()), m_drive);
     m_drive.setDefaultCommand(arcadeDriveCommand);

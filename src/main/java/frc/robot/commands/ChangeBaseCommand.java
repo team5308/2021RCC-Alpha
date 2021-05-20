@@ -16,7 +16,6 @@ public class ChangeBaseCommand extends InstantCommand {
   private Value target;
 
   public ChangeBaseCommand(PneumaticSubsystem pneu) {
-    // Use addRequirements() here to declare subsystem dependencies.
     this(pneu, Value.kOff);
   }
 

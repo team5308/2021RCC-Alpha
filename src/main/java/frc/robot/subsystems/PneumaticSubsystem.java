@@ -29,13 +29,17 @@ public class PneumaticSubsystem extends SubsystemBase {
   private Value m_lockValue = Value.kForward;
 
   public PneumaticSubsystem() {
+    Init();
+  }
+
+  public void Init() {
     logger.info("Pneumatic");
     logger.config("m_ds_climber : kForward");
     logger.config("m_ds_base : kForward");
     logger.config("m_ss_intake : false");
     logger.config("m_ds_lock : ");
 
-    m_ds_climber.set(PneuStatus.kClimberUp);
+    m_ds_climber.set(PneuStatus.kClimberDown);
     m_ds_base.set(PneuStatus.kBaseDrive);
     m_ss_intake.set(PneuStatus.kIntakeLock);
     m_ds_lock.set(PneuStatus.kClimberLock);
@@ -43,7 +47,7 @@ public class PneumaticSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    }
+  }
 
   public void CompressorBegin() {
     logger.info("Compressor start");
@@ -76,7 +80,7 @@ public class PneumaticSubsystem extends SubsystemBase {
 
   public void changeBaseOutput()
   {
-    m_baseValue = m_ds_climber.get();
+    m_baseValue = m_ds_base.get();
     logger.info("Base change from " + str(m_baseValue));
     if (m_baseValue == PneuStatus.kBaseClimb)
     {
