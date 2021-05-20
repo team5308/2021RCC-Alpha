@@ -75,10 +75,12 @@ public class RobotContainer {
     logger.info("configureButtonBindings");
     // m_leftButton1.whenHeld(new InstantCommand(m_pneumatic::changeBaseOutput, m_pneumatic));
     // m_leftButton2.whenHeld(new InstantCommand(m_pneumatic::changeClimberOutput, m_pneumatic));
-    m_leftButton1.whenHeld(new ShooterSetSpeed(m_shooter, m_turret, -2000));// minus sign?
-    m_leftButton2.whenHeld(new InstantCommand(m_turret::feederWork, m_turret));
+    // m_leftButton1.whenHeld(new ShooterSetSpeed(m_shooter, m_turret, -2000));// minus sign?
+    // m_leftButton2.whenHeld(new InstantCommand(m_turret::feederWork, m_turret));
     // m_leftButton1.whenHeld(new ArmUpCommand(m_pneumatic));
     // TODO: why cannot the shooter stop when I release the joystick
+
+    m_leftButton1.whenPressed(new ChangeClimberCommand(m_pneumatic));
   }
   
   /**
