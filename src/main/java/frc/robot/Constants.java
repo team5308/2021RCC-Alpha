@@ -59,8 +59,8 @@ public final class Constants {
         public static final DoubleSolenoid.Value kClimberUp = DoubleSolenoid.Value.kForward;
         public static final DoubleSolenoid.Value kClimberDown = DoubleSolenoid.Value.kReverse;
         
-        public static final DoubleSolenoid.Value kBaseClimb = DoubleSolenoid.Value.kForward;
-        public static final DoubleSolenoid.Value kBaseDrive = DoubleSolenoid.Value.kReverse;
+        public static final DoubleSolenoid.Value kBaseClimb = DoubleSolenoid.Value.kReverse;
+        public static final DoubleSolenoid.Value kBaseDrive = DoubleSolenoid.Value.kForward;
 
         public static final DoubleSolenoid.Value kClimberLock = DoubleSolenoid.Value.kForward;
         public static final DoubleSolenoid.Value kClimberRelease = DoubleSolenoid.Value.kReverse;
