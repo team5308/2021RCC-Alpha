@@ -24,9 +24,9 @@ public final class YangtzeLogger {
     private String logFileLocation = "/home/lvuser/logs/";
 
     private YangtzeLogger() {
-        File usb1 = new File("/media/sdb1");
+        File usb1 = new File("/mnt");
         if (usb1.exists()) {
-            logFileLocation = "/media/sdb1/logs/";
+            logFileLocation = "/mnt/logs/";
         }
 
         try {
