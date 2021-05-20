@@ -3,40 +3,40 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
+import frc.robot.Constants.CanId;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.CanId;
 
-public class Hopper extends SubsystemBase {
 
-  private double khopperRPM;
+public class Intake extends SubsystemBase {
+  /** Creates a new Intake. */
+  private double kintakeRPM;
+  private VictorSPX m_intake_motor = new VictorSPX(CanId.MOTOR_INTAKE);
 
-  private VictorSPX m_hopper_motor = new VictorSPX(CanId.MOTOR_HOPPER);
+  public Intake() {
+    kintakeRPM = 0;
 
-  public Hopper() {
-    khopperRPM = 0;
-
-    m_hopper_motor.setNeutralMode(NeutralMode.Coast);
-
-    SmartDashboard.putNumber("Hopper Speed", khopperRPM);
+    m_intake_motor.setNeutralMode(NeutralMode.Coast);
+  
+    SmartDashboard.putNumber("Intake Speed", kintakeRPM);
   }
+
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    double hopperRPM = SmartDashboard.getNumber("Hopper Speed", 0);
-    if (hopperRPM != khopperRPM) {
-      setSpeed(hopperRPM);
+    double intakeRPM = SmartDashboard.getNumber("Hopper Speed", 0);
+    if (intakeRPM != kintakeRPM) {
+      setSpeed(intakeRPM);
     }
   }
 
-  public void setSpeed(double newRPM) {
-    // In RPM
-    khopperRPM = newRPM;
+  public void setSpeed(double newRPM){
+    kintakeRPM = newRPM;
   }
 
   public double RPMtoRawSensorUnit(double velocity) {
@@ -46,4 +46,5 @@ public class Hopper extends SubsystemBase {
   public double RawSensorUnittoRPM(double velocity) {
     return velocity / 2048 * 600;
   }
+
 }
