@@ -85,7 +85,9 @@ public class RobotContainer {
     // m_leftButton1.whenHeld(new ArmUpCommand(m_pneumatic));
     // TODO: why cannot the shooter stop when I release the joystick
 
-    m_leftButton1.whenPressed(m_changeBaseCommand);
+    // m_leftButton1.whenPressed(m_changeBaseCommand);
+    m_leftButton1.whenPressed(new ChangeClimberCommand(m_pneumatic));
+
   }
   
   /**

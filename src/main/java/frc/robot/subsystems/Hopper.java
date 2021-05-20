@@ -5,7 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -15,7 +15,7 @@ public class Hopper extends SubsystemBase {
 
   private double khopperRPM;
 
-  private TalonSRX m_hopper_motor = new TalonSRX(CanId.MOTOR_HOPPER);
+  private VictorSPX m_hopper_motor = new VictorSPX(CanId.MOTOR_HOPPER);
 
   public Hopper() {
     khopperRPM = 0;
@@ -40,7 +40,7 @@ public class Hopper extends SubsystemBase {
   }
 
   public void getCurrent() {
-    m_hopper_motor.getStatorCurrent();
+    // m_hopper_motor.ge();
   }
 
   public double RPMtoRawSensorUnit(double velocity) {

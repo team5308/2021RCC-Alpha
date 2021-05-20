@@ -21,7 +21,7 @@ public class Turret extends SubsystemBase implements TurretInterface{
 
   private TalonFX m_turret_motor = new TalonFX(CanId.MOTOR_TURRET);
 
-  private TalonSRX m_feeder_tsrx = new TalonSRX(CanId.MOTOR_FEEDER_LEFT);
+  private VictorSPX m_feeder_tsrx = new VictorSPX(CanId.MOTOR_FEEDER_LEFT);
   private VictorSPX m_feeder_tvictor = new VictorSPX(CanId.MOTOR_FEEDER_RIGHT);
 
   private double current_angle;
