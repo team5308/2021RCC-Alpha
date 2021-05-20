@@ -85,8 +85,8 @@ public class RobotContainer {
 
   public void teleopInit() {
     configureButtonBindings();
-    // m_pneumatic.CompressorBegin();
-    m_pneumatic.CompressorEnd();
+    logger.info("teleopInit - start compressor");
+    m_pneumatic.CompressorBegin();
     // final Command tankDriveCommand = new RunCommand(() -> m_drive.TankDrive(m_leftJoy.getY(), m_rightJoy.getY()), m_drive);
     final Command arcadeDriveCommand = new RunCommand(() -> m_drive.ArcadeDrive(m_leftJoy.getY(), m_leftJoy.getX()), m_drive);
     m_drive.setDefaultCommand(arcadeDriveCommand);
