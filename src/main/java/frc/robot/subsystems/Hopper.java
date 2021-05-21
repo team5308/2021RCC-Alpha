@@ -5,7 +5,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -13,41 +14,36 @@ import frc.robot.Constants.CanId;
 
 public class Hopper extends SubsystemBase {
 
-  private double khopperRPM;
+  private double khopperSpeed;
 
-  private TalonSRX m_hopper_motor = new TalonSRX(CanId.MOTOR_HOPPER);
+  private VictorSPX m_hopper_motor = new VictorSPX(CanId.MOTOR_HOPPER);
 
   public Hopper() {
-    khopperRPM = 0;
+    khopperSpeed = 0.5;
 
     m_hopper_motor.setNeutralMode(NeutralMode.Coast);
 
-    SmartDashboard.putNumber("Hopper Speed", khopperRPM);
+    SmartDashboard.putNumber("Hopper Speed", khopperSpeed);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    double hopperRPM = SmartDashboard.getNumber("Hopper Speed", 0);
-    if (hopperRPM != khopperRPM) {
-      setSpeed(hopperRPM);
+    double hopperSpeed = SmartDashboard.getNumber("Hopper Speed", 0);
+    if (hopperSpeed != khopperSpeed) {
+      setSpeed(hopperSpeed);
     }
   }
 
-  public void setSpeed(double newRPM) {
-    // In RPM
-    khopperRPM = newRPM;
+  private void setSpeed(double newSpeed){
+    khopperSpeed = newSpeed;
   }
 
-  public void getCurrent() {
-    m_hopper_motor.getStatorCurrent();
+  public void hopperStart(){
+    m_hopper_motor.set(ControlMode.PercentOutput, khopperSpeed);
   }
 
-  public double RPMtoRawSensorUnit(double velocity) {
-    return velocity * 2048 / 600;
-  }
-
-  public double RawSensorUnittoRPM(double velocity) {
-    return velocity / 2048 * 600;
+  public void hopperStop(){
+    m_hopper_motor.set(ControlMode.PercentOutput, 0);
   }
 }
