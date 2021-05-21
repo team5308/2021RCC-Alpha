@@ -45,6 +45,7 @@ public class RobotContainer {
   private final Intake m_intake = new Intake();
   private final Hopper m_hopper = new Hopper();
   private final Vision m_vision = new Vision();
+  private final Feeder m_feeder = new Feeder();
 
   private Joystick m_leftJoy = new Joystick(0);
   private Joystick m_rightJoy = new Joystick(1);
@@ -84,7 +85,6 @@ public class RobotContainer {
     SmartDashboard.putData("Hopper", m_hopper);
  
     SmartDashboard.putData("ChangeBaseCommand", m_changeBaseCommand);
-
   }
 
   /**
@@ -96,32 +96,29 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     logger.info("configureButtonBindings");
-    // m_leftButton1.whenHeld(new InstantCommand(m_pneumatic::changeBaseOutput, m_pneumatic));
-    // m_leftButton2.whenHeld(new InstantCommand(m_pneumatic::changeClimberOutput, m_pneumatic));
-    // m_leftButton1.whenHeld(new ArmUpCommand(m_pneumatic));
-    // TODO: why cannot the shooter stop when I release the joystick
-
-    m_leftButton7.whenPressed(m_changeBaseCommand);
-
-    m_leftButton6.whenPressed(new InstantCommand(m_pneumatic::changeClimberOutput, m_pneumatic));
-    m_leftButton5.whenPressed(new InstantCommand(m_pneumatic::changeLockOutput,m_pneumatic));
-    m_leftButton2.whenPressed(new InstantCommand(m_hopper::hopperStart, m_hopper)).whenReleased(new InstantCommand(m_hopper::hopperStop,m_hopper));
-
-    m_leftButton3.whenPressed(new InstantCommand(m_pneumatic::changeIntakeOutput,m_pneumatic));
-    m_leftButton1.whenHeld(new InstantCommand(m_intake::intakeStart, m_intake)).whenReleased(new InstantCommand(m_intake::intakeStop, m_intake));
+    m_leftButton1.whenPressed(new InstantCommand(m_pneumatic::changeBaseOutput, m_pneumatic));
+    m_leftButton2.whenPressed(new InstantCommand(m_pneumatic::changeClimberOutput, m_pneumatic));
+    m_leftButton3.whenPressed(new InstantCommand(m_pneumatic::changeLockOutput,m_pneumatic));
     
+    // m_leftButton7.whenPressed(m_changeBaseCommand);
 
+    // m_leftButton6.whenPressed(new InstantCommand(m_pneumatic::changeClimberOutput, m_pneumatic));
+    
+    // m_leftButton3.whenPressed(new InstantCommand(m_pneumatic::changeIntakeOutput,m_pneumatic));
+    // m_leftButton1.whenHeld(new InstantCommand(m_intake::intakeStart, m_intake)).whenReleased(new InstantCommand(m_intake::intakeStop, m_intake));
+    
     //TODO Minus sign delete or not?
-    m_leftButton11.whenHeld(new ShooterSetSpeed(m_shooter, m_turret, -3500));// minus sign?
-    m_leftButton12.whenHeld(new TurretAimCommand(m_turret, m_vision));
+    // m_leftButton1.whenHeld(new ShooterSetSpeed(m_shooter, m_turret, -3500));// minus sign?
+    // m_leftButton5.whenHeld(new TurretAimCommand(m_turret, m_vision));
 
-    m_leftButton4.whenPressed(new InstantCommand(m_turret::feederWork, m_turret)).whenReleased(new InstantCommand(m_turret::feederStop,m_turret));
+    // m_leftButton2.whenPressed(new InstantCommand(m_feeder::feederWork, m_feeder)).whenReleased(new InstantCommand(m_feeder::feederStop, m_feeder));
 
-    m_leftButton9.whenHeld(new InstantCommand(m_turret::turnLeft, m_turret)).whenReleased(new InstantCommand(m_turret::stopMotor, m_turret));
-    m_leftButton10.whenHeld(new InstantCommand(m_turret::turnRight, m_turret)).whenReleased(new InstantCommand(m_turret::stopMotor, m_turret));
+    // m_leftButton3.whenPressed(new InstantCommand(m_hopper::hopperStart, m_hopper)).whenReleased(new InstantCommand(m_hopper::hopperStop,m_hopper));
 
+    // m_leftButton3.whenHeld(new InstantCommand(m_turret::turnLeft, m_turret)).whenReleased(new InstantCommand(m_turret::stopMotor, m_turret));
+    // m_leftButton4.whenHeld(new InstantCommand(m_turret::turnRight, m_turret)).whenReleased(new InstantCommand(m_turret::stopMotor, m_turret));
   }
-  
+
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
@@ -136,6 +133,7 @@ public class RobotContainer {
     configureButtonBindings();
     logger.info("teleopInit - start compressor");
     m_pneumatic.CompressorBegin();
+    // m_pneumatic.CompressorEnd();
     m_pneumatic.setBaseOutput(PneuStatus.kBaseDrive);
     // final Command tankDriveCommand = new RunCommand(() -> m_drive.TankDrive(m_leftJoy.getY(), m_rightJoy.getY()), m_drive);
     final Command arcadeDriveCommand = new RunCommand(() -> m_drive.ArcadeDrive(m_leftJoy.getY(), m_leftJoy.getX()), m_drive);

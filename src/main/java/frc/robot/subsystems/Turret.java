@@ -11,7 +11,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
-
 import frc.robot.Constants.*;
 import frc.robot.Interfaces.TurretInterface;
 import frc.robot.subsystems.Vision.*;
@@ -23,27 +22,22 @@ public class Turret extends SubsystemBase implements TurretInterface{
 
   private TalonFX m_turret_motor = new TalonFX(CanId.MOTOR_TURRET);
 
-  private VictorSPX m_feeder_tvictor_left = new VictorSPX(CanId.MOTOR_FEEDER_LEFT);
-  private VictorSPX m_feeder_tvictor_right = new VictorSPX(CanId.MOTOR_FEEDER_RIGHT);
-
   private double current_angle;
   private double setpoint = 0;
 
   double kP = 0.4;
   double kI = 0.0035;
   double kD = 0.0;
-  double kF = 0;
+  double kF = 0.1;
   int kI_Zone = 900;
   int kMaxIAccum = 1000000;
   int kCruiseVelocity = 14000;
   int kMotionAcceleration = kCruiseVelocity * 10;
   int kErrorBand = 74;
 
-  double kfeederSpeed = 1;
-
-  double target_height = 0;
-  double limelight_mount_height = 0;
-  double limelight_mount_angle = 0;
+  double target_height = 2;
+  double limelight_mount_height = 0.5;
+  double limelight_mount_angle = 20;
   double gear_ratio = 1 / 13;
   double minAngle = -90;
   double maxAngle = 90;
@@ -52,9 +46,7 @@ public class Turret extends SubsystemBase implements TurretInterface{
   public Turret() {
     m_turret_motor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     m_turret_motor.setNeutralMode(NeutralMode.Brake);
-    m_feeder_tvictor_left.setNeutralMode(NeutralMode.Coast);
-    m_feeder_tvictor_right.setNeutralMode(NeutralMode.Coast);
-    m_feeder_tvictor_left.setInverted(true);
+    
     m_turret_motor.config_kP(0, kP);
     m_turret_motor.config_kI(0, kI);
     m_turret_motor.config_kD(0, kD);
@@ -70,24 +62,6 @@ public class Turret extends SubsystemBase implements TurretInterface{
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    double feederSpeed = SmartDashboard.getNumber("Hopper Speed", 0);
-    if (feederSpeed != kfeederSpeed) {
-      feederSetSpeed(feederSpeed);
-    }
-  }
-
-  public void feederWork() {
-    m_feeder_tvictor_left.set(ControlMode.PercentOutput, kfeederSpeed);
-    m_feeder_tvictor_right.set(ControlMode.PercentOutput, kfeederSpeed);
-  }
-
-  public void feederStop(){
-    m_feeder_tvictor_left.set(ControlMode.PercentOutput, 0);
-    m_feeder_tvictor_right.set(ControlMode.PercentOutput, 0);
-  }
-
-  public void feederSetSpeed(double feederSpeed){
-    kfeederSpeed = feederSpeed;
   }
 
   public void zeroAngle() {
@@ -121,10 +95,10 @@ public class Turret extends SubsystemBase implements TurretInterface{
   {
     setpoint = getTargetAngle() + getTurretAngle();
     System.out.println(setpoint);
-    if (setpoint < 0 && setpoint > 180)
+    if (setpoint < -90 || setpoint > 90)
     {
-      System.out.println("Target position out of turning limit! Turn! Turn!");
-      return setpoint < 0 ? 0 : 180;
+      System.out.println("Target position out of turning limit!");
+      return setpoint < -90 ? -90 : 90;
     }
     return setpoint;
   }

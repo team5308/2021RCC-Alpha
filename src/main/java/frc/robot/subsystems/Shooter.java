@@ -65,6 +65,7 @@ public class Shooter extends SubsystemBase implements ShooterInterface {
   @Override
   public void periodic() {
     configShooterFX(shutdownmode);
+    outputRPM();
   }
 
   public void setWorkMode() {
@@ -145,7 +146,7 @@ public class Shooter extends SubsystemBase implements ShooterInterface {
         configWheel.slot0.kP = 0.03;
       } else {
         configWheel.slot0.kP = 0.8;
-        System.out.println("Damn!");
+        // System.out.println("Damn!");
       }
       //TODO: get a suitable rawZone for Integration
       // the fixed suitable integral starting point is 1850 when the speed is 3000RPM
