@@ -113,7 +113,7 @@ public class RobotContainer {
 
     //TODO Minus sign delete or not?
     m_leftButton11.whenHeld(new ShooterSetSpeed(m_shooter, m_turret, -3500));// minus sign?
-    m_leftButton12.whenHeld(new TurretAimCommand(m_turret, m_vision));
+    m_leftButton12.whenActive(new TurretAimCommand(m_turret, m_vision)).whenInactive(new InstantCommand(m_vision::setLightOff, m_vision));
 
     m_leftButton4.whenPressed(new InstantCommand(m_turret::feederWork, m_turret)).whenReleased(new InstantCommand(m_turret::feederStop,m_turret));
     // m_rightButton4.whenHeld(new InstantCommand(m_hopper::hopperStart, m_hopper));
@@ -129,6 +129,7 @@ public class RobotContainer {
     return m_autoCommand;
   }
 
+  
   public void teleopInit() {
     configureButtonBindings();
     logger.info("teleopInit - start compressor");
