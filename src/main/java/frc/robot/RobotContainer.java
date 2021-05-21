@@ -80,6 +80,8 @@ public class RobotContainer {
     SmartDashboard.putData("Turret", m_turret);
     SmartDashboard.putData("Hood", m_hood);
     SmartDashboard.putData("Drive", m_drive);
+    SmartDashboard.putData("Intake", m_intake);
+    SmartDashboard.putData("Hopper", m_hopper);
  
     SmartDashboard.putData("ChangeBaseCommand", m_changeBaseCommand);
 
@@ -99,22 +101,22 @@ public class RobotContainer {
     // m_leftButton1.whenHeld(new ArmUpCommand(m_pneumatic));
     // TODO: why cannot the shooter stop when I release the joystick
 
-    m_leftButton1.whenPressed(m_changeBaseCommand);
+    m_leftButton7.whenPressed(m_changeBaseCommand);
 
-    m_leftButton5.whenPressed(new InstantCommand(m_pneumatic::changeClimberOutput, m_pneumatic));
-    m_leftButton6.whenPressed(new InstantCommand(m_pneumatic::changeLockOutput,m_pneumatic));
-    m_leftButton2.whenHeld(new InstantCommand(m_hopper::hopperStart, m_hopper));
+    m_leftButton6.whenPressed(new InstantCommand(m_pneumatic::changeClimberOutput, m_pneumatic));
+    m_leftButton5.whenPressed(new InstantCommand(m_pneumatic::changeLockOutput,m_pneumatic));
+    m_leftButton2.whenPressed(new InstantCommand(m_hopper::hopperStart, m_hopper)).whenReleased(new InstantCommand(m_hopper::hopperStop,m_hopper));
 
     m_leftButton3.whenPressed(new InstantCommand(m_pneumatic::changeIntakeOutput,m_pneumatic));
-    m_leftButton4.whenHeld(new InstantCommand(m_intake::intakeStart, m_intake)).whenReleased(new InstantCommand(m_intake::intakeStop, m_intake));
+    m_leftButton1.whenHeld(new InstantCommand(m_intake::intakeStart, m_intake)).whenReleased(new InstantCommand(m_intake::intakeStop, m_intake));
     
 
     //TODO Minus sign delete or not?
-    m_rightButton1.whenHeld(new ShooterSetSpeed(m_shooter, m_turret, -3000));// minus sign?
-    m_rightButton2.whenHeld(new TurretAimCommand(m_turret, m_vision));
+    m_leftButton11.whenHeld(new ShooterSetSpeed(m_shooter, m_turret, -3500));// minus sign?
+    m_leftButton12.whenHeld(new TurretAimCommand(m_turret, m_vision));
 
-    m_rightButton3.whenHeld(new InstantCommand(m_turret::feederWork, m_turret));
-    m_rightButton4.whenHeld(new InstantCommand(m_hopper::hopperStart, m_hopper));
+    m_leftButton4.whenPressed(new InstantCommand(m_turret::feederWork, m_turret)).whenReleased(new InstantCommand(m_turret::feederStop,m_turret));
+    // m_rightButton4.whenHeld(new InstantCommand(m_hopper::hopperStart, m_hopper));
   }
   
   /**

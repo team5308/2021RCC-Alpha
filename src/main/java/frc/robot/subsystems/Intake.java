@@ -24,6 +24,7 @@ public class Intake extends SubsystemBase {
     kintakeSpeed = 0.5;
 
     m_intake_motor.setNeutralMode(NeutralMode.Coast);
+    m_intake_motor.setInverted(true);
   
     SmartDashboard.putNumber("Intake Speed", kintakeSpeed);
   }

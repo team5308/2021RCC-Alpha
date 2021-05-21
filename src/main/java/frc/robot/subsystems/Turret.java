@@ -39,7 +39,7 @@ public class Turret extends SubsystemBase implements TurretInterface{
   int kMotionAcceleration = kCruiseVelocity * 10;
   int kErrorBand = 74;
 
-  double kfeederSpeed;
+  double kfeederSpeed = 1;
 
   double target_height = 0;
   double limelight_mount_height = 0;
@@ -54,7 +54,7 @@ public class Turret extends SubsystemBase implements TurretInterface{
     m_turret_motor.setNeutralMode(NeutralMode.Brake);
     m_feeder_tvictor_left.setNeutralMode(NeutralMode.Coast);
     m_feeder_tvictor_right.setNeutralMode(NeutralMode.Coast);
-    m_feeder_tvictor_right.setInverted(true);
+    m_feeder_tvictor_left.setInverted(true);
     m_turret_motor.config_kP(0, kP);
     m_turret_motor.config_kI(0, kI);
     m_turret_motor.config_kD(0, kD);
@@ -79,6 +79,11 @@ public class Turret extends SubsystemBase implements TurretInterface{
   public void feederWork() {
     m_feeder_tvictor_left.set(ControlMode.PercentOutput, kfeederSpeed);
     m_feeder_tvictor_right.set(ControlMode.PercentOutput, kfeederSpeed);
+  }
+
+  public void feederStop(){
+    m_feeder_tvictor_left.set(ControlMode.PercentOutput, 0);
+    m_feeder_tvictor_right.set(ControlMode.PercentOutput, 0);
   }
 
   public void feederSetSpeed(double feederSpeed){
