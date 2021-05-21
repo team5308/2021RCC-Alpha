@@ -4,8 +4,11 @@
 
 package frc.robot.subsystems;
 import frc.robot.Constants.CanId;
+import frc.robot.Interfaces.IntakeInterface;
+import frc.robot.subsystems.PneumaticSubsystem;
 
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -14,37 +17,37 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
-  private double kintakeRPM;
+  private double kintakeSpeed;
   private VictorSPX m_intake_motor = new VictorSPX(CanId.MOTOR_INTAKE);
 
   public Intake() {
-    kintakeRPM = 0;
+    kintakeSpeed = 0.5;
 
     m_intake_motor.setNeutralMode(NeutralMode.Coast);
   
-    SmartDashboard.putNumber("Intake Speed", kintakeRPM);
+    SmartDashboard.putNumber("Intake Speed", kintakeSpeed);
   }
 
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    double intakeRPM = SmartDashboard.getNumber("Hopper Speed", 0);
-    if (intakeRPM != kintakeRPM) {
-      setSpeed(intakeRPM);
+    double intakeSpeed = SmartDashboard.getNumber("Hopper Speed", 0);
+    if (intakeSpeed != kintakeSpeed) {
+      setSpeed(intakeSpeed);
     }
   }
 
-  public void setSpeed(double newRPM){
-    kintakeRPM = newRPM;
+  private void setSpeed(double newSpeed){
+    kintakeSpeed = newSpeed;
   }
 
-  public double RPMtoRawSensorUnit(double velocity) {
-    return velocity * 2048 / 600;
+  public void intakeStart(){
+    m_intake_motor.set(ControlMode.PercentOutput, kintakeSpeed);
   }
 
-  public double RawSensorUnittoRPM(double velocity) {
-    return velocity / 2048 * 600;
+  public void intakeStop(){
+    m_intake_motor.set(ControlMode.PercentOutput, 0);
   }
 
 }
