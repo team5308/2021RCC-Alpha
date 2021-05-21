@@ -153,8 +153,17 @@ public class Turret extends SubsystemBase implements TurretInterface{
     return (int) (degrees * (1.0 / gear_ratio) * (encoderUnitsPerRotation / 360.0));
   }
 
-  @Override
-  public void feederWork(double power) {
-        
+  public void turnLeft()
+  {
+    m_turret_motor.set(ControlMode.PercentOutput, 0.2);
+  }
+
+  public void turnRight()
+  {
+    m_turret_motor.set(ControlMode.PercentOutput, -0.2);
+  }
+
+  public void stopMotor(){
+    powerRotate(0);
   }
 }

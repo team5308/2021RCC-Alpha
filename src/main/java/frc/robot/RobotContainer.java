@@ -116,7 +116,10 @@ public class RobotContainer {
     m_leftButton12.whenHeld(new TurretAimCommand(m_turret, m_vision));
 
     m_leftButton4.whenPressed(new InstantCommand(m_turret::feederWork, m_turret)).whenReleased(new InstantCommand(m_turret::feederStop,m_turret));
-    // m_rightButton4.whenHeld(new InstantCommand(m_hopper::hopperStart, m_hopper));
+
+    m_leftButton9.whenHeld(new InstantCommand(m_turret::turnLeft, m_turret)).whenReleased(new InstantCommand(m_turret::stopMotor, m_turret));
+    m_leftButton10.whenHeld(new InstantCommand(m_turret::turnRight, m_turret)).whenReleased(new InstantCommand(m_turret::stopMotor, m_turret));
+
   }
   
   /**
