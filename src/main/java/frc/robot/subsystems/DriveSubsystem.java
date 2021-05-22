@@ -133,24 +133,24 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void sensorUpdate() {
-    SmartDashboard.putNumber("Bus Voltage", getBusVoltage());
-    SmartDashboard.putNumber("PDP Voltage", getPDPVoltage());
-    SmartDashboard.putNumber("PDP Current", getPDPTotalCurrent());
-    SmartDashboard.putNumber("PDP Power", getPDPTotalPower());
+    // SmartDashboard.putNumber("Bus Voltage", getBusVoltage());
+    // SmartDashboard.putNumber("PDP Voltage", getPDPVoltage());
+    // SmartDashboard.putNumber("PDP Current", getPDPTotalCurrent());
+    // SmartDashboard.putNumber("PDP Power", getPDPTotalPower());
 
-    SmartDashboard.putNumber("Left Position", getLeftPosition());
-    SmartDashboard.putNumber("Right Position", getRightPosition());
+    // SmartDashboard.putNumber("Left Position", getLeftPosition());
+    // SmartDashboard.putNumber("Right Position", getRightPosition());
 
-    SmartDashboard.putNumber("Left Velocity", getLeftVelocity());
-    SmartDashboard.putNumber("Right Velocity", getRightVelocity());
+    // SmartDashboard.putNumber("Left Velocity", getLeftVelocity());
+    // SmartDashboard.putNumber("Right Velocity", getRightVelocity());
 
-    SmartDashboard.putNumber("Left Current", getLeftCurrent());
-    SmartDashboard.putNumber("Right Current", getRightCurrent());
+    // SmartDashboard.putNumber("Left Current", getLeftCurrent());
+    // SmartDashboard.putNumber("Right Current", getRightCurrent());
 
-    SmartDashboard.putNumber("Gyro Value", getGyro());
-    SmartDashboard.putNumber("Gyro Raw", getRawGyro());
-    SmartDashboard.putNumber("Turn Rate", getTurnRate());
-    SmartDashboard.putNumber("Gyro Graph", getGyro());
-    SmartDashboard.putNumber("Gyro Raw Graph", getRawGyro());
+    // SmartDashboard.putNumber("Gyro Value", getGyro());
+    // SmartDashboard.putNumber("Gyro Raw", getRawGyro());
+    // SmartDashboard.putNumber("Turn Rate", getTurnRate());
+    // SmartDashboard.putNumber("Gyro Graph", getGyro());
+    // SmartDashboard.putNumber("Gyro Raw Graph", getRawGyro());
   }
 }

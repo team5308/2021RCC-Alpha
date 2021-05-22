@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.logging.Logger;
+
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.networktables.NetworkTable;
@@ -12,6 +14,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Vision extends SubsystemBase {
+  private static Logger logger = Logger.getLogger("frc.subsystems.Vision");
   private NetworkTableEntry tX;
   private NetworkTableEntry tY;
   private NetworkTableEntry tV;
@@ -33,7 +36,8 @@ public class Vision extends SubsystemBase {
   public void periodic() {
     m_headingError = tX.getDouble(0.0);
     m_VerticalError = tY.getDouble(0.0);
-    m_getValidTarget = tV.getDouble(0.0); 
+    m_getValidTarget = tV.getDouble(0.0);
+    logger.info(String.format("heading: %f\n", m_headingError));
   }
 
   public double getTargetAngle()
