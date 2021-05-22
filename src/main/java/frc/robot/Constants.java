@@ -32,6 +32,8 @@ public final class Constants {
 
         public static final int MOTOR_HOPPER = 36;
 
+        public static final int MOTOR_INTAKE = 32;
+
         public static final int MOTOR_TURRET = 31;
         public static final int MOTOR_FEEDER_LEFT = 24;
         public static final int MOTOR_FEEDER_RIGHT = 22;

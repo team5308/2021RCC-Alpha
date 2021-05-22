@@ -42,6 +42,9 @@ public class RobotContainer {
   private final Shooter m_shooter = new Shooter();
   private final Turret m_turret = new Turret();
   private final Hood m_hood = new Hood();
+  private final Intake m_intake = new Intake();
+  private final Hopper m_hopper = new Hopper();
+  private final Vision m_vision = new Vision();
 
   private Joystick m_leftJoy = new Joystick(0);
   private Joystick m_rightJoy = new Joystick(1);
@@ -50,6 +53,19 @@ public class RobotContainer {
   private JoystickButton m_leftButton2 = new JoystickButton(m_leftJoy, 2);
   private JoystickButton m_leftButton3 = new JoystickButton(m_leftJoy, 3);
   private JoystickButton m_leftButton4 = new JoystickButton(m_leftJoy, 4);
+  private JoystickButton m_leftButton5 = new JoystickButton(m_leftJoy, 5);
+  private JoystickButton m_leftButton6 = new JoystickButton(m_leftJoy, 6);
+  private JoystickButton m_leftButton7 = new JoystickButton(m_leftJoy, 7);
+  private JoystickButton m_leftButton8 = new JoystickButton(m_leftJoy, 8);
+  private JoystickButton m_leftButton9 = new JoystickButton(m_leftJoy, 9);
+  private JoystickButton m_leftButton10 = new JoystickButton(m_leftJoy, 10);
+  private JoystickButton m_leftButton11 = new JoystickButton(m_leftJoy, 11);
+  private JoystickButton m_leftButton12 = new JoystickButton(m_leftJoy, 12);
+
+  private JoystickButton m_rightButton1 = new JoystickButton(m_rightJoy,1);
+  private JoystickButton m_rightButton2 = new JoystickButton(m_rightJoy,2);
+  private JoystickButton m_rightButton3 = new JoystickButton(m_rightJoy,3);
+  private JoystickButton m_rightButton4 = new JoystickButton(m_rightJoy,4);
 
   private final ChangeBaseCommand m_changeBaseCommand = new ChangeBaseCommand(m_pneumatic);
   /**
@@ -64,6 +80,8 @@ public class RobotContainer {
     SmartDashboard.putData("Turret", m_turret);
     SmartDashboard.putData("Hood", m_hood);
     SmartDashboard.putData("Drive", m_drive);
+    SmartDashboard.putData("Intake", m_intake);
+    SmartDashboard.putData("Hopper", m_hopper);
  
     SmartDashboard.putData("ChangeBaseCommand", m_changeBaseCommand);
 
@@ -80,13 +98,27 @@ public class RobotContainer {
     logger.info("configureButtonBindings");
     // m_leftButton1.whenHeld(new InstantCommand(m_pneumatic::changeBaseOutput, m_pneumatic));
     // m_leftButton2.whenHeld(new InstantCommand(m_pneumatic::changeClimberOutput, m_pneumatic));
-    // m_leftButton1.whenHeld(new ShooterSetSpeed(m_shooter, m_turret, -2000));// minus sign?
-    // m_leftButton2.whenHeld(new InstantCommand(m_turret::feederWork, m_turret));
     // m_leftButton1.whenHeld(new ArmUpCommand(m_pneumatic));
     // TODO: why cannot the shooter stop when I release the joystick
 
-    // m_leftButton1.whenPressed(m_changeBaseCommand);
-    m_leftButton1.whenPressed(new ChangeClimberCommand(m_pneumatic));
+    m_leftButton7.whenPressed(m_changeBaseCommand);
+
+    m_leftButton6.whenPressed(new InstantCommand(m_pneumatic::changeClimberOutput, m_pneumatic));
+    m_leftButton5.whenPressed(new InstantCommand(m_pneumatic::changeLockOutput,m_pneumatic));
+    m_leftButton2.whenPressed(new InstantCommand(m_hopper::hopperStart, m_hopper)).whenReleased(new InstantCommand(m_hopper::hopperStop,m_hopper));
+
+    m_leftButton3.whenPressed(new InstantCommand(m_pneumatic::changeIntakeOutput,m_pneumatic));
+    m_leftButton1.whenHeld(new InstantCommand(m_intake::intakeStart, m_intake)).whenReleased(new InstantCommand(m_intake::intakeStop, m_intake));
+    
+
+    //TODO Minus sign delete or not?
+    m_leftButton11.whenHeld(new ShooterSetSpeed(m_shooter, m_turret, -3500));// minus sign?
+    m_leftButton12.whenHeld(new TurretAimCommand(m_turret, m_vision));
+
+    m_leftButton4.whenPressed(new InstantCommand(m_turret::feederWork, m_turret)).whenReleased(new InstantCommand(m_turret::feederStop,m_turret));
+
+    m_leftButton9.whenHeld(new InstantCommand(m_turret::turnLeft, m_turret)).whenReleased(new InstantCommand(m_turret::stopMotor, m_turret));
+    m_leftButton10.whenHeld(new InstantCommand(m_turret::turnRight, m_turret)).whenReleased(new InstantCommand(m_turret::stopMotor, m_turret));
 
   }
   

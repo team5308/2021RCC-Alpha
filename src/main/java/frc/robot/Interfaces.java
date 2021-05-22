@@ -16,7 +16,6 @@ public class Interfaces {
     }
 
     public interface TurretInterface {
-        public void feederWork(double power);
         public void zeroAngle();
         public void showCurrentAngle();
         public void powerRotate(double power);
@@ -42,6 +41,7 @@ public class Interfaces {
     }
 
     public interface HopperInterface {
+
 
     }
 }
