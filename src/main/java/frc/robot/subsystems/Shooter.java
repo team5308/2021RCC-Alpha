@@ -29,10 +29,9 @@ import frc.robot.Constants;
 import frc.robot.Constants.CanId;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants.Converters;
-import frc.robot.Interfaces.*;
 
 @SuppressWarnings({ "all" })
-public class Shooter extends SubsystemBase implements ShooterInterface {
+public class Shooter extends SubsystemBase {
   private double targetSpeed;
   private double targetAngle;
 

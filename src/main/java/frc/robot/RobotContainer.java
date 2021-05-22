@@ -96,9 +96,9 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     logger.info("configureButtonBindings");
-    m_leftButton1.whenPressed(new InstantCommand(m_pneumatic::changeBaseOutput, m_pneumatic));
-    m_leftButton2.whenPressed(new InstantCommand(m_pneumatic::changeClimberOutput, m_pneumatic));
-    m_leftButton3.whenPressed(new InstantCommand(m_pneumatic::changeLockOutput,m_pneumatic));
+    // m_leftButton1.whenPressed(new InstantCommand(m_pneumatic::changeBaseOutput, m_pneumatic));
+    // m_leftButton2.whenPressed(new InstantCommand(m_pneumatic::changeClimberOutput, m_pneumatic));
+    // m_leftButton3.whenPressed(new InstantCommand(m_pneumatic::changeLockOutput,m_pneumatic));
     
     // m_leftButton7.whenPressed(m_changeBaseCommand);
 
@@ -109,14 +109,14 @@ public class RobotContainer {
     
     //TODO Minus sign delete or not?
     // m_leftButton1.whenHeld(new ShooterSetSpeed(m_shooter, m_turret, -3500));// minus sign?
-    // m_leftButton5.whenHeld(new TurretAimCommand(m_turret, m_vision));
+    m_leftButton1.whenHeld(new TurretAimCommand(m_turret, m_vision));
 
     // m_leftButton2.whenPressed(new InstantCommand(m_feeder::feederWork, m_feeder)).whenReleased(new InstantCommand(m_feeder::feederStop, m_feeder));
 
     // m_leftButton3.whenPressed(new InstantCommand(m_hopper::hopperStart, m_hopper)).whenReleased(new InstantCommand(m_hopper::hopperStop,m_hopper));
 
-    // m_leftButton3.whenHeld(new InstantCommand(m_turret::turnLeft, m_turret)).whenReleased(new InstantCommand(m_turret::stopMotor, m_turret));
-    // m_leftButton4.whenHeld(new InstantCommand(m_turret::turnRight, m_turret)).whenReleased(new InstantCommand(m_turret::stopMotor, m_turret));
+    m_leftButton2.whenHeld(new InstantCommand(m_turret::turnLeft, m_turret)).whenReleased(new InstantCommand(m_turret::stopMotor, m_turret));
+    m_leftButton3.whenHeld(new InstantCommand(m_turret::turnRight, m_turret)).whenReleased(new InstantCommand(m_turret::stopMotor, m_turret));
   }
 
   /**
@@ -132,6 +132,7 @@ public class RobotContainer {
   public void teleopInit() {
     configureButtonBindings();
     logger.info("teleopInit - start compressor");
+    m_vision.setLightOff();
     m_pneumatic.CompressorBegin();
     // m_pneumatic.CompressorEnd();
     m_pneumatic.setBaseOutput(PneuStatus.kBaseDrive);

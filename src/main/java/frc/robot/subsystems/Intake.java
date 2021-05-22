@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 import frc.robot.Constants.CanId;
-import frc.robot.Interfaces.IntakeInterface;
 import frc.robot.subsystems.PneumaticSubsystem;
 
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;

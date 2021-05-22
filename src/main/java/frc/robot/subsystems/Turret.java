@@ -12,13 +12,11 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import frc.robot.Constants.*;
-import frc.robot.Interfaces.TurretInterface;
-import frc.robot.subsystems.Vision.*;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Turret extends SubsystemBase implements TurretInterface{
+public class Turret extends SubsystemBase {
 
   private TalonFX m_turret_motor = new TalonFX(CanId.MOTOR_TURRET);
 
@@ -65,18 +63,12 @@ public class Turret extends SubsystemBase implements TurretInterface{
   }
 
   public void zeroAngle() {
-    double limitCurrent = 0; //TODO: test the limit current
-    while (m_turret_motor.getStatorCurrent() < limitCurrent) {
-      m_turret_motor.set(ControlMode.PercentOutput, 0.3);
-    }
-    m_turret_motor.set(ControlMode.PercentOutput, 0);
     current_angle = 0;
   }
 
   public void zeroTurretEncoder() {
     m_turret_motor.setSelectedSensorPosition(0);
   }
-
 
   public void showCurrentAngle() {
     System.out.println(current_angle);
@@ -86,14 +78,14 @@ public class Turret extends SubsystemBase implements TurretInterface{
     m_turret_motor.set(ControlMode.PercentOutput, power);
   }
 
-  public void autoSetAngle()
+  public void autoSetAngle(double targetAngle)
   {
-    m_turret_motor.set(ControlMode.MotionMagic, degreesToEncoderUnits(getSetpoint()));
+    m_turret_motor.set(ControlMode.MotionMagic, degreesToEncoderUnits(getSetpoint(targetAngle)));
   }
 
-  public double getSetpoint() 
+  public double getSetpoint(double targetAngle) 
   {
-    setpoint = getTargetAngle() + getTurretAngle();
+    setpoint = targetAngle + getTurretAngle();
     System.out.println(setpoint);
     if (setpoint < -90 || setpoint > 90)
     {

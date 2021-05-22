@@ -76,7 +76,6 @@ public class Hood extends SubsystemBase {
       kMaxOutput = max;
     }
     m_pidController.setReference(rotations, ControlType.kPosition);
-    
     SmartDashboard.putNumber("SetPoint", rotations);
     SmartDashboard.putNumber("ProcessVariable", m_encoder.getPosition());
   }
