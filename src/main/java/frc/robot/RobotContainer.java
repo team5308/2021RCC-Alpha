@@ -69,6 +69,8 @@ public class RobotContainer {
   private JoystickButton m_rightButton4 = new JoystickButton(m_rightJoy,4);
 
   private final ChangeBaseCommand m_changeBaseCommand = new ChangeBaseCommand(m_pneumatic);
+  private final ChangeIntakeCommand m_ChangeIntakeCommand = new ChangeIntakeCommand(m_pneumatic);
+  private final FeederWork m_feederWork = new FeederWork(m_feeder);
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -96,7 +98,16 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     logger.info("configureButtonBindings");
-    // m_leftButton1.whenPressed(new InstantCommand(m_pneumatic::changeBaseOutput, m_pneumatic));
+
+    m_leftButton2.whenPressed(new InstantCommand(m_hopper::hopperStart, m_hopper)).whenReleased(new InstantCommand(m_hopper::hopperStop,m_hopper));
+
+    m_leftButton3.whenHeld(m_ChangeIntakeCommand);
+    m_leftButton4.whenHeld(new InstantCommand(m_intake::intakeStart, m_intake)).whenReleased(new InstantCommand(m_intake::intakeStop, m_intake));
+
+    m_leftButton11.whenHeld(new TurretAimCommand(m_turret, m_vision));
+    m_leftButton1.whenHeld(m_feederWork);
+    
+    m_leftButton5.whenPressed(new InstantCommand(m_pneumatic::changeBaseOutput, m_pneumatic));
     // m_leftButton2.whenPressed(new InstantCommand(m_pneumatic::changeClimberOutput, m_pneumatic));
     // m_leftButton3.whenPressed(new InstantCommand(m_pneumatic::changeLockOutput,m_pneumatic));
     
@@ -104,19 +115,11 @@ public class RobotContainer {
 
     // m_leftButton6.whenPressed(new InstantCommand(m_pneumatic::changeClimberOutput, m_pneumatic));
     
-    // m_leftButton3.whenPressed(new InstantCommand(m_pneumatic::changeIntakeOutput,m_pneumatic));
-    // m_leftButton1.whenHeld(new InstantCommand(m_intake::intakeStart, m_intake)).whenReleased(new InstantCommand(m_intake::intakeStop, m_intake));
-    
+    // m_leftButton3.whenPressed(new InstantCommand(m_pneumatic::changeIntakeOutput,m_pneumatic));    
     //TODO Minus sign delete or not?
     // m_leftButton1.whenHeld(new ShooterSetSpeed(m_shooter, m_turret, -3500));// minus sign?
-    m_leftButton1.whenHeld(new TurretAimCommand(m_turret, m_vision));
-
-    // m_leftButton2.whenPressed(new InstantCommand(m_feeder::feederWork, m_feeder)).whenReleased(new InstantCommand(m_feeder::feederStop, m_feeder));
-
-    // m_leftButton3.whenPressed(new InstantCommand(m_hopper::hopperStart, m_hopper)).whenReleased(new InstantCommand(m_hopper::hopperStop,m_hopper));
-
-    m_leftButton2.whenHeld(new InstantCommand(m_turret::turnLeft, m_turret)).whenReleased(new InstantCommand(m_turret::stopMotor, m_turret));
-    m_leftButton3.whenHeld(new InstantCommand(m_turret::turnRight, m_turret)).whenReleased(new InstantCommand(m_turret::stopMotor, m_turret));
+    // m_leftButton2.whenHeld(new InstantCommand(m_turret::turnLeft, m_turret)).whenReleased(new InstantCommand(m_turret::stopMotor, m_turret));
+    // m_leftButton3.whenHeld(new InstantCommand(m_turret::turnRight, m_turret)).whenReleased(new InstantCommand(m_turret::stopMotor, m_turret));
   }
 
   /**
@@ -133,11 +136,11 @@ public class RobotContainer {
     configureButtonBindings();
     logger.info("teleopInit - start compressor");
     m_vision.setLightOff();
-    // m_pneumatic.CompressorBegin();
-    m_pneumatic.CompressorEnd();
+    m_pneumatic.CompressorBegin();
+    //m_pneumatic.CompressorEnd();
     m_pneumatic.setBaseOutput(PneuStatus.kBaseDrive);
     // final Command tankDriveCommand = new RunCommand(() -> m_drive.TankDrive(m_leftJoy.getY(), m_rightJoy.getY()), m_drive);
-    final Command arcadeDriveCommand = new RunCommand(() -> m_drive.ArcadeDrive(m_leftJoy.getY(), m_leftJoy.getX()), m_drive);
+    final Command arcadeDriveCommand = new RunCommand(() -> m_drive.ArcadeDrive(m_leftJoy.getY(), -m_leftJoy.getX()), m_drive);
     m_drive.setDefaultCommand(arcadeDriveCommand);
   }
 

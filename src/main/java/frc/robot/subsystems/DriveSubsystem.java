@@ -38,10 +38,15 @@ public class DriveSubsystem extends SubsystemBase {
 
   public DriveSubsystem() {
     configBaseFX();
-    m_leftMotorFront.setNeutralMode(NeutralMode.Brake);
-    m_leftMotorBack.setNeutralMode(NeutralMode.Brake);
-    m_rightMotorFront.setNeutralMode(NeutralMode.Brake);
-    m_rightMotorBack.setNeutralMode(NeutralMode.Brake);
+    // m_leftMotorFront.setNeutralMode(NeutralMode.Brake);
+    // m_leftMotorBack.setNeutralMode(NeutralMode.Brake);
+    // m_rightMotorFront.setNeutralMode(NeutralMode.Brake);
+    // m_rightMotorBack.setNeutralMode(NeutralMode.Brake);
+
+    m_leftMotorFront.setNeutralMode(NeutralMode.Coast);
+    m_leftMotorBack.setNeutralMode(NeutralMode.Coast);
+    m_rightMotorFront.setNeutralMode(NeutralMode.Coast);
+    m_rightMotorBack.setNeutralMode(NeutralMode.Coast);
 
     m_leftMotorFront.configAllSettings(configDrive);
     m_leftMotorBack.configAllSettings(configDrive);
@@ -53,8 +58,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    configBaseFX();
-    sensorUpdate();
+    // configBaseFX();
+    // sensorUpdate();
   }
 
   public void TankDrive(double leftPower, double rightPower) {
