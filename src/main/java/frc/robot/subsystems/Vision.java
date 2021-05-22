@@ -37,7 +37,7 @@ public class Vision extends SubsystemBase {
     m_headingError = tX.getDouble(0.0);
     m_VerticalError = tY.getDouble(0.0);
     m_getValidTarget = tV.getDouble(0.0);
-    logger.info(String.format("heading: %f\n", m_headingError));
+    // logger.info(String.format("heading: %f\n", m_headingError));
   }
 
   public double getTargetAngle()

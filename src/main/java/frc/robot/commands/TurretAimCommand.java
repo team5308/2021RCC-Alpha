@@ -4,11 +4,15 @@
 
 package frc.robot.commands;
 
+import java.util.logging.Logger;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Turret;
 import frc.robot.subsystems.Vision;
 
 public class TurretAimCommand extends CommandBase {
+
+  private Logger logger = Logger.getLogger("frc.commands.TurretAimCommand");
   
   private Turret m_turret;
   private Vision m_vision;
@@ -29,13 +33,13 @@ public class TurretAimCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_turret.autoSetAngle(m_vision.getTargetAngle());
+    m_turret.autoSetAngle(m_vision.getTargetAngle(), true);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_turret.powerRotate(0);
+    m_turret.stopMotor();
     m_vision.setLightOff();
   }
 
