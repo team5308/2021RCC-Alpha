@@ -11,6 +11,10 @@ import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
@@ -21,11 +25,21 @@ public class Hood extends SubsystemBase {
   private CANEncoder m_encoder;
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
 
+  NetworkTableEntry hoodPositionEntry;
+  NetworkTableEntry hoodTimestampEntry;
+
   public Hood() {
+    NetworkTableInstance inst = NetworkTableInstance.getDefault();
+    NetworkTable table = inst.getTable("hood");
+    hoodPositionEntry = table.getEntry("hood");
+    hoodTimestampEntry = table.getEntry("timestamp");
+
     m_hood_motor.restoreFactoryDefaults();
     m_hood_motor.setIdleMode(IdleMode.kBrake);
+
     m_pidController = m_hood_motor.getPIDController();
     m_encoder = m_hood_motor.getEncoder();
+    m_encoder.setPosition(0);
 
     kP = 0;
     kI = 0;
@@ -50,10 +64,14 @@ public class Hood extends SubsystemBase {
     SmartDashboard.putNumber("Max Output", kMaxOutput);
     SmartDashboard.putNumber("Min Output", kMinOutput);
     SmartDashboard.putNumber("Set Rotations", 0);
+
+
   }
 
   @Override
   public void periodic() {
+    hoodPositionEntry.setDouble(m_encoder.getPosition());
+    hoodTimestampEntry.setDouble(Timer.getFPGATimestamp());
     // read PID coefficients from SmartDashboard
     double p = SmartDashboard.getNumber("P Gain", 0);
     double i = SmartDashboard.getNumber("I Gain", 0);
