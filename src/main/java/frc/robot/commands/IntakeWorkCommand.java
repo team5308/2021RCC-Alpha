@@ -5,15 +5,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Feeder;
+import frc.robot.subsystems.Intake;
 
-public class FeederWork extends CommandBase {
-  
-  public Feeder m_feeder;
-
-  public FeederWork(Feeder p_feeder) {
-    addRequirements(p_feeder);
-    m_feeder = p_feeder;
+public class IntakeWorkCommand extends CommandBase {
+  private static Intake m_intake;
+  public IntakeWorkCommand(Intake p_intake) {
+    addRequirements(p_intake);
+    m_intake = p_intake;
   }
 
   // Called when the command is initially scheduled.
@@ -23,13 +21,13 @@ public class FeederWork extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_feeder.feederWork();
+    m_intake.intakeStart();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_feeder.feederStop();
+    m_intake.intakeStop();
   }
 
   // Returns true when the command should end.

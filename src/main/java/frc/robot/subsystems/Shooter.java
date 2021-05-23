@@ -88,6 +88,10 @@ public class Shooter extends SubsystemBase {
     return RawSensorUnittoRPM(m_tfx_shooter_left.getSelectedSensorVelocity());
   }
 
+  public double getTargetSpeed() {
+    return targetSpeed;
+  }
+
   public void setPower(double power) {
     m_tfx_shooter_left.set(ControlMode.PercentOutput, clamp(power));
     m_tfx_shooter_right.set(ControlMode.PercentOutput, clamp(power));

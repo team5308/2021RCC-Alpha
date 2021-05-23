@@ -4,53 +4,41 @@
 
 package frc.robot.commands;
 
-import java.util.logging.Logger;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Turret;
+import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Vision;
 
-public class TurretAimCommand extends CommandBase {
+public class HoodSetPositionCommand extends CommandBase {
 
-  private Logger logger = Logger.getLogger("frc.commands.TurretAimCommand");
+  private static Hood m_hood;
+  private static Vision m_vision;
   
-  private Turret m_turret;
-  private Vision m_vision;
-
-  public TurretAimCommand(Turret p_turret, Vision p_vision) {
-    addRequirements(p_turret);
-    addRequirements(p_vision);
-    m_turret = p_turret;
+  public HoodSetPositionCommand(Hood p_hood, Vision p_vision) {
+    addRequirements(p_hood);
+    addRequirements(p_hood);
+    m_hood = p_hood;
     m_vision = p_vision;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    m_vision.setLightOn();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_vision.getValidTarget()) {
-      m_turret.autoSetAngle(m_vision.getTargetAngle());
-    } else {
-      m_turret.stopMotor();
-      logger.info("no valid target");
-    }
+    m_hood.setPosition(m_vision.getVerticalAngle());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_turret.stopMotor();
-    m_vision.setLightOff();
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }
