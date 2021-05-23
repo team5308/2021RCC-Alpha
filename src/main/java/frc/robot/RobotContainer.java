@@ -13,6 +13,8 @@ import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Axis;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -21,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.PneuStatus;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import frc.robot.utils.TriggerToBoolean;
 
 
 /**
@@ -49,6 +52,20 @@ public class RobotContainer {
 
   private Joystick m_leftJoy = new Joystick(0);
   private Joystick m_rightJoy = new Joystick(1);
+  private XboxController m_xbox = new XboxController(2);
+
+    private JoystickButton m_back = new JoystickButton(m_xbox, Button.kBack.value);
+  private JoystickButton m_start = new JoystickButton(m_xbox, Button.kStart.value);
+  private JoystickButton m_A = new JoystickButton(m_xbox, Button.kA.value);
+  private JoystickButton m_B = new JoystickButton(m_xbox, Button.kB.value);
+  private JoystickButton m_X = new JoystickButton(m_xbox, Button.kX.value);
+  private JoystickButton m_Y = new JoystickButton(m_xbox, Button.kY.value);
+  private JoystickButton m_leftXboxStick = new JoystickButton(m_xbox, Button.kStickLeft.value);
+  private JoystickButton m_rightXboxStick = new JoystickButton(m_xbox,Button.kStickRight.value);
+  private JoystickButton m_BumperLeft = new JoystickButton(m_xbox, Button.kBumperLeft.value);
+  private JoystickButton m_BumperRight = new JoystickButton(m_xbox, Button.kBumperRight.value);
+  private TriggerToBoolean m_leftXboxTrigger = new TriggerToBoolean(m_xbox, Axis.kLeftTrigger.value, 0.7);
+  private TriggerToBoolean m_rightXboxTrigger = new TriggerToBoolean(m_xbox, Axis.kRightTrigger.value, 0.7);
 
   private JoystickButton m_leftButton1 = new JoystickButton(m_leftJoy, 1);
   private JoystickButton m_leftButton2 = new JoystickButton(m_leftJoy, 2);

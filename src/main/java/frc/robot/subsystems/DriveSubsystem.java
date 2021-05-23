@@ -58,7 +58,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // configBaseFX();
+    configBaseFX();
     // sensorUpdate();
   }
 
@@ -74,8 +74,9 @@ public class DriveSubsystem extends SubsystemBase {
     return Math.abs(input) > Deadband.JOYSTICK_LIMIT ? input : 0;
   }
 
+  // TODO: tune the PID controller here
   private void configBaseFX() {
-    configDrive.slot1.kP = 0.01;
+    configDrive.slot1.kP = 0;
     configDrive.slot1.kI = 0;
     configDrive.slot1.kD = 0;
     configDrive.openloopRamp = 1;

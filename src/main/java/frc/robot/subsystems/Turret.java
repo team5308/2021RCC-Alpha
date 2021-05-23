@@ -23,10 +23,10 @@ public class Turret extends SubsystemBase {
   private double current_angle;
   private double setpoint = 0;
 
-  double kP = 0.04;
-  double kI = 0.0035;
-  double kD = 0.0;
-  double kF = 0.1;
+  private double kP = 0.04;
+  private double kI = 0.0035;
+  private double kD = 0.0;
+  private double kF = 0.1;
   // int kI_Zone = 900;
   // int kMaxIAccum = 1000000;
   // int kCruiseVelocity = 14000;
