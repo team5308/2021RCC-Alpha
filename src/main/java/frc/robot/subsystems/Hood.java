@@ -22,7 +22,7 @@ import frc.robot.Constants.*;
 public class Hood extends SubsystemBase {
   private CANSparkMax m_hood_motor = new CANSparkMax(CanId.MOTOR_HOOD, MotorType.kBrushless);
   private CANPIDController m_pidController;
-  private CANEncoder m_encoder;
+  private CANEncoder m_encoder; // 0 ~ -9.5 (raw)
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
 
   NetworkTableEntry hoodPositionEntry;
@@ -40,6 +40,7 @@ public class Hood extends SubsystemBase {
     m_pidController = m_hood_motor.getPIDController();
     m_encoder = m_hood_motor.getEncoder();
     m_encoder.setPosition(0);
+    // m_encoder.setPositionConversionFactor(-1.0);
 
     kP = 0;
     kI = 0;
