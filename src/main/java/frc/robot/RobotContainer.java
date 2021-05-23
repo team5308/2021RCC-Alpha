@@ -124,7 +124,7 @@ public class RobotContainer {
     m_leftButton11.whenHeld(new TurretAimCommand(m_turret, m_vision));
     m_leftButton1.whenHeld(m_feederWork);
     
-    m_leftButton5.whenPressed(new InstantCommand(m_pneumatic::changeBaseOutput, m_pneumatic));
+    m_leftButton5.whenPressed(m_changeBaseCommand);
     // m_leftButton2.whenPressed(new InstantCommand(m_pneumatic::changeClimberOutput, m_pneumatic));
     // m_leftButton3.whenPressed(new InstantCommand(m_pneumatic::changeLockOutput,m_pneumatic));
     
@@ -150,7 +150,7 @@ public class RobotContainer {
   }
 
   public void teleopInit() {
-    configureButtonBindings();
+    // configureButtonBindings();
     logger.info("teleopInit - start compressor");
     m_vision.setLightOff();
     m_pneumatic.CompressorBegin();
