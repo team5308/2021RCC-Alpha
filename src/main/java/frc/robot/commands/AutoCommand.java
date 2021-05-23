@@ -43,7 +43,7 @@ public class AutoCommand extends SequentialCommandGroup {
       new TurretAimCommand(m_turret, m_vision),
       new ShooterSetSpeed(m_shooter, m_turret),
 
-      new ChangeIntakeCommand(m_pneumatic, PneuStatus.kIntakeRelease),
+      new ChangeIntake(m_pneumatic, PneuStatus.kIntakeRelease),
       new DriveForwardCommand(m_drive, line1)
     );
   }
