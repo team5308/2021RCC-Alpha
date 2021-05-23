@@ -63,7 +63,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_leftMotorBack.configAllSettings(configDrive);
     m_rightMotorFront.configAllSettings(configDrive);
     m_rightMotorBack.configAllSettings(configDrive);
-  
+
     SmartDashboard.putNumber("Base P Gain", kP);
     SmartDashboard.putNumber("Base I Gain", kI);
     SmartDashboard.putNumber("Base D Gain", kD);
