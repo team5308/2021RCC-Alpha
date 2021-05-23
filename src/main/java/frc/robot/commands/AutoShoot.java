@@ -4,14 +4,17 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.subsystems.*;
 
-public class RotationCommand extends CommandBase {
-  /** Creates a new RotationCommand. */
-  private static DriveSubsystem m_drive;
-  
-  public RotationCommand() {
+
+public class AutoShoot extends CommandBase {
+  /** Creates a new AutoShoot. */
+  Shooter m_shooter;
+
+  public AutoShoot() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -30,6 +33,6 @@ public class RotationCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (false);
   }
 }
