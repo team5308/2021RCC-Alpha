@@ -66,8 +66,6 @@ public class Hood extends SubsystemBase {
     SmartDashboard.putNumber("Hood D Gain", kD);
     SmartDashboard.putNumber("Hood I Zone", kIz);
     SmartDashboard.putNumber("Hood Feed Forward", kFF);
-
-
   }
 
   @Override

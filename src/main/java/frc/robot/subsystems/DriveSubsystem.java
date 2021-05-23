@@ -97,18 +97,19 @@ public class DriveSubsystem extends SubsystemBase {
     double i = SmartDashboard.getNumber("Base I Gain", 0);
     double d = SmartDashboard.getNumber("Base D Gain", 0);
     double ff = SmartDashboard.getNumber("Base Feed Forward", 0);
-    if (p - kP < 0.000001) {
+    if (p != kP) {
       kP = p;
     }
-    if (i - kI < 0.000001) {
+    if (i != kI) {
       kI = i;
     }
-    if (d - kD < 0.000001) {
+    if (d != kD) {
       kD = d;
     }
-    if (ff - kF < 0.000001) {
+    if (ff != kF) {
       kF = ff;
     }
+    System.out.println("Base P: " + kP + "; Base I: " + kI + "; Base D: " + kD + "; Base F: " + kF);
   }
 
   public void resetGyro() {

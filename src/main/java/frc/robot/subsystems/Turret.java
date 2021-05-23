@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.logging.Logger;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -25,10 +27,10 @@ public class Turret extends SubsystemBase {
   private double current_angle;
   private double setpoint = 0;
 
-  private double kP = 0.04;
+  private double kP = 2;
   private double kI = 0.0035;
   private double kD = 0.0;
-  private double kF = 0.1;
+  private double kF = 0;
   int kI_Zone = 900;
   int kMaxIAccum = 1000000;
   int kCruiseVelocity = 14000;
@@ -82,7 +84,9 @@ public class Turret extends SubsystemBase {
 
   public void autoSetAngle(double targetAngle)
   {
-    m_turret_motor.set(ControlMode.Position, degreesToEncoderUnits(getSetpoint(targetAngle)));
+    double targetPosition = m_turret_motor.getSelectedSensorPosition() - degreesToEncoderUnits(targetAngle);
+    m_turret_motor.set(ControlMode.Position, targetPosition);
+    Logger.getAnonymousLogger().info(String.format("targetPost: %d curV: %.2f", targetPosition, m_turret_motor.getMotorOutputPercent()));
   }
 
   public void autoSetAngle(double targetAngle, boolean ClockwiseOrReverse) {
