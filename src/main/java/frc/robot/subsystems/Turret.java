@@ -18,20 +18,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Turret extends SubsystemBase {
 
-  private TalonFX m_turret_motor = new TalonFX(CanId.MOTOR_TURRET);
+  public TalonSRX m_turret_motor = new TalonSRX(CanId.MOTOR_TURRET);
 
   private double current_angle;
   private double setpoint = 0;
 
-  double kP = 0.4;
-  double kI = 0.0035;
-  double kD = 0.0;
-  double kF = 0.1;
-  int kI_Zone = 900;
-  int kMaxIAccum = 1000000;
-  int kCruiseVelocity = 14000;
-  int kMotionAcceleration = kCruiseVelocity * 10;
-  int kErrorBand = 74;
+  private double kP = 0.04;
+  private double kI = 0.0035;
+  private double kD = 0.0;
+  private double kF = 0.1;
+  // int kI_Zone = 900;
+  // int kMaxIAccum = 1000000;
+  // int kCruiseVelocity = 14000;
+  // int kMotionAcceleration = kCruiseVelocity * 10;
+  // int kErrorBand = 74;
 
   double target_height = 2;
   double limelight_mount_height = 0.5;
@@ -49,9 +49,9 @@ public class Turret extends SubsystemBase {
     m_turret_motor.config_kI(0, kI);
     m_turret_motor.config_kD(0, kD);
     m_turret_motor.config_kF(0, kF);
-    m_turret_motor.config_IntegralZone(0, kI_Zone);
-    m_turret_motor.configMaxIntegralAccumulator(0, kMaxIAccum);
-    m_turret_motor.configAllowableClosedloopError(0, kErrorBand);
+    // m_turret_motor.config_IntegralZone(0, kI_Zone);
+    // m_turret_motor.configMaxIntegralAccumulator(0, kMaxIAccum);
+    // m_turret_motor.configAllowableClosedloopError(0, kErrorBand);
 
     zeroAngle();
     zeroTurretEncoder();
@@ -83,6 +83,11 @@ public class Turret extends SubsystemBase {
     m_turret_motor.set(ControlMode.MotionMagic, degreesToEncoderUnits(getSetpoint(targetAngle)));
   }
 
+  public void autoSetAngle(double targetAngle, boolean status) {
+    // m_turret_motor.set(ControlMode.PercentOutput, -getSetpoint(targetAngle)/90);
+    setpointSetAngle(getSetpoint(targetAngle));
+  }
+
   public double getSetpoint(double targetAngle) 
   {
     setpoint = targetAngle + getTurretAngle();
@@ -95,10 +100,13 @@ public class Turret extends SubsystemBase {
     return setpoint;
   }
 
-  public double getTargetAngle()
-  {
-    return 0.9 * Vision.getHeadingError();
-  }
+  public void setpointSetAngle(double p_angle)
+    {
+        double currentAngle = getTurretAngle();
+        double setpoint = p_angle;
+        double error = setpoint - currentAngle;
+        m_turret_motor.set(ControlMode.PercentOutput, 0.01 * -error);
+    }
 
   public double getTurretAngle()
   {

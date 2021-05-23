@@ -30,7 +30,7 @@ public class Feeder extends SubsystemBase {
     // This method will be called once per scheduler run
     double feederSpeed = SmartDashboard.getNumber("Hopper Speed", 0);
     if (feederSpeed != kfeederSpeed) {
-      feederSetSpeed(feederSpeed);
+      setSpeed(feederSpeed);
     }
   }
 
@@ -44,7 +44,7 @@ public class Feeder extends SubsystemBase {
     m_feeder_tvictor_right.set(ControlMode.PercentOutput, 0);
   }
 
-  public void feederSetSpeed(double feederSpeed){
+  public void setSpeed(double feederSpeed){
     kfeederSpeed = feederSpeed;
   }
 }

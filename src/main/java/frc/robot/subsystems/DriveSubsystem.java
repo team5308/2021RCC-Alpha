@@ -38,10 +38,15 @@ public class DriveSubsystem extends SubsystemBase {
 
   public DriveSubsystem() {
     configBaseFX();
-    m_leftMotorFront.setNeutralMode(NeutralMode.Brake);
-    m_leftMotorBack.setNeutralMode(NeutralMode.Brake);
-    m_rightMotorFront.setNeutralMode(NeutralMode.Brake);
-    m_rightMotorBack.setNeutralMode(NeutralMode.Brake);
+    // m_leftMotorFront.setNeutralMode(NeutralMode.Brake);
+    // m_leftMotorBack.setNeutralMode(NeutralMode.Brake);
+    // m_rightMotorFront.setNeutralMode(NeutralMode.Brake);
+    // m_rightMotorBack.setNeutralMode(NeutralMode.Brake);
+
+    m_leftMotorFront.setNeutralMode(NeutralMode.Coast);
+    m_leftMotorBack.setNeutralMode(NeutralMode.Coast);
+    m_rightMotorFront.setNeutralMode(NeutralMode.Coast);
+    m_rightMotorBack.setNeutralMode(NeutralMode.Coast);
 
     m_leftMotorFront.configAllSettings(configDrive);
     m_leftMotorBack.configAllSettings(configDrive);
@@ -54,7 +59,7 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     configBaseFX();
-    sensorUpdate();
+    // sensorUpdate();
   }
 
   public void TankDrive(double leftPower, double rightPower) {
@@ -69,8 +74,9 @@ public class DriveSubsystem extends SubsystemBase {
     return Math.abs(input) > Deadband.JOYSTICK_LIMIT ? input : 0;
   }
 
+  // TODO: tune the PID controller here
   private void configBaseFX() {
-    configDrive.slot1.kP = 0.01;
+    configDrive.slot1.kP = 0;
     configDrive.slot1.kI = 0;
     configDrive.slot1.kD = 0;
     configDrive.openloopRamp = 1;

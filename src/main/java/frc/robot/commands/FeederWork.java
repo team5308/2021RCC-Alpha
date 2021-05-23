@@ -4,43 +4,32 @@
 
 package frc.robot.commands;
 
-import java.util.logging.Logger;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Turret;
-import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.Feeder;
 
-public class TurretAimCommand extends CommandBase {
-
-  private Logger logger = Logger.getLogger("frc.commands.TurretAimCommand");
+public class FeederWork extends CommandBase {
   
-  private Turret m_turret;
-  private Vision m_vision;
+  public Feeder m_feeder;
 
-  public TurretAimCommand(Turret p_turret, Vision p_vision) {
-    addRequirements(p_turret);
-    addRequirements(p_vision);
-    m_turret = p_turret;
-    m_vision = p_vision;
+  public FeederWork(Feeder p_feeder) {
+    addRequirements(p_feeder);
+    m_feeder = p_feeder;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    m_vision.setLightOn();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_turret.autoSetAngle(m_vision.getTargetAngle(), true);
+    m_feeder.feederWork();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_turret.stopMotor();
-    m_vision.setLightOff();
+    m_feeder.feederStop();
   }
 
   // Returns true when the command should end.
