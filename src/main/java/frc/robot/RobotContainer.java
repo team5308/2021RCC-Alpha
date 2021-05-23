@@ -85,11 +85,7 @@ public class RobotContainer {
   private JoystickButton m_rightButton3 = new JoystickButton(m_rightJoy,3);
   private JoystickButton m_rightButton4 = new JoystickButton(m_rightJoy,4);
 
-  private final ChangeBaseCommand m_changeBaseCommand = new ChangeBaseCommand(m_pneumatic);
-  private final ChangeIntakeCommand m_ChangeIntakeCommand = new ChangeIntakeCommand(m_pneumatic);
-  private final FeederWork m_feederWork = new FeederWork(m_feeder);
-  private final TurretAimCommand autoAimdCommand = new TurretAimCommand(m_turret, m_vision);
-  /**
+/**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
@@ -104,7 +100,6 @@ public class RobotContainer {
     SmartDashboard.putData("Intake", m_intake);
     SmartDashboard.putData("Hopper", m_hopper);
  
-    SmartDashboard.putData("ChangeBaseCommand", m_changeBaseCommand);
   }
 
   /**
@@ -117,15 +112,6 @@ public class RobotContainer {
 
     logger.info("configureButtonBindings");
 
-    m_leftButton2.whenPressed(new InstantCommand(m_hopper::hopperStart, m_hopper)).whenReleased(new InstantCommand(m_hopper::hopperStop,m_hopper));
-
-    m_leftButton3.whenHeld(m_ChangeIntakeCommand);
-    m_leftButton4.whenHeld(new InstantCommand(m_intake::intakeStart, m_intake)).whenReleased(new InstantCommand(m_intake::intakeStop, m_intake));
-
-    m_leftButton1.whenHeld(autoAimdCommand);
-    // m_leftButton1.whenHeld(m_feederWork);
-    
-    m_leftButton5.whenPressed(m_changeBaseCommand);
     // m_leftButton2.whenPressed(new InstantCommand(m_pneumatic::changeClimberOutput, m_pneumatic));
     // m_leftButton3.whenPressed(new InstantCommand(m_pneumatic::changeLockOutput,m_pneumatic));
     
