@@ -103,7 +103,7 @@ public class Hood extends SubsystemBase {
     // SmartDashboard.putNumber("ProcessVariable", m_encoder.getPosition());
   }
 
-  public void setPosition() {
+  public void setPosition(double targetPosition) {
     
   }
 }

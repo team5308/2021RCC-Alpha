@@ -41,6 +41,14 @@ public class Vision extends SubsystemBase {
     return 0.9 * m_headingError;
   }
 
+  public double getVerticalAngle() {
+    return 0.9 * m_VerticalError;
+  }
+
+  public double getTargetSpeed() {
+    return 0.0;
+  }
+
   public static double getHeadingError()
   {
     return m_headingError;
@@ -77,6 +85,5 @@ public class Vision extends SubsystemBase {
   {
     ledMode.setNumber(1);
   }
-
   
 }
