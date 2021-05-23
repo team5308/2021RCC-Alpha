@@ -88,6 +88,7 @@ public class RobotContainer {
   private final ChangeBaseCommand m_changeBaseCommand = new ChangeBaseCommand(m_pneumatic);
   private final ChangeIntakeCommand m_ChangeIntakeCommand = new ChangeIntakeCommand(m_pneumatic);
   private final FeederWork m_feederWork = new FeederWork(m_feeder);
+  private final TurretAimCommand autoAimdCommand = new TurretAimCommand(m_turret, m_vision);
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -121,7 +122,7 @@ public class RobotContainer {
     m_leftButton3.whenHeld(m_ChangeIntakeCommand);
     m_leftButton4.whenHeld(new InstantCommand(m_intake::intakeStart, m_intake)).whenReleased(new InstantCommand(m_intake::intakeStop, m_intake));
 
-    m_leftButton1.whenHeld(new TurretAimCommand(m_turret, m_vision));
+    m_leftButton1.whenHeld(autoAimdCommand);
     // m_leftButton1.whenHeld(m_feederWork);
     
     m_leftButton5.whenPressed(m_changeBaseCommand);

@@ -7,6 +7,9 @@
 
 package frc.robot.subsystems;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -41,7 +44,10 @@ public class DriveSubsystem extends SubsystemBase {
   private double kD;
   private double kF;
 
+  private final Logger logger = Logger.getLogger("frc.subsystems.drive");
+
   public DriveSubsystem() {
+    logger.setLevel(Level.OFF);
     configBaseFX();
     // m_leftMotorFront.setNeutralMode(NeutralMode.Brake);
     // m_leftMotorBack.setNeutralMode(NeutralMode.Brake);
@@ -109,7 +115,7 @@ public class DriveSubsystem extends SubsystemBase {
     if (ff != kF) {
       kF = ff;
     }
-    System.out.println("Base P: " + kP + "; Base I: " + kI + "; Base D: " + kD + "; Base F: " + kF);
+    logger.fine("Base P: " + kP + "; Base I: " + kI + "; Base D: " + kD + "; Base F: " + kF);
   }
 
   public void resetGyro() {

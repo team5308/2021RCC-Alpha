@@ -19,7 +19,7 @@ public class Vision extends SubsystemBase {
   private NetworkTableEntry camMode;
   private static double m_headingError;
   private static double m_VerticalError;
-  private static double m_getValidTarget;
+  private static boolean m_getValidTarget;
   public Vision() {
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     tX = table.getEntry("tx");
@@ -33,7 +33,7 @@ public class Vision extends SubsystemBase {
   public void periodic() {
     m_headingError = tX.getDouble(0.0);
     m_VerticalError = tY.getDouble(0.0);
-    m_getValidTarget = tV.getDouble(0.0); 
+    m_getValidTarget = ((int) (tV.getDouble(0))) == 1;
   }
 
   public double getTargetAngle()
@@ -46,7 +46,7 @@ public class Vision extends SubsystemBase {
     return m_headingError;
   }
 
-  public static double getValidTarget() {
+  public static boolean getValidTarget() {
     return m_getValidTarget;
   }
 

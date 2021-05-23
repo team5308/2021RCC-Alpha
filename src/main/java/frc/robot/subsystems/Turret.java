@@ -21,26 +21,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Turret extends SubsystemBase {
 
+  private final Logger logger = Logger.getLogger("frc.subsystems.turret");
+
   public TalonSRX m_turret_motor = new TalonSRX(CanId.MOTOR_TURRET);
   public TalonSRXConfiguration configTurret = new TalonSRXConfiguration();
 
   private double current_angle;
   private double setpoint = 0;
 
-  private double kP = 2;
-  private double kI = 0.0035;
+  private double kP = 0.002;
+  private double kI = 0;
   private double kD = 0.0;
-  private double kF = 0;
-  int kI_Zone = 900;
-  int kMaxIAccum = 1000000;
   int kCruiseVelocity = 14000;
   int kMotionAcceleration = kCruiseVelocity * 10;
-  int kErrorBand = 74;
 
   private double target_height = 2;
   private double limelight_mount_height = 0.5;
   private double limelight_mount_angle = 20;
-  private double gear_ratio = 1 / 13;
+  private double gear_ratio = 1.0 / 13.0;
   private double minAngle = -90;
   private double maxAngle = 90;
   private int encoderUnitsPerRotation = 4096;
@@ -48,14 +46,11 @@ public class Turret extends SubsystemBase {
   public Turret() {
     m_turret_motor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     m_turret_motor.setNeutralMode(NeutralMode.Brake);
+    m_turret_motor.setSelectedSensorPosition(0);
     
     m_turret_motor.config_kP(0, kP);
     m_turret_motor.config_kI(0, kI);
     m_turret_motor.config_kD(0, kD);
-    m_turret_motor.config_kF(0, kF);
-    m_turret_motor.config_IntegralZone(0, kI_Zone);
-    m_turret_motor.configMaxIntegralAccumulator(0, kMaxIAccum);
-    m_turret_motor.configAllowableClosedloopError(0, kErrorBand);
 
     zeroAngle();
     zeroTurretEncoder();
@@ -84,39 +79,22 @@ public class Turret extends SubsystemBase {
 
   public void autoSetAngle(double targetAngle)
   {
-    double targetPosition = m_turret_motor.getSelectedSensorPosition() - degreesToEncoderUnits(targetAngle);
-    m_turret_motor.set(ControlMode.Position, targetPosition);
-    Logger.getAnonymousLogger().info(String.format("targetPost: %d curV: %.2f", targetPosition, m_turret_motor.getMotorOutputPercent()));
-  }
-
-  public void autoSetAngle(double targetAngle, boolean ClockwiseOrReverse) {
-    // m_turret_motor.set(ControlMode.PercentOutput, -getSetpoint(targetAngle)/90);
-    setpointSetAngle(getSetpoint(targetAngle));
+    int pos = degreesToEncoderUnits(targetAngle);
+    int targetPosition = ((int) m_turret_motor.getSelectedSensorPosition()) - pos;
+    m_turret_motor.set(ControlMode.MotionMagic, targetPosition);
+    // m_turret_motor.set(ControlMode.MotionMagic, degreesToEncoderUnits(getSetpoint(targetAngle)));
+    logger.info(String.format("targetAngle: %.2f TARGETPOSITION: %d curV: %.2f",targetAngle, targetPosition, m_turret_motor.getMotorOutputPercent()));
   }
 
   public double getSetpoint(double targetAngle) {
-    setpoint = targetAngle + getTurretAngle();
-    
+    setpoint = getTurretAngle() - targetAngle;
+    if (Math.abs(setpoint) > 90)
+    {
+      System.out.println("Target position out of turning limit!");
+      return Math.signum(setpoint) * 90;
+    }
     return setpoint;
   }
-
-  public void setpointSetAngle(double p_angle) {
-    double currentAngle = getTurretAngle();
-    double setpoint = p_angle;
-    double error = setpoint - currentAngle;
-    m_turret_motor.set(ControlMode.PercentOutput, 0.01 * -error);
-  }
-
-  // public double getSetpoint(double targetAngle) {
-  //   setpoint = targetAngle + getTurretAngle();
-  //   System.out.println(setpoint);
-  //   if (setpoint < -90 || setpoint > 90)
-  //   {
-  //     System.out.println("Target position out of turning limit!");
-  //     return setpoint < -90 ? -90 : 90;
-  //   }
-  //   return setpoint;
-  // }
 
   public double getTurretAngle()
   {
@@ -148,7 +126,7 @@ public class Turret extends SubsystemBase {
   }
 
   public void stopMotor(){
-    powerRotate(0);
+    m_turret_motor.set(ControlMode.Position, m_turret_motor.getSelectedSensorPosition());
   }
 
   public void configSRX() {
