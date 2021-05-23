@@ -72,6 +72,9 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Base I Gain", kI);
     SmartDashboard.putNumber("Base D Gain", kD);
     SmartDashboard.putNumber("Base Feed Forward", kF);
+
+    m_navX.calibrate();
+    resetGyro();
   }
 
   @Override
