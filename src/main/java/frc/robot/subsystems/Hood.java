@@ -61,11 +61,11 @@ public class Hood extends SubsystemBase {
     m_pidController.setIZone(kIz);
     m_pidController.setFF(kFF);
   
-    SmartDashboard.putNumber("P Gain", kP);
-    SmartDashboard.putNumber("I Gain", kI);
-    SmartDashboard.putNumber("D Gain", kD);
-    SmartDashboard.putNumber("I Zone", kIz);
-    SmartDashboard.putNumber("Feed Forward", kFF);
+    SmartDashboard.putNumber("Hood P Gain", kP);
+    SmartDashboard.putNumber("Hood I Gain", kI);
+    SmartDashboard.putNumber("Hood D Gain", kD);
+    SmartDashboard.putNumber("Hood I Zone", kIz);
+    SmartDashboard.putNumber("Hood Feed Forward", kFF);
 
 
   }
@@ -75,13 +75,13 @@ public class Hood extends SubsystemBase {
     hoodPositionEntry.setDouble(m_encoder.getPosition());
     hoodTimestampEntry.setDouble(Timer.getFPGATimestamp());
     // read PID coefficients from SmartDashboard
-    double p = SmartDashboard.getNumber("P Gain", 0);
-    double i = SmartDashboard.getNumber("I Gain", 0);
-    double d = SmartDashboard.getNumber("D Gain", 0);
-    double iz = SmartDashboard.getNumber("I Zone", 0);
-    double ff = SmartDashboard.getNumber("Feed Forward", 0);
-    double max = SmartDashboard.getNumber("Max Output", 0);
-    double min = SmartDashboard.getNumber("Min Output", 0);
+    double p = SmartDashboard.getNumber("Hood P Gain", 0);
+    double i = SmartDashboard.getNumber("Hood I Gain", 0);
+    double d = SmartDashboard.getNumber("Hood D Gain", 0);
+    double iz = SmartDashboard.getNumber("Hood I Zone", 0);
+    double ff = SmartDashboard.getNumber("Hood Feed Forward", 0);
+    double max = SmartDashboard.getNumber("Hood Max Output", 0);
+    double min = SmartDashboard.getNumber("Hood Min Output", 0);
     // double rotations = SmartDashboard.getNumber("Set Rotations", 0);
 
     // if PID coefficients on SmartDashboard have changed, write new values to controller

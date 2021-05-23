@@ -36,6 +36,11 @@ public class DriveSubsystem extends SubsystemBase {
   private AHRS m_navX = new AHRS(SPI.Port.kMXP);
   private final PowerDistributionPanel PDP = new PowerDistributionPanel(CanId.kPDP);
 
+  private double kP;
+  private double kI;
+  private double kD;
+  private double kF;
+
   public DriveSubsystem() {
     configBaseFX();
     // m_leftMotorFront.setNeutralMode(NeutralMode.Brake);
@@ -53,11 +58,15 @@ public class DriveSubsystem extends SubsystemBase {
     m_rightMotorFront.configAllSettings(configDrive);
     m_rightMotorBack.configAllSettings(configDrive);
   
-    
+    SmartDashboard.putNumber("Base P Gain", kP);
+    SmartDashboard.putNumber("Base I Gain", kI);
+    SmartDashboard.putNumber("Base D Gain", kD);
+    SmartDashboard.putNumber("Base Feed Forward", kF);
   }
 
   @Override
   public void periodic() {
+    tunePIDControl();
     configBaseFX();
     // sensorUpdate();
   }
@@ -76,10 +85,30 @@ public class DriveSubsystem extends SubsystemBase {
 
   // TODO: tune the PID controller here
   private void configBaseFX() {
-    configDrive.slot1.kP = 0;
-    configDrive.slot1.kI = 0;
-    configDrive.slot1.kD = 0;
+    configDrive.slot1.kP = kP;
+    configDrive.slot1.kI = kI;
+    configDrive.slot1.kD = kD;
+    configDrive.slot1.kF = kF;
     configDrive.openloopRamp = 1;
+  }
+
+  public void tunePIDControl() {
+    double p = SmartDashboard.getNumber("Base P Gain", 0);
+    double i = SmartDashboard.getNumber("Base I Gain", 0);
+    double d = SmartDashboard.getNumber("Base D Gain", 0);
+    double ff = SmartDashboard.getNumber("Base Feed Forward", 0);
+    if (p - kP < 0.000001) {
+      kP = p;
+    }
+    if (i - kI < 0.000001) {
+      kI = i;
+    }
+    if (d - kD < 0.000001) {
+      kD = d;
+    }
+    if (ff - kF < 0.000001) {
+      kF = ff;
+    }
   }
 
   public void resetGyro() {

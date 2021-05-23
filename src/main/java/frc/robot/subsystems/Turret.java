@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import frc.robot.Constants.*;
@@ -19,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Turret extends SubsystemBase {
 
   public TalonSRX m_turret_motor = new TalonSRX(CanId.MOTOR_TURRET);
+  public TalonSRXConfiguration configTurret = new TalonSRXConfiguration();
 
   private double current_angle;
   private double setpoint = 0;
@@ -27,18 +29,18 @@ public class Turret extends SubsystemBase {
   private double kI = 0.0035;
   private double kD = 0.0;
   private double kF = 0.1;
-  // int kI_Zone = 900;
-  // int kMaxIAccum = 1000000;
-  // int kCruiseVelocity = 14000;
-  // int kMotionAcceleration = kCruiseVelocity * 10;
-  // int kErrorBand = 74;
+  int kI_Zone = 900;
+  int kMaxIAccum = 1000000;
+  int kCruiseVelocity = 14000;
+  int kMotionAcceleration = kCruiseVelocity * 10;
+  int kErrorBand = 74;
 
-  double target_height = 2;
-  double limelight_mount_height = 0.5;
-  double limelight_mount_angle = 20;
-  double gear_ratio = 1 / 13;
-  double minAngle = -90;
-  double maxAngle = 90;
+  private double target_height = 2;
+  private double limelight_mount_height = 0.5;
+  private double limelight_mount_angle = 20;
+  private double gear_ratio = 1 / 13;
+  private double minAngle = -90;
+  private double maxAngle = 90;
   private int encoderUnitsPerRotation = 4096;
 
   public Turret() {
@@ -49,9 +51,9 @@ public class Turret extends SubsystemBase {
     m_turret_motor.config_kI(0, kI);
     m_turret_motor.config_kD(0, kD);
     m_turret_motor.config_kF(0, kF);
-    // m_turret_motor.config_IntegralZone(0, kI_Zone);
-    // m_turret_motor.configMaxIntegralAccumulator(0, kMaxIAccum);
-    // m_turret_motor.configAllowableClosedloopError(0, kErrorBand);
+    m_turret_motor.config_IntegralZone(0, kI_Zone);
+    m_turret_motor.configMaxIntegralAccumulator(0, kMaxIAccum);
+    m_turret_motor.configAllowableClosedloopError(0, kErrorBand);
 
     zeroAngle();
     zeroTurretEncoder();
@@ -80,33 +82,37 @@ public class Turret extends SubsystemBase {
 
   public void autoSetAngle(double targetAngle)
   {
-    m_turret_motor.set(ControlMode.MotionMagic, degreesToEncoderUnits(getSetpoint(targetAngle)));
+    m_turret_motor.set(ControlMode.Position, degreesToEncoderUnits(getSetpoint(targetAngle)));
   }
 
-  public void autoSetAngle(double targetAngle, boolean status) {
+  public void autoSetAngle(double targetAngle, boolean ClockwiseOrReverse) {
     // m_turret_motor.set(ControlMode.PercentOutput, -getSetpoint(targetAngle)/90);
     setpointSetAngle(getSetpoint(targetAngle));
   }
 
-  public double getSetpoint(double targetAngle) 
-  {
+  public double getSetpoint(double targetAngle) {
     setpoint = targetAngle + getTurretAngle();
-    System.out.println(setpoint);
-    if (setpoint < -90 || setpoint > 90)
-    {
-      System.out.println("Target position out of turning limit!");
-      return setpoint < -90 ? -90 : 90;
-    }
+    
     return setpoint;
   }
 
-  public void setpointSetAngle(double p_angle)
-    {
-        double currentAngle = getTurretAngle();
-        double setpoint = p_angle;
-        double error = setpoint - currentAngle;
-        m_turret_motor.set(ControlMode.PercentOutput, 0.01 * -error);
-    }
+  public void setpointSetAngle(double p_angle) {
+    double currentAngle = getTurretAngle();
+    double setpoint = p_angle;
+    double error = setpoint - currentAngle;
+    m_turret_motor.set(ControlMode.PercentOutput, 0.01 * -error);
+  }
+
+  // public double getSetpoint(double targetAngle) {
+  //   setpoint = targetAngle + getTurretAngle();
+  //   System.out.println(setpoint);
+  //   if (setpoint < -90 || setpoint > 90)
+  //   {
+  //     System.out.println("Target position out of turning limit!");
+  //     return setpoint < -90 ? -90 : 90;
+  //   }
+  //   return setpoint;
+  // }
 
   public double getTurretAngle()
   {
@@ -139,5 +145,9 @@ public class Turret extends SubsystemBase {
 
   public void stopMotor(){
     powerRotate(0);
+  }
+
+  public void configSRX() {
+    configTurret.slot2.kP = 0;
   }
 }
