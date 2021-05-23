@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants.Ports;
@@ -30,16 +29,41 @@ public class PneumaticSubsystem extends SubsystemBase {
   private Value m_lockValue = Value.kForward;
 
   public PneumaticSubsystem() {
-    Init();
+    startInit();
   }
 
+  public void startInit() {
+    logger.info("Pneumatic Start Init.");
+    logger.config("m_ds_climber : kOff");
+    logger.config("m_ds_base : kBaseDrive");
+    logger.config("m_ss_intake : kIntakeLock");
+    logger.config("m_ds_lock : kClimberLock");
 
-  public void Init() {
-    logger.info("Pneumatic");
-    logger.config("m_ds_climber : kForward");
-    logger.config("m_ds_base : kForward");
-    logger.config("m_ss_intake : false");
-    logger.config("m_ds_lock : ");
+    m_ds_climber.set(Value.kOff);
+    m_ds_base.set(PneuStatus.kBaseDrive);
+    m_ss_intake.set(PneuStatus.kIntakeLock);
+    m_ds_lock.set(PneuStatus.kClimberLock);
+  }
+
+  public void autoInit() {
+    logger.info("Pneumatic Auto Init.");
+    logger.config("m_ds_climber : kClimberDown");
+    logger.config("m_ds_base : kBaseDrive");
+    logger.config("m_ss_intake : kIntakeLock");
+    logger.config("m_ds_lock : kClimberLock");
+
+    m_ds_climber.set(PneuStatus.kClimberDown);
+    m_ds_base.set(PneuStatus.kBaseDrive);
+    m_ss_intake.set(PneuStatus.kIntakeLock);
+    m_ds_lock.set(PneuStatus.kClimberLock);
+  }
+
+  public void teleopInit() {
+    logger.info("Pneumatic Teleop Init.");
+    logger.config("m_ds_climber : kClimberDown");
+    logger.config("m_ds_base : kBaseDrive");
+    logger.config("m_ss_intake : kIntakeLock");
+    logger.config("m_ds_lock : kClimberLock");
 
     m_ds_climber.set(PneuStatus.kClimberDown);
     m_ds_base.set(PneuStatus.kBaseDrive);

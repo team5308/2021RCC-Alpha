@@ -92,8 +92,6 @@ public class RobotContainer {
   
   private final FeederWorkCommand m_feederWork = new FeederWorkCommand(m_feeder, m_shooter);
   private final TurretAimCommand autoAimdCommand = new TurretAimCommand(m_turret, m_vision);
-
-  /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
@@ -108,7 +106,6 @@ public class RobotContainer {
     SmartDashboard.putData("Intake", m_intake);
     SmartDashboard.putData("Hopper", m_hopper);
  
-    SmartDashboard.putData("ChangeBaseCommand", m_changeBaseCommand);
   }
 
   /**

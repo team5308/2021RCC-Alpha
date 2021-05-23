@@ -10,8 +10,10 @@ package frc.robot.subsystems;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
@@ -44,6 +46,10 @@ public class DriveSubsystem extends SubsystemBase {
   private double kF = 0;
 
   private int reverseBase = 1;
+
+  //wheel diameter in centimeter
+  private final double WHEEL_DIAMETER = 5 * 2.54;
+  private final double ENCODER_RESOLUTION = 2048;
 
   private final Logger logger = Logger.getLogger("frc.subsystems.drive");
 
@@ -157,4 +163,53 @@ public class DriveSubsystem extends SubsystemBase {
   public double getPDPTotalPower(){
     return PDP.getTotalPower();
   }
+
+  public void sensorUpdate() {
+    // SmartDashboard.putNumber("Bus Voltage", getBusVoltage());
+    // SmartDashboard.putNumber("PDP Voltage", getPDPVoltage());
+    // SmartDashboard.putNumber("PDP Current", getPDPTotalCurrent());
+    // SmartDashboard.putNumber("PDP Power", getPDPTotalPower());
+
+    // SmartDashboard.putNumber("Left Position", getLeftPosition());
+    // SmartDashboard.putNumber("Right Position", getRightPosition());
+
+    // SmartDashboard.putNumber("Left Velocity", getLeftVelocity());
+    // SmartDashboard.putNumber("Right Velocity", getRightVelocity());
+
+    // SmartDashboard.putNumber("Left Current", getLeftCurrent());
+    // SmartDashboard.putNumber("Right Current", getRightCurrent());
+
+    // SmartDashboard.putNumber("Gyro Value", getGyro());
+    // SmartDashboard.putNumber("Gyro Raw", getRawGyro());
+    // SmartDashboard.putNumber("Turn Rate", getTurnRate());
+    // SmartDashboard.putNumber("Gyro Graph", getGyro());
+    // SmartDashboard.putNumber("Gyro Raw Graph", getRawGyro());
+  }
+
+  public double encoderToRawLength(double encoderPosChange){
+    double length = encoderPosChange/ENCODER_RESOLUTION * WHEEL_DIAMETER;
+    return length;
+  }
+
+  //length should be in units of cm!!!
+  public double rawLengthToEncoder(double rawLengthChange){
+    double encoderPos = rawLengthChange/WHEEL_DIAMETER * ENCODER_RESOLUTION;
+    return encoderPos;
+  }
+
+  public void setLeftPosition(double changeUnit){
+    double leftEncoderFinalPos = changeUnit;
+    m_leftMotorFront.set(ControlMode.Position, leftEncoderFinalPos);
+  }
+
+  public void setRightPosition(double changeUnit){
+    double rightEncoderFinalPos = changeUnit;
+    m_rightMotorFront.set(ControlMode.Position, rightEncoderFinalPos);
+
+  }
+
+  public void setDriveAngle(double degree){
+    
+  }
+
 }

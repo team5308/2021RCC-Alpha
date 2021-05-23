@@ -4,35 +4,34 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.PneumaticSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ChangeClimberCommand extends InstantCommand {
-  private final PneumaticSubsystem pneuSub;
-  private final DoubleSolenoid.Value target;
+public class ChangeLock extends InstantCommand {
+  private PneumaticSubsystem m_pneu;
+  private Value target;
 
-  public ChangeClimberCommand(PneumaticSubsystem pneSub)
-  {
-    this(pneSub, DoubleSolenoid.Value.kOff);
+  public ChangeLock(PneumaticSubsystem pneu) {
+    this(pneu, Value.kOff);
   }
 
-  public ChangeClimberCommand(PneumaticSubsystem pneSub, DoubleSolenoid.Value target) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(pneSub);
-    pneuSub = pneSub;
+  public ChangeLock(PneumaticSubsystem pneu, Value target) {
+    addRequirements(pneu);
+    this.m_pneu = pneu;
     this.target = target;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if( target == DoubleSolenoid.Value.kOff) {
-      pneuSub.changeClimberOutput();
+    if(target == Value.kOff) {
+      m_pneu.changeLockOutput();
+    } else {
+      m_pneu.setLockOutput(target);
     }
-    else pneuSub.setClimberOutput(target);
   }
 }

@@ -20,6 +20,10 @@ public class ShooterSetSpeed extends CommandBase {
     m_speed = p_speed;
   }
 
+  public ShooterSetSpeed(Shooter p_shooter, Turret p_turret) {
+    this(p_shooter, p_turret, 4000);
+  }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}

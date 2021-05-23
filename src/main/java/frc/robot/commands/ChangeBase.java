@@ -11,15 +11,15 @@ import frc.robot.subsystems.PneumaticSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ChangeBaseCommand extends InstantCommand {
+public class ChangeBase extends InstantCommand {
   private PneumaticSubsystem m_pneu;
   private Value target;
 
-  public ChangeBaseCommand(PneumaticSubsystem pneu) {
+  public ChangeBase(PneumaticSubsystem pneu) {
     this(pneu, Value.kOff);
   }
 
-  public ChangeBaseCommand(PneumaticSubsystem pneu, Value target) {
+  public ChangeBase(PneumaticSubsystem pneu, Value target) {
     addRequirements(pneu);
     this.m_pneu = pneu;
     this.target = target;
