@@ -33,7 +33,7 @@ public class DriveSubsystem extends SubsystemBase {
   private WPI_TalonFX m_rightMotorFront = new WPI_TalonFX(CanId.DRIVE_RIGHT_FRONT);
   private WPI_TalonFX m_rightMotorBack = new WPI_TalonFX(CanId.DRIVE_RIGHT_BACK);
   
-  private DifferentialDrive m_diff = new DifferentialDrive(m_leftMotorFront, m_rightMotorBack);
+  private DifferentialDrive m_diff = new DifferentialDrive(m_leftMotorFront, m_rightMotorFront);
   private TalonFXConfiguration configDrive = new TalonFXConfiguration();
 
   private AHRS m_navX = new AHRS(SPI.Port.kMXP);
@@ -142,50 +142,7 @@ public class DriveSubsystem extends SubsystemBase {
     return m_rightMotorFront.getSelectedSensorVelocity();
   }
 
-  public double getLeftCurrent() {
-    return m_leftMotorFront.getSupplyCurrent();
-  }
-
-  public double getRightCurrent() {
-    return m_rightMotorFront.getSupplyCurrent();
-  }
-
-  public double getBusVoltage() {
-    return 0.5 * (m_leftMotorFront.getBusVoltage() + m_rightMotorFront.getBusVoltage());
-  }
-
-  public double getPDPVoltage(){
-    return PDP.getVoltage();
-  }
-
-  public double getPDPTotalCurrent(){
-    return PDP.getTotalCurrent();
-  }
-
-  public double getPDPTotalPower(){
-    return PDP.getTotalPower();
-  }
-
   public void sensorUpdate() {
-    // SmartDashboard.putNumber("Bus Voltage", getBusVoltage());
-    // SmartDashboard.putNumber("PDP Voltage", getPDPVoltage());
-    // SmartDashboard.putNumber("PDP Current", getPDPTotalCurrent());
-    // SmartDashboard.putNumber("PDP Power", getPDPTotalPower());
-
-    // SmartDashboard.putNumber("Left Position", getLeftPosition());
-    // SmartDashboard.putNumber("Right Position", getRightPosition());
-
-    // SmartDashboard.putNumber("Left Velocity", getLeftVelocity());
-    // SmartDashboard.putNumber("Right Velocity", getRightVelocity());
-
-    // SmartDashboard.putNumber("Left Current", getLeftCurrent());
-    // SmartDashboard.putNumber("Right Current", getRightCurrent());
-
-    // SmartDashboard.putNumber("Gyro Value", getGyro());
-    // SmartDashboard.putNumber("Gyro Raw", getRawGyro());
-    // SmartDashboard.putNumber("Turn Rate", getTurnRate());
-    // SmartDashboard.putNumber("Gyro Graph", getGyro());
-    // SmartDashboard.putNumber("Gyro Raw Graph", getRawGyro());
   }
 
   public double encoderToRawLength(double encoderPosChange){
@@ -200,18 +157,12 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void setLeftPosition(double changeUnit){
-    double leftEncoderFinalPos = changeUnit;
-    m_leftMotorFront.set(ControlMode.Position, leftEncoderFinalPos);
+    m_leftMotorFront.set(ControlMode.Position, changeUnit);
   }
 
   public void setRightPosition(double changeUnit){
-    double rightEncoderFinalPos = changeUnit;
-    m_rightMotorFront.set(ControlMode.Position, rightEncoderFinalPos);
+    m_rightMotorFront.set(ControlMode.Position, changeUnit);
 
-  }
-
-  public void setDriveAngle(double degree){
-    
   }
 
 }
