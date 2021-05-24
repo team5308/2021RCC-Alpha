@@ -33,7 +33,7 @@ public class TurretAimCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(m_vision.getValidTarget()) {
+    if(Vision.getValidTarget()) {
       m_turret.autoSetAngle(m_vision.getTargetAngle());
     } else {
       m_turret.stopMotor();

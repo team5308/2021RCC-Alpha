@@ -11,18 +11,23 @@ import edu.wpi.first.wpilibj.Joystick;
 
 import java.util.logging.Logger;
 
+import com.ctre.phoenix.ParamEnum;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Axis;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Constants.PneuStatus;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import frc.robot.utils.SleepCommand;
 import frc.robot.utils.TriggerToBoolean;
 
 
@@ -85,14 +90,31 @@ public class RobotContainer {
   private JoystickButton m_rightButton3 = new JoystickButton(m_rightJoy,3);
   private JoystickButton m_rightButton4 = new JoystickButton(m_rightJoy,4);
 
-  private final ChangeBaseCommand m_changeBaseCommand = new ChangeBaseCommand(m_pneumatic);
-  private final ChangeIntakeCommand m_ChangeIntakeCommand = new ChangeIntakeCommand(m_pneumatic);
-  private final ChangeClimberCommand m_ChangeClimberCommand = new ChangeClimberCommand(m_pneumatic);
-  private final ChangeLockCommand m_ChangeLockCommand = new ChangeLockCommand(m_pneumatic);
+  private final ChangeBase changeBase = new ChangeBase(m_pneumatic);
+  private final ChangeIntake changeIntake = new ChangeIntake(m_pneumatic);
+  private final ChangeClimber changeClimber = new ChangeClimber(m_pneumatic);
+  private final ChangeLock changeLock = new ChangeLock(m_pneumatic);
   
   private final FeederWorkCommand m_feederWork = new FeederWorkCommand(m_feeder, m_shooter);
   private final TurretAimCommand autoAimdCommand = new TurretAimCommand(m_turret, m_vision);
-   * The container for the robot.  Contains subsystems, OI devices, and commands.
+
+  private final ChangeBase setBaseClimbing = new ChangeBase(m_pneumatic, PneuStatus.kBaseClimb);
+  private final ChangeClimber setClimberUp = new ChangeClimber(m_pneumatic, PneuStatus.kClimberUp);
+  private final ChangeIntake setIntakeLock = new ChangeIntake(m_pneumatic, PneuStatus.kIntakeLock);
+  private final ChangeLock setLockRelease = new ChangeLock(m_pneumatic, PneuStatus.kClimberRelease);
+
+  private final ParallelCommandGroup setClimberStatus = new ParallelCommandGroup(
+    setBaseClimbing, 
+    setClimberUp,
+    setIntakeLock
+  );
+
+  private final SequentialCommandGroup climbPrepartion = new SequentialCommandGroup(
+    setClimberStatus,
+    new SleepCommand(0.8),
+    setLockRelease
+   );
+   /* The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Configure the button bindings
@@ -120,15 +142,15 @@ public class RobotContainer {
 
     m_leftButton2.whenPressed(new InstantCommand(m_hopper::hopperStart, m_hopper)).whenReleased(new InstantCommand(m_hopper::hopperStop,m_hopper));
 
-    m_leftButton3.whenHeld(m_ChangeIntakeCommand);
+    m_leftButton3.whenHeld(changeIntake);
     m_leftButton4.whenHeld(new InstantCommand(m_intake::intakeStart, m_intake)).whenReleased(new InstantCommand(m_intake::intakeStop, m_intake));
 
     m_leftButton1.whenHeld(autoAimdCommand);
     // m_leftButton1.whenHeld(m_feederWork);
     
-    m_leftButton5.whenPressed(m_changeBaseCommand);
-    m_leftButton6.whenPressed(m_ChangeClimberCommand);
-    m_leftButton7.whenPressed(m_ChangeLockCommand);
+    m_leftButton5.whenPressed(changeBase);
+    m_leftButton6.whenPressed(changeClimber);
+    m_leftButton7.whenPressed(changeIntake);
     // m_leftButton2.whenPressed(new InstantCommand(m_pneumatic::changeClimberOutput, m_pneumatic));
     // m_leftButton3.whenPressed(new InstantCommand(m_pneumatic::changeLockOutput,m_pneumatic));
     
@@ -154,13 +176,10 @@ public class RobotContainer {
   }
 
   public void teleopInit() {
-    // configureButtonBindings();
     logger.info("teleopInit - start compressor");
     m_vision.setLightOff();
     m_pneumatic.CompressorBegin();
-    //m_pneumatic.CompressorEnd();
     m_pneumatic.setBaseOutput(PneuStatus.kBaseDrive);
-    // final Command tankDriveCommand = new RunCommand(() -> m_drive.TankDrive(m_leftJoy.getY(), m_rightJoy.getY()), m_drive);
     final Command arcadeDriveCommand = new RunCommand(() -> m_drive.ArcadeDrive(m_leftJoy.getY(), -m_leftJoy.getX()), m_drive);
     m_drive.setDefaultCommand(arcadeDriveCommand);
   }
