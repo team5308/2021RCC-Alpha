@@ -83,7 +83,7 @@ public class Turret extends SubsystemBase {
     m_turret_motor.set(ControlMode.PercentOutput, power);
   }
 
-  public void autoSetAngle(double p0p)
+  public void autoSetAngle(double targetAngle)
   {
     int pos = degreesToEncoderUnits(targetAngle);
     int targetPosition = ((int) m_turret_motor.getSelectedSensorPosition()) - pos;
