@@ -10,7 +10,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
@@ -23,7 +23,7 @@ public class Turret extends SubsystemBase {
 
   private final Logger logger = Logger.getLogger("frc.subsystems.turret");
 
-  public TalonSRX m_turret_motor = new TalonSRX(CanId.MOTOR_TURRET);
+  public WPI_TalonSRX m_turret_motor = new WPI_TalonSRX(CanId.MOTOR_TURRET);
   public TalonSRXConfiguration configTurret = new TalonSRXConfiguration();
 
   private double current_angle;
@@ -52,6 +52,8 @@ public class Turret extends SubsystemBase {
     m_turret_motor.config_kI(0, kI);
     m_turret_motor.config_kD(0, kD);
 
+    addChild("turret_775", m_turret_motor);
+
     zeroAngle();
     zeroTurretEncoder();
   }
@@ -77,7 +79,7 @@ public class Turret extends SubsystemBase {
     m_turret_motor.set(ControlMode.PercentOutput, power);
   }
 
-  public void autoSetAngle(double targetAngle)
+  public void autoSetAngle(double p0p)
   {
     int pos = degreesToEncoderUnits(targetAngle);
     int targetPosition = ((int) m_turret_motor.getSelectedSensorPosition()) - pos;
