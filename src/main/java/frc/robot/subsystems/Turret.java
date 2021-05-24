@@ -32,6 +32,9 @@ public class Turret extends SubsystemBase {
   private double kP = 0.002;
   private double kI = 0;
   private double kD = 0.0;
+  private double kF = 0;
+  int kI_Zone = 900000;
+  int kMaxIAccum = 10000000;
   int kCruiseVelocity = 14000;
   int kMotionAcceleration = kCruiseVelocity * 10;
 
@@ -51,8 +54,9 @@ public class Turret extends SubsystemBase {
     m_turret_motor.config_kP(0, kP);
     m_turret_motor.config_kI(0, kI);
     m_turret_motor.config_kD(0, kD);
-
-    addChild("turret_775", m_turret_motor);
+    m_turret_motor.config_kF(0, kF);
+    m_turret_motor.config_IntegralZone(0, kI_Zone);
+    m_turret_motor.configMaxIntegralAccumulator(0, kMaxIAccum);
 
     zeroAngle();
     zeroTurretEncoder();

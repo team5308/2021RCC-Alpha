@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanId;
 import frc.robot.Constants.Deadband;
+import frc.robot.commands.TurretAimCommand;
 
 public class DriveSubsystem extends SubsystemBase {
   private WPI_TalonFX m_leftMotorFront = new WPI_TalonFX(CanId.DRIVE_LEFT_FRONT);
@@ -90,11 +91,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void ArcadeDrive(double forward, double rotation) {
-    m_diff.arcadeDrive(reverseBase*deadband(forward * 0.3), reverseBase*rotation, true);
-  }
-
-  public void reverseBase() {
-    reverseBase *= -1;
+    m_diff.arcadeDrive(forward, rotation, true);
   }
 
   public double deadband(double input) {
@@ -103,10 +100,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   // TODO: tune the PID openloop ramp for the base
   private void configBaseFX() {
-    configDrive.slot1.kP = kP;
-    configDrive.slot1.kI = kI;
-    configDrive.slot1.kD = kD;
-    configDrive.slot1.kF = kF;
+    configDrive.slot1.kP = 0.04;
+    configDrive.slot1.kI = 0;
+    configDrive.slot1.kD = 0;
+    configDrive.slot1.kF = 0;
     configDrive.openloopRamp = 1;
   }
 
