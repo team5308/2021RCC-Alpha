@@ -42,7 +42,7 @@ public final class Constants {
     }
 
     public final class Deadband {
-        public static final double JOYSTICK_LIMIT = 0.1;
+        public static final double JOYSTICK_LIMIT = 0.3;
     }
 
     public final class Ports {

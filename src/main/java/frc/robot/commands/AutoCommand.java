@@ -26,8 +26,6 @@ public class AutoCommand extends SequentialCommandGroup {
   private static Vision m_vision;
   private static Shooter m_shooter;
 
-
-
   public AutoCommand(Intake p_intake, PneumaticSubsystem p_pneumatic, DriveSubsystem p_drive, Vision p_vision, Shooter p_shooter) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
@@ -43,7 +41,7 @@ public class AutoCommand extends SequentialCommandGroup {
       new TurretAimCommand(m_turret, m_vision),
       new ShooterSetSpeed(m_shooter, m_turret),
 
-      new ChangeIntakeCommand(m_pneumatic, PneuStatus.kIntakeRelease),
+      new ChangeIntake(m_pneumatic, PneuStatus.kIntakeRelease),
       new DriveForwardCommand(m_drive, line1)
     );
   }

@@ -20,6 +20,10 @@ public class Vision extends SubsystemBase {
   private static double m_headingError;
   private static double m_VerticalError;
   private static boolean m_getValidTarget;
+  
+  private double target_height = 2;
+  private double limelight_mount_height = 0.5;
+  private double limelight_mount_angle = 20;
   public Vision() {
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     tX = table.getEntry("tx");
@@ -34,6 +38,10 @@ public class Vision extends SubsystemBase {
     m_headingError = tX.getDouble(0.0);
     m_VerticalError = tY.getDouble(0.0);
     m_getValidTarget = ((int) (tV.getDouble(0))) == 1;
+  }
+
+  public double getTargetDistance() {
+    return Math.tan(getVerticalAngle()+limelight_mount_angle)*(target_height-limelight_mount_height);
   }
 
   public double getTargetAngle()

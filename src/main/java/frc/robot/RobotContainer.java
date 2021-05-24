@@ -85,15 +85,14 @@ public class RobotContainer {
   private JoystickButton m_rightButton3 = new JoystickButton(m_rightJoy,3);
   private JoystickButton m_rightButton4 = new JoystickButton(m_rightJoy,4);
 
-  private final ChangeBaseCommand m_changeBaseCommand = new ChangeBaseCommand(m_pneumatic);
-  private final ChangeIntakeCommand m_ChangeIntakeCommand = new ChangeIntakeCommand(m_pneumatic);
-  private final ChangeClimberCommand m_ChangeClimberCommand = new ChangeClimberCommand(m_pneumatic);
-  private final ChangeLockCommand m_ChangeLockCommand = new ChangeLockCommand(m_pneumatic);
+  private final ChangeBase m_changeBaseCommand = new ChangeBase(m_pneumatic);
+  private final ChangeIntake m_ChangeIntakeCommand = new ChangeIntake(m_pneumatic);
+  private final ChangeClimber m_ChangeClimberCommand = new ChangeClimber(m_pneumatic);
+  private final ChangeLock m_ChangeLockCommand = new ChangeLock(m_pneumatic);
   
   private final FeederWorkCommand m_feederWork = new FeederWorkCommand(m_feeder, m_shooter);
   private final TurretAimCommand autoAimdCommand = new TurretAimCommand(m_turret, m_vision);
-   * The container for the robot.  Contains subsystems, OI devices, and commands.
-   */
+
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
@@ -118,17 +117,19 @@ public class RobotContainer {
 
     logger.info("configureButtonBindings");
 
-    m_leftButton2.whenPressed(new InstantCommand(m_hopper::hopperStart, m_hopper)).whenReleased(new InstantCommand(m_hopper::hopperStop,m_hopper));
+    // m_leftButton1.whenHeld(new TurretTurn(m_turret, 30));
 
-    m_leftButton3.whenHeld(m_ChangeIntakeCommand);
-    m_leftButton4.whenHeld(new InstantCommand(m_intake::intakeStart, m_intake)).whenReleased(new InstantCommand(m_intake::intakeStop, m_intake));
+    // m_leftButton2.whenPressed(new InstantCommand(m_hopper::hopperStart, m_hopper)).whenReleased(new InstantCommand(m_hopper::hopperStop,m_hopper));
 
-    m_leftButton1.whenHeld(autoAimdCommand);
-    // m_leftButton1.whenHeld(m_feederWork);
+    // m_leftButton3.whenHeld(m_ChangeIntakeCommand);
+    // m_leftButton4.whenHeld(new InstantCommand(m_intake::intakeStart, m_intake)).whenReleased(new InstantCommand(m_intake::intakeStop, m_intake));
+
+    // m_leftButton1.whenHeld(autoAimdCommand);
+    // // m_leftButton1.whenHeld(m_feederWork);
     
-    m_leftButton5.whenPressed(m_changeBaseCommand);
-    m_leftButton6.whenPressed(m_ChangeClimberCommand);
-    m_leftButton7.whenPressed(m_ChangeLockCommand);
+    // m_leftButton5.whenPressed(m_changeBaseCommand);
+    // m_leftButton6.whenPressed(m_ChangeClimberCommand);
+    // m_leftButton7.whenPressed(m_ChangeLockCommand);
     // m_leftButton2.whenPressed(new InstantCommand(m_pneumatic::changeClimberOutput, m_pneumatic));
     // m_leftButton3.whenPressed(new InstantCommand(m_pneumatic::changeLockOutput,m_pneumatic));
     

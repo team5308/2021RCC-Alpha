@@ -81,20 +81,30 @@ public class Turret extends SubsystemBase {
   {
     int pos = degreesToEncoderUnits(targetAngle);
     int targetPosition = ((int) m_turret_motor.getSelectedSensorPosition()) - pos;
-    m_turret_motor.set(ControlMode.MotionMagic, targetPosition);
+    m_turret_motor.set(ControlMode.Position, targetPosition);
     // m_turret_motor.set(ControlMode.MotionMagic, degreesToEncoderUnits(getSetpoint(targetAngle)));
     logger.info(String.format("targetAngle: %.2f TARGETPOSITION: %d curV: %.2f",targetAngle, targetPosition, m_turret_motor.getMotorOutputPercent()));
   }
 
-  public double getSetpoint(double targetAngle) {
-    setpoint = getTurretAngle() - targetAngle;
-    if (Math.abs(setpoint) > 90)
-    {
-      System.out.println("Target position out of turning limit!");
-      return Math.signum(setpoint) * 90;
-    }
-    return setpoint;
+  /**
+   * @param targetAngle absolute turret angle
+   */
+  public void setpointSetAngle(double targetAngle) {
+    double currentAngle = encoderUnitsToDegrees(getTurretAngle());
+    double error = targetAngle - currentAngle;
+    int targetPosition = degreesToEncoderUnits(getTurretAngle() - error);
+    m_turret_motor.set(ControlMode.MotionMagic, targetPosition);
   }
+
+  // public double getSetpoint(double targetAngle) {
+  //   setpoint = getTurretAngle() - targetAngle;
+  //   if (Math.abs(setpoint) > 90)
+  //   {
+  //     System.out.println("Target position out of turning limit!");
+  //     return Math.signum(setpoint) * 90;
+  //   }
+  //   return setpoint;
+  // }
 
   public double getTurretAngle()
   {

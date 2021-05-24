@@ -80,7 +80,7 @@ public class DriveSubsystem extends SubsystemBase {
     // sensorUpdate();
     double leftv = m_leftMotorFront.get();
     double rightv = m_rightMotorFront.get();
-    logger.info(String.format("l: %.2f r: %.2f\n", leftv, rightv));
+    logger.info(String.format("l: %.2f r: %.2f\n", m_leftMotorFront.getStatorCurrent(), m_rightMotorBack.getStatorCurrent()));
   }
 
   public void TankDrive(double leftPower, double rightPower) {
@@ -105,7 +105,7 @@ public class DriveSubsystem extends SubsystemBase {
     configDrive.slot1.kI = kI;
     configDrive.slot1.kD = kD;
     configDrive.slot1.kF = kF;
-    configDrive.openloopRamp = 1;
+    configDrive.openloopRamp = 3;
   }
 
   public void resetGyro() {
