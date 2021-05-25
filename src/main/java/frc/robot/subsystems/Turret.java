@@ -38,9 +38,6 @@ public class Turret extends SubsystemBase {
   int kCruiseVelocity = 14000;
   int kMotionAcceleration = kCruiseVelocity * 10;
 
-  private double target_height = 2;
-  private double limelight_mount_height = 0.5;
-  private double limelight_mount_angle = 20;
   private double gear_ratio = 1.0 / 13.0;
   private double minAngle = -90;
   private double maxAngle = 90;

@@ -13,7 +13,7 @@ public class FeederWorkCommand extends CommandBase {
   public Feeder m_feeder;
   public Shooter m_shooter;
 
-  public FeederWorkCommand(Feeder p_feeder, Shooter p_shooter) {
+  public FeederWorkCommand(Feeder p_feeder) {
     addRequirements(p_feeder);
     m_feeder = p_feeder;
   }
@@ -25,9 +25,7 @@ public class FeederWorkCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_shooter.getVelocity() - m_shooter.getTargetSpeed() < 200) {
-      m_feeder.feederWork();
-    }
+    m_feeder.feederWork();
   }
 
   // Called once the command ends or is interrupted.

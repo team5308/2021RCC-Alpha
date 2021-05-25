@@ -20,6 +20,16 @@ public class Vision extends SubsystemBase {
   private static double m_headingError;
   private static double m_VerticalError;
   private static boolean m_getValidTarget;
+
+  private double angleLowerBound = 35;
+  private double angleUpperBound = 55;
+  private double speedLowerBound = 2000;
+  private double speedUpperBound = 4000;
+  private double gravity = 9.81;
+  
+  private double target_height = 2;
+  private double limelight_mount_height = 0.5;
+  private double limelight_mount_angle = 20;
   public Vision() {
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     tX = table.getEntry("tx");
@@ -34,6 +44,37 @@ public class Vision extends SubsystemBase {
     m_headingError = tX.getDouble(0.0);
     m_VerticalError = tY.getDouble(0.0);
     m_getValidTarget = ((int) (tV.getDouble(0))) == 1;
+  }
+
+  public class solveParameters {
+    private double setSpeed;
+    private double setAngle;
+    private double dist;
+    private double constant;
+
+    public solveParameters() {
+      dist = getTargetDistance();
+      constant = Math.pow(2.0 * gravity * target_height, 0.5);
+      setSpeed = 3500.0;
+      setAngle = 0.0;
+    }
+
+    public double getAngle() {
+      setAngle = Math.asin(constant / setSpeed);
+      while (setAngle < angleLowerBound || setAngle > angleUpperBound) {
+        if (setAngle - angleLowerBound < 1.0) {
+          setSpeed -= 100.0;
+        } else if (setAngle - angleUpperBound > 1.0) {
+          setSpeed += 100.0;
+        }
+        setAngle = Math.asin(constant / setSpeed);
+      }
+      return setAngle;
+    }
+  }
+
+  public double getTargetDistance() {
+    return Math.tan(getTargetAngle() + limelight_mount_angle) * (target_height - limelight_mount_height);
   }
 
   public double getTargetAngle()

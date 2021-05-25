@@ -91,11 +91,15 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void ArcadeDrive(double forward, double rotation) {
-    m_diff.arcadeDrive(forward, rotation, true);
+    m_diff.arcadeDrive(deadband(forward), rotationScale(deadband(rotation)), true);
   }
 
   public double deadband(double input) {
     return Math.abs(input) > Deadband.JOYSTICK_LIMIT ? input : 0;
+  }
+
+  public double rotationScale(double rotation) {
+    return Math.abs(rotation) > 0.6 ? Math.copysign(rotation) * 0.6 : rotation;
   }
 
   // TODO: tune the PID openloop ramp for the base
@@ -163,7 +167,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void reverseBase() {
-    
+
   }
 
 }

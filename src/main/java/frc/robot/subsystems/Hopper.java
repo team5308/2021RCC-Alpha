@@ -29,10 +29,10 @@ public class Hopper extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    double hopperSpeed = SmartDashboard.getNumber("Hopper Speed", 0);
-    if (hopperSpeed != khopperSpeed) {
-      setSpeed(hopperSpeed);
-    }
+    // double hopperSpeed = SmartDashboard.getNumber("Hopper Speed", 0);
+    // if (hopperSpeed != khopperSpeed) {
+    //   setSpeed(hopperSpeed);
+    // }
   }
 
   private void setSpeed(double newSpeed){

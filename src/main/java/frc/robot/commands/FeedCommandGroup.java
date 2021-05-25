@@ -17,6 +17,6 @@ public class FeedCommandGroup extends ParallelCommandGroup {
   public FeedCommandGroup(Feeder p_feeder, Hopper p_hopper, Shooter p_shooter) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new FeederWorkCommand(p_feeder, p_shooter), new HopperWorkCommand(p_hopper));
+    // addCommands(new FeederWorkCommand(p_feeder, p_shooter), new HopperWorkCommand(p_hopper));
   }
 }
