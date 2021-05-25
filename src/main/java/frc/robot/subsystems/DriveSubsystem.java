@@ -99,7 +99,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double rotationScale(double rotation) {
-    return Math.abs(rotation) > 0.6 ? Math.copysign(rotation) * 0.6 : rotation;
+    return Math.abs(rotation) > 0.6 ? Math.copySign(0.6, rotation) : rotation;
   }
 
   // TODO: tune the PID openloop ramp for the base
