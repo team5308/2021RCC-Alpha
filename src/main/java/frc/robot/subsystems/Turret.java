@@ -17,6 +17,8 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import frc.robot.Constants.*;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Turret extends SubsystemBase {
@@ -29,9 +31,9 @@ public class Turret extends SubsystemBase {
   private double current_angle;
   private double setpoint = 0;
 
-  private double kP = 0.002;
-  private double kI = 0;
-  private double kD = 0.0;
+  private double kP = 0.07; 
+  private double kI = 0.0003;
+  private double kD = 240;
   private double kF = 0;
   int kI_Zone = 900000;
   int kMaxIAccum = 10000000;
@@ -47,6 +49,11 @@ public class Turret extends SubsystemBase {
     m_turret_motor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     m_turret_motor.setNeutralMode(NeutralMode.Brake);
     m_turret_motor.setSelectedSensorPosition(0);
+
+    SmartDashboard.putNumber("KPPP", kP);
+    SmartDashboard.putNumber("KIII", kI);
+    SmartDashboard.putNumber("KDDD", kD);
+
     
     m_turret_motor.config_kP(0, kP);
     m_turret_motor.config_kI(0, kI);
@@ -54,6 +61,7 @@ public class Turret extends SubsystemBase {
     m_turret_motor.config_kF(0, kF);
     m_turret_motor.config_IntegralZone(0, kI_Zone);
     m_turret_motor.configMaxIntegralAccumulator(0, kMaxIAccum);
+    m_turret_motor.configClosedLoopPeakOutput(0, 0.2);
 
     zeroAngle();
     zeroTurretEncoder();
@@ -62,6 +70,14 @@ public class Turret extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    if((new JoystickButton(new Joystick(0), 15)).get()) {
+      double kp = SmartDashboard.getNumber("KPPP", 0);
+      double ki = SmartDashboard.getNumber("KIII", 0);
+      double kd = SmartDashboard.getNumber("KDDD", 0);
+      m_turret_motor.config_kP(0, kp);
+      m_turret_motor.config_kI(0, ki);
+      m_turret_motor.config_kD(0, kd);
+    }
   }
 
   public void zeroAngle() {
@@ -84,7 +100,7 @@ public class Turret extends SubsystemBase {
   {
     int pos = degreesToEncoderUnits(targetAngle);
     int targetPosition = ((int) m_turret_motor.getSelectedSensorPosition()) - pos;
-    m_turret_motor.set(ControlMode.MotionMagic, targetPosition);
+    m_turret_motor.set(ControlMode.Position, targetPosition);
     // m_turret_motor.set(ControlMode.MotionMagic, degreesToEncoderUnits(getSetpoint(targetAngle)));
     logger.info(String.format("targetAngle: %.2f TARGETPOSITION: %d curV: %.2f",targetAngle, targetPosition, m_turret_motor.getMotorOutputPercent()));
   }

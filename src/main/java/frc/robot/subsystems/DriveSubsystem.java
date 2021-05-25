@@ -83,7 +83,7 @@ public class DriveSubsystem extends SubsystemBase {
     // sensorUpdate();
     double leftv = m_leftMotorFront.get();
     double rightv = m_rightMotorFront.get();
-    logger.info(String.format("l: %.2f r: %.2f\n", leftv, rightv));
+    // logger.info(String.format("l: %.2f r: %.2f\n", leftv, rightv));
   }
 
   public void TankDrive(double leftPower, double rightPower) {

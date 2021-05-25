@@ -84,20 +84,20 @@ public class Hood extends SubsystemBase {
 
     // if PID coefficients on SmartDashboard have changed, write new values to controller
     
-    // double v = joy.getThrottle();
-    // double setpoint = (v + 1.0) / 2.0 * (-9.5);
+    double v = joy.getThrottle();
+    double setpoint = (v + 1.0) / 2.0 * (-9.5);
 
     // logger.info(String.format("setpoint: %.2f", setpoint));
 
 
     // if(m_pidController.setReference( setpoint, ControlType.kPosition) == CANError.kOk) {
     //   if(m_hood_motor.get() != 0.0) {
-    //   logger.info(String.format("HOOD PID report: %.2f", m_hood_motor.get()));
+    //   logger.fine(String.format("HOOD PID report: %.2f", m_hood_motor.get()));
     //   }
     // }
     // else
     // {
-    //   logger.info("chushi chushi chushi");
+    //   logger.fine("chushi chushi chushi");
     // }
     // SmartDashboard.putNumber("SetPoint", -9.5);
     // SmartDashboard.putNumber("ProcessVariable", m_encoder.getPosition());

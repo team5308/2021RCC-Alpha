@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.logging.Logger;
+
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.networktables.NetworkTable;
@@ -31,7 +33,7 @@ public class Vision extends SubsystemBase {
   private double limelight_mount_height = 0.5;
   private double limelight_mount_angle = 20;
   public Vision() {
-    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight-ytz");
     tX = table.getEntry("tx");
     tY = table.getEntry("tY");
     tV = table.getEntry("tv");

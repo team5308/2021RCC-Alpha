@@ -147,7 +147,7 @@ public class RobotContainer {
     m_leftButton3.whenHeld(changeIntake);
     m_leftButton4.whenHeld(new InstantCommand(m_intake::intakeStart, m_intake)).whenReleased(new InstantCommand(m_intake::intakeStop, m_intake));
 
-    // m_leftButton1.whenHeld(autoAimdCommand);
+    m_leftButton11.whenHeld(autoAimdCommand);
     // m_leftButton1.whenHeld(m_feederWork);
     
     m_leftButton5.whenPressed(changeBase);
@@ -165,7 +165,7 @@ public class RobotContainer {
     m_leftButton1.whenHeld(new ShooterSetSpeed(m_shooter, m_turret, -6000));// minus sign?
     // m_leftButton1.whenHeld(new InstantCommand(m_turret::turnLeft, m_turret)).whenReleased(new InstantCommand(m_turret::stopMotor, m_turret));
     // m_leftButton3.whenHeld(new InstantCommand(m_turret::turnRight, m_turret)).whenReleased(new InstantCommand(m_turret::stopMotor, m_turret));
-    m_leftButton10.whenHeld(new FeederWorkCommand(m_feeder));
+    m_leftButton1.whenHeld(new FeederWorkCommand(m_feeder));
   }
 
   /**

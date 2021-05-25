@@ -17,7 +17,7 @@ public class Feeder extends SubsystemBase {
   private VictorSPX m_feeder_tvictor_left = new VictorSPX(CanId.MOTOR_FEEDER_LEFT);
   private VictorSPX m_feeder_tvictor_right = new VictorSPX(CanId.MOTOR_FEEDER_RIGHT);
 
-  double kfeederSpeed = 0.8;
+  double kfeederSpeed = 1;
 
   public Feeder() {
     m_feeder_tvictor_left.setNeutralMode(NeutralMode.Coast);
@@ -28,10 +28,10 @@ public class Feeder extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    double feederSpeed = SmartDashboard.getNumber("Hopper Speed", 0);
-    if (feederSpeed != kfeederSpeed) {
-      setSpeed(feederSpeed);
-    }
+    // double feederSpeed = SmartDashboard.getNumber("Hopper Speed", 0);
+    // if (feederSpeed != kfeederSpeed) {
+    //   setSpeed(feederSpeed);
+    // }
   }
 
   public void feederWork() {
