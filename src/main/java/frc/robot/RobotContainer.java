@@ -84,6 +84,7 @@ public class RobotContainer {
   private JoystickButton m_leftButton10 = new JoystickButton(m_leftJoy, 10);
   private JoystickButton m_leftButton11 = new JoystickButton(m_leftJoy, 11);
   private JoystickButton m_leftButton12 = new JoystickButton(m_leftJoy, 12);
+  private JoystickButton m_leftButton13 = new JoystickButton(m_leftJoy, 13);
 
   private JoystickButton m_coButton1 = new JoystickButton(m_rightJoy,1);
   private JoystickButton m_coButton2 = new JoystickButton(m_rightJoy,2);
@@ -97,6 +98,7 @@ public class RobotContainer {
   
   private final FeederWorkCommand m_feederWork = new FeederWorkCommand(m_feeder);
   private final TurretAimCommand autoAimdCommand = new TurretAimCommand(m_turret, m_vision);
+  private final IntakeWorkCommand m_intakeCommand = new IntakeWorkCommand(m_intake);
 
   private final ChangeBase setBaseClimbing = new ChangeBase(m_pneumatic, PneuStatus.kBaseClimb);
   private final ChangeClimber setClimberUp = new ChangeClimber(m_pneumatic, PneuStatus.kClimberUp);
@@ -134,8 +136,18 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     logger.info("configure Button Bindings!");
+
+
+    m_leftButton1.whenHeld(m_intakeCommand);
+
+    // Climber Sets
+    m_leftButton13.whenPressed(new ChangeClimber(m_pneumatic, PneuStatus.kClimberUp));
+    m_leftButton12.whenPressed(new ChangeLock(m_pneumatic, PneuStatus.kClimberLock));
+    m_leftButton11.whenPressed(new ChangeBase(m_pneumatic, PneuStatus.kBaseClimb));
     
-    m_coButton2.whenHeld(autoAimdCommand);
+    m_coButton1.whenPressed(new InstantCommand(m_hopper::hopperStart, m_hopper)).whenReleased(new InstantCommand(m_hopper::hopperStop,m_hopper));
+    m_coButton1.whenHeld(m_feederWork);
+    m_coButton2.whenHeld(autoAimdCommand); 
   }
 
   /**
