@@ -85,10 +85,10 @@ public class RobotContainer {
   private JoystickButton m_leftButton11 = new JoystickButton(m_leftJoy, 11);
   private JoystickButton m_leftButton12 = new JoystickButton(m_leftJoy, 12);
 
-  private JoystickButton m_rightButton1 = new JoystickButton(m_rightJoy,1);
-  private JoystickButton m_rightButton2 = new JoystickButton(m_rightJoy,2);
-  private JoystickButton m_rightButton3 = new JoystickButton(m_rightJoy,3);
-  private JoystickButton m_rightButton4 = new JoystickButton(m_rightJoy,4);
+  private JoystickButton m_coButton1 = new JoystickButton(m_rightJoy,1);
+  private JoystickButton m_coButton2 = new JoystickButton(m_rightJoy,2);
+  private JoystickButton m_coButton3 = new JoystickButton(m_rightJoy,3);
+  private JoystickButton m_coButton4 = new JoystickButton(m_rightJoy,4);
 
   private final ChangeBase changeBase = new ChangeBase(m_pneumatic);
   private final ChangeIntake changeIntake = new ChangeIntake(m_pneumatic);
@@ -132,13 +132,19 @@ public class RobotContainer {
  
   }
 
+  private void configureButtonBindings() {
+    logger.info("configure Button Bindings!");
+    
+    m_coButton2.whenHeld(autoAimdCommand);
+  }
+
   /**
    * Use this method to define your button->command mappings.  Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {
+  private void configureButtonBindings_test() {
 
     logger.info("configureButtonBindings");
 
