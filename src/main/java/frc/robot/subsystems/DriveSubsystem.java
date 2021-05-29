@@ -92,7 +92,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void ArcadeDrive(double forward, double rotation) {
-    m_diff.arcadeDrive(deadband(forward), rotationScale(deadband(rotation)), true);
+    m_diff.arcadeDrive(reverseBase*deadband(forward), reverseBase*rotationScale(deadband(rotation)), true);
   }
 
   public double deadband(double input) {
