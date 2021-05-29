@@ -149,8 +149,9 @@ public class RobotContainer {
     // Climber Sets
     // m_leftButton1.whenHeld(new InstantCommand(m_intake::intakeStart, m_intake)).whenReleased(new InstantCommand(m_intake::intakeStop, m_intake));
 
-    m_leftButton1.whenPressed(new InstantCommand(m_hopper::hopperStart, m_hopper)).whenReleased(new InstantCommand(m_hopper::hopperStop,m_hopper));
-    m_leftButton1.whenPressed(new InstantCommand(m_hopper::hopperStart, m_hopper)).whenReleased(new InstantCommand(m_hopper::hopperStop,m_hopper));
+    m_leftButton1.whenPressed(new InstantCommand(m_hopper::hopperStart, m_hopper)).whenReleased(new InstantCommand(m_drive::stopMotor, m_drive));
+    m_leftButton3.whenPressed(new InstantCommand(m_drive::leftTrainClimb, m_drive)).whenReleased(new InstantCommand(m_drive::stopMotor, m_drive));
+    m_leftButton4.whenPressed(new InstantCommand(m_drive::rightTrainClimb, m_drive)).whenReleased(new InstantCommand(m_drive::stopMotor, m_drive));
 
     m_leftButton5.whenPressed(new ChangeClimber(m_pneumatic, PneuStatus.kClimberUp));
     m_leftButton13.whenPressed(new ChangeClimber(m_pneumatic));
