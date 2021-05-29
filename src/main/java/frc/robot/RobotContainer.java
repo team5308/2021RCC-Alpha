@@ -92,6 +92,7 @@ public class RobotContainer {
   private JoystickButton m_coButton3 = new JoystickButton(m_rightJoy,3);
   private JoystickButton m_coButton4 = new JoystickButton(m_rightJoy,4);
   private JoystickButton m_coButton14 = new JoystickButton(m_rightJoy,14);
+  private JoystickButton m_coButton15 = new JoystickButton(m_rightJoy,15);
 
   private final ChangeBase changeBase = new ChangeBase(m_pneumatic);
   private final ChangeIntake changeIntake = new ChangeIntake(m_pneumatic);
@@ -108,7 +109,7 @@ public class RobotContainer {
   private final ChangeLock setLockRelease = new ChangeLock(m_pneumatic, PneuStatus.kClimberRelease);
 
   // Autonomous command
-  private final AutoLinearDrive m_straight = new AutoLinearDrive(m_drive, 100);
+  private final AutoLinearDrive m_straight = new AutoLinearDrive(m_drive, 50);
   private final AutoRotate m_rotate = new AutoRotate(m_drive, 45);
 
   // private final ParallelCommandGroup setClimberStatus = new ParallelCommandGroup(
@@ -149,6 +150,9 @@ public class RobotContainer {
     // Climber Sets
     // m_leftButton1.whenHeld(new InstantCommand(m_intake::intakeStart, m_intake)).whenReleased(new InstantCommand(m_intake::intakeStop, m_intake));
 
+    m_leftButton1.whenPressed(new InstantCommand(m_hopper::hopperStart, m_hopper)).whenReleased(new InstantCommand(m_hopper::hopperStop,m_hopper));
+    m_leftButton1.whenPressed(new InstantCommand(m_hopper::hopperStart, m_hopper)).whenReleased(new InstantCommand(m_hopper::hopperStop,m_hopper));
+
     m_leftButton5.whenPressed(new ChangeClimber(m_pneumatic, PneuStatus.kClimberUp));
     m_leftButton13.whenPressed(new ChangeClimber(m_pneumatic));
     m_leftButton12.whenPressed(new ChangeLock(m_pneumatic));
@@ -156,7 +160,9 @@ public class RobotContainer {
     m_leftButton14.whenPressed(changeIntake);
     
     m_coButton1.whenPressed(new InstantCommand(m_hopper::hopperStart, m_hopper)).whenReleased(new InstantCommand(m_hopper::hopperStop,m_hopper));
+    
     m_coButton14.whenHeld(m_feederWork);
+    m_coButton15.whenHeld(new InstantCommand(m_feeder::feederReverseWork, m_feeder)).whenReleased(new InstantCommand(m_feeder::feederStop, m_feeder));
     m_coButton2.whenHeld(autoAimdCommand); 
 
     m_coButton3.whenHeld(new InstantCommand(m_turret::turnLeft, m_turret)).whenReleased(new InstantCommand(m_turret::stopMotor, m_turret));
@@ -206,7 +212,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return m_straight;
   }
 
   public void teleopInit() {

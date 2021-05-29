@@ -32,7 +32,7 @@ public class Turret extends SubsystemBase {
   private double setpoint = 0;
 
   private double kP = 0.07; 
-  private double kI = 0.0003;
+  private double kI = 0.0004;
   private double kD = 240;
   private double kF = 0;
   int kI_Zone = 900000;

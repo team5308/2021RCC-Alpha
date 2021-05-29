@@ -191,4 +191,14 @@ public class DriveSubsystem extends SubsystemBase {
     m_rightMotorFront.stopMotor();
     m_rightMotorBack.stopMotor();
   }
+
+  public void leftTrainClimb() {
+    m_leftMotorFront.set(ControlMode.PercentOutput, 0.4);
+    m_leftMotorBack.set(ControlMode.PercentOutput, 0.4);
+  }
+
+  public void rightTrainClimb() {
+    m_rightMotorFront.set(ControlMode.PercentOutput, 0.4);
+    m_rightMotorBack.set(ControlMode.PercentOutput, 0.4);
+  }
 }

@@ -11,7 +11,6 @@ import frc.robot.subsystems.Shooter;
 public class FeederWorkCommand extends CommandBase {
   
   public Feeder m_feeder;
-  public Shooter m_shooter;
 
   public FeederWorkCommand(Feeder p_feeder) {
     addRequirements(p_feeder);

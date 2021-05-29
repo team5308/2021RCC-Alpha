@@ -13,8 +13,9 @@ public class AutoLinearDrive extends CommandBase {
   /** Creates a new AutoLinearDrive. */
   private DriveSubsystem m_drive;
   private double m_targetDist;
-  private double m_accEncoderRotation;
+  private int m_accEncoderRotation;
   private int initEncoderReadings;
+  private int targetEncoder;
 
   private Logger logger = Logger.getLogger("frc.auto");
   // set distance in centimeter
@@ -23,33 +24,35 @@ public class AutoLinearDrive extends CommandBase {
     addRequirements(p_drive);
     m_drive = p_drive;
     m_targetDist = p_dist;
+    targetEncoder = (int) m_drive.rawLengthToEncoder(m_targetDist);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     initEncoderReadings = m_drive.getBaseEncoderReading();
-    m_accEncoderRotation = 0;
+    m_accEncoderRotation = m_drive.getBaseEncoderReading() - initEncoderReadings;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_accEncoderRotation = Math.abs(m_drive.getBaseEncoderReading() - initEncoderReadings);
-    m_drive.ArcadeDrive(Math.copySign(0.2, m_targetDist), 0);
+    m_accEncoderRotation = m_drive.getBaseEncoderReading() - initEncoderReadings;
+    m_drive.ArcadeDrive(Math.copySign(0.4, m_targetDist), 0);
   }
 
   // Called once the command ends or is interrupted.
   @Override
 
   public void end(boolean interrupted) {
-    m_drive.stopMotor();
+    m_drive.ArcadeDrive(0, 0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(m_drive.encoderToRawLength(m_accEncoderRotation) - Math.abs(m_targetDist) < 0.1) {
+    logger.info(String.format("Target: %d, curPos: %d init:", targetEncoder, m_accEncoderRotation));
+    if (Math.abs(m_accEncoderRotation) - Math.abs(targetEncoder) < 10) {
       return true;
     }
     return false;

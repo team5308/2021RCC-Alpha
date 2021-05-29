@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Turret;
@@ -12,7 +13,7 @@ public class ShooterSetSpeed extends CommandBase {
   private Shooter m_shooter;
   private Turret m_turret;
   private double m_speed;
-  private int m_duration;
+  private int m_duration = 0;
   public ShooterSetSpeed(Shooter p_shooter, Turret p_turret) {
     addRequirements(p_shooter);
     // addRequirements(p_turret);
@@ -42,6 +43,7 @@ public class ShooterSetSpeed extends CommandBase {
   @Override
   public void execute() {
     m_shooter.setVelocity(m_speed);
+    Timer.delay(m_duration);
     // m_shooter.getCurrent();
   }
 

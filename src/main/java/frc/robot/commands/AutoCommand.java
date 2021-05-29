@@ -19,25 +19,27 @@ public class AutoCommand extends SequentialCommandGroup {
   /** Creates a new AutoCommand. */
   private double line1 = 100;
 
-  private static Intake m_intake;
-  private static PneumaticSubsystem m_pneumatic;
-  private static DriveSubsystem m_drive;
-  private static Turret m_turret;
-  private static Vision m_vision;
-  private static Shooter m_shooter;
+  private final Intake m_intake;
+  private final PneumaticSubsystem m_pneumatic;
+  private final DriveSubsystem m_drive;
+  private final Turret m_turret;
+  private final Vision m_vision;
+  private final Shooter m_shooter;
+  private final Hopper m_hopper;
+  private final Feeder m_feeder;
 
 
-
-  public AutoCommand(Intake p_intake, PneumaticSubsystem p_pneumatic, DriveSubsystem p_drive, Vision p_vision, Shooter p_shooter) {
+  public AutoCommand(Turret p_turret, Intake p_intake, PneumaticSubsystem p_pneumatic, DriveSubsystem p_drive, Vision p_vision, Shooter p_shooter, Hopper p_hopper, Feeder p_feeder) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addRequirements(p_intake);
-    addRequirements(p_pneumatic);
+    m_turret = p_turret;
     m_intake = p_intake;
     m_pneumatic = p_pneumatic;
     m_drive = p_drive;
     m_vision = p_vision;
     m_shooter = p_shooter;
+    m_hopper = p_hopper;
+    m_feeder = p_feeder;
 
     // addCommands(
     //   new TurretAimCommand(m_turret, m_vision),
@@ -47,6 +49,9 @@ public class AutoCommand extends SequentialCommandGroup {
     //   new AutoForwjrd(m_drive, line1)
     // );
     // addCommands(new TurretAimCommand(m_turret, m_vision));
-    addCommands(new AutoLinearDrive(m_drive, 50));
+    addCommands(new AutoLockAndDropIntake(m_turret, m_pneumatic, m_vision),
+                new AutoShooterFire(m_shooter, m_hopper, m_feeder),
+                new AutoDriveAndIntake(m_drive, m_intake));
+                
   }
 }
