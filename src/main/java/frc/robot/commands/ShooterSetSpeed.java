@@ -12,16 +12,11 @@ public class ShooterSetSpeed extends CommandBase {
   private Shooter m_shooter;
   private Turret m_turret;
   private double m_speed;
-  public ShooterSetSpeed(Shooter p_shooter, Turret p_turret, double p_speed) {
+  public ShooterSetSpeed(Shooter p_shooter, Turret p_turret) {
     addRequirements(p_shooter);
     // addRequirements(p_turret);
     m_shooter = p_shooter;
     // m_turret = p_turret;
-    m_speed = p_speed;
-  }
-
-  public ShooterSetSpeed(Shooter p_shooter, Turret p_turret) {
-    this(p_shooter, p_turret, 4000);
   }
 
   // Called when the command is initially scheduled.
@@ -31,9 +26,7 @@ public class ShooterSetSpeed extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooter.setWorkMode();
-    m_shooter.showShutdownMode();
-    m_shooter.setVelocity(m_speed);
+    m_shooter.setVelocity(m_shooter.getTargetSpeed());
     // m_shooter.getCurrent();
   }
 
@@ -41,8 +34,6 @@ public class ShooterSetSpeed extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_shooter.stopMotor();
-    m_shooter.setShutMode();
-    m_shooter.showShutdownMode();
   }
 
   // Returns true when the command should end.

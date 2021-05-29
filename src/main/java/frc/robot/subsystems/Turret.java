@@ -61,7 +61,7 @@ public class Turret extends SubsystemBase {
     m_turret_motor.config_kF(0, kF);
     m_turret_motor.config_IntegralZone(0, kI_Zone);
     m_turret_motor.configMaxIntegralAccumulator(0, kMaxIAccum);
-    m_turret_motor.configClosedLoopPeakOutput(0, 0.2);
+    m_turret_motor.configClosedLoopPeakOutput(0, 0.3);
 
     zeroAngle();
     zeroTurretEncoder();
@@ -70,7 +70,7 @@ public class Turret extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    if((new JoystickButton(new Joystick(0), 15)).get()) {
+    if(false && (new JoystickButton(new Joystick(0), 15)).get()) {
       double kp = SmartDashboard.getNumber("KPPP", 0);
       double ki = SmartDashboard.getNumber("KIII", 0);
       double kd = SmartDashboard.getNumber("KDDD", 0);

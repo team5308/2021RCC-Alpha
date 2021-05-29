@@ -39,12 +39,13 @@ public class AutoCommand extends SequentialCommandGroup {
     m_vision = p_vision;
     m_shooter = p_shooter;
 
-    addCommands(
-      new TurretAimCommand(m_turret, m_vision),
-      new ShooterSetSpeed(m_shooter, m_turret),
+    // addCommands(
+    //   new TurretAimCommand(m_turret, m_vision),
+    //   new ShooterSetSpeed(m_shooter, m_turret),
 
-      new ChangeIntake(m_pneumatic, PneuStatus.kIntakeRelease),
-      new AutoForward(m_drive, line1)
-    );
+    //   new ChangeIntake(m_pneumatic, PneuStatus.kIntakeRelease),
+    //   new AutoForward(m_drive, line1)
+    // );
+    addCommands(new TurretAimCommand(m_turret, m_vision));
   }
 }

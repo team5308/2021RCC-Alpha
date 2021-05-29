@@ -85,6 +85,7 @@ public class RobotContainer {
   private JoystickButton m_leftButton11 = new JoystickButton(m_leftJoy, 11);
   private JoystickButton m_leftButton12 = new JoystickButton(m_leftJoy, 12);
   private JoystickButton m_leftButton13 = new JoystickButton(m_leftJoy, 13);
+  private JoystickButton m_leftButton14 = new JoystickButton(m_leftJoy, 14);
 
   private JoystickButton m_coButton1 = new JoystickButton(m_rightJoy,1);
   private JoystickButton m_coButton2 = new JoystickButton(m_rightJoy,2);
@@ -141,13 +142,16 @@ public class RobotContainer {
     m_leftButton1.whenHeld(m_intakeCommand);
 
     // Climber Sets
+    m_leftButton1.whenHeld(new InstantCommand(m_intake::intakeStart, m_intake)).whenReleased(new InstantCommand(m_intake::intakeStop, m_intake));
+
     m_leftButton5.whenPressed(new ChangeClimber(m_pneumatic, PneuStatus.kClimberUp));
     m_leftButton13.whenPressed(new ChangeClimber(m_pneumatic));
     m_leftButton12.whenPressed(new ChangeLock(m_pneumatic));
     m_leftButton11.whenPressed(new ChangeBase(m_pneumatic));
+    m_leftButton14.whenPressed(changeIntake);
     
     m_coButton1.whenPressed(new InstantCommand(m_hopper::hopperStart, m_hopper)).whenReleased(new InstantCommand(m_hopper::hopperStop,m_hopper));
-    m_coButton1.whenHeld(m_feederWork);
+    m_coButton3.whenHeld(m_feederWork);
     m_coButton2.whenHeld(autoAimdCommand); 
   }
 
@@ -166,12 +170,12 @@ public class RobotContainer {
     m_leftButton3.whenHeld(changeIntake);
     m_leftButton4.whenHeld(new InstantCommand(m_intake::intakeStart, m_intake)).whenReleased(new InstantCommand(m_intake::intakeStop, m_intake));
 
-    m_leftButton11.whenHeld(autoAimdCommand);
-    // m_leftButton1.whenHeld(m_feederWork);
+    m_coButton1.whenHeld(m_feederWork);
+    m_coButton2.whenHeld(autoAimdCommand);
     
-    m_leftButton5.whenPressed(changeBase);
+    m_leftButton11.whenPressed(changeBase);
     m_leftButton6.whenPressed(changeClimber);
-    m_leftButton7.whenPressed(changeIntake);
+    m_leftButton14.whenPressed(changeIntake);
     // m_leftButton2.whenPressed(new InstantCommand(m_pneumatic::changeClimberOutput, m_pneumatic));
     // m_leftButton3.whenPressed(new InstantCommand(m_pneumatic::changeLockOutput,m_pneumatic));
     
@@ -181,10 +185,10 @@ public class RobotContainer {
     
     // m_leftButton3.whenPressed(new InstantCommand(m_pneumatic::changeIntakeOutput,m_pneumatic));    
     //TODO Minus sign delete or not?
-    m_leftButton1.whenHeld(new ShooterSetSpeed(m_shooter, m_turret, -6000));// minus sign?
+    m_coButton2.whenHeld(autoAimdCommand);// minus sign?
     // m_leftButton1.whenHeld(new InstantCommand(m_turret::turnLeft, m_turret)).whenReleased(new InstantCommand(m_turret::stopMotor, m_turret));
     // m_leftButton3.whenHeld(new InstantCommand(m_turret::turnRight, m_turret)).whenReleased(new InstantCommand(m_turret::stopMotor, m_turret));
-    m_leftButton1.whenHeld(new FeederWorkCommand(m_feeder));
+    // m_leftButton1.whenHeld(new FeederWorkCommand(m_feeder));
   }
 
   /**

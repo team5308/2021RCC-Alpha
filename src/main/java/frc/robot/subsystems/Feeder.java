@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanId;
@@ -16,6 +17,8 @@ public class Feeder extends SubsystemBase {
 
   private VictorSPX m_feeder_tvictor_left = new VictorSPX(CanId.MOTOR_FEEDER_LEFT);
   private VictorSPX m_feeder_tvictor_right = new VictorSPX(CanId.MOTOR_FEEDER_RIGHT);
+
+  private Joystick m_rightJoy = new Joystick(1);
 
   double kfeederSpeed = 1;
 
@@ -42,6 +45,11 @@ public class Feeder extends SubsystemBase {
   public void feederStop(){
     m_feeder_tvictor_left.set(ControlMode.PercentOutput, 0);
     m_feeder_tvictor_right.set(ControlMode.PercentOutput, 0);
+  }
+
+  public void feederReverseWork() {
+    m_feeder_tvictor_left.set(ControlMode.PercentOutput, -kfeederSpeed);
+    m_feeder_tvictor_right.set(ControlMode.PercentOutput, -kfeederSpeed);
   }
 
   public void setSpeed(double feederSpeed){

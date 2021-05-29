@@ -17,6 +17,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -32,7 +33,7 @@ import frc.robot.Constants.Converters;
 
 @SuppressWarnings({ "all" })
 public class Shooter extends SubsystemBase {
-  private double targetSpeed;
+  private double targetSpeed = 6000;
   private double targetAngle;
 
   private boolean shutdownmode;
@@ -45,6 +46,8 @@ public class Shooter extends SubsystemBase {
   private final WPI_TalonFX m_tfx_shooter_right = new WPI_TalonFX(Constants.CanId.MOTOR_SHOOTER_RIGHT);
 
   private TalonFXConfiguration configWheel = new TalonFXConfiguration();
+
+  private Joystick m_rightJoy = new Joystick(1);
 
   // private final PIDController shooterPID = new
   // PIDController(ShooterConstants.kP, ShooterConstants.kI, ShooterConstants.kD);
@@ -65,6 +68,11 @@ public class Shooter extends SubsystemBase {
   public void periodic() {
     configShooterFX(shutdownmode);
     outputRPM();
+    if (m_rightJoy.getY() < -0.7) {
+      setVelocity(targetSpeed);
+    } else {
+      stopMotor();
+    }
   }
 
   public void setWorkMode() {
@@ -90,6 +98,11 @@ public class Shooter extends SubsystemBase {
 
   public double getTargetSpeed() {
     return targetSpeed;
+  }
+
+  // TODO: interface -> set target speed for the shooter / data from vision calculation
+  public void setTargetSpeed(double p_targetSpeed) {
+    targetSpeed = p_targetSpeed;
   }
 
   public void setPower(double power) {

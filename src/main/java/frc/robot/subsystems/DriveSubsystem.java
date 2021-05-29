@@ -85,6 +85,7 @@ public class DriveSubsystem extends SubsystemBase {
     double leftv = m_leftMotorFront.get();
     double rightv = m_rightMotorFront.get();
     // logger.info(String.format("l: %.2f r: %.2f\n", leftv, rightv));
+    // System.out.println(m_leftMotorFront.getSelectedSensorVelocity());
   }
 
   public void TankDrive(double leftPower, double rightPower) {

@@ -8,13 +8,17 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanId;
 
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
 public class Hopper extends SubsystemBase {
 
   private double khopperSpeed;
+  private Joystick m_rightJoy = new Joystick(1);
 
   private VictorSPX m_hopper_motor = new VictorSPX(CanId.MOTOR_HOPPER);
 
@@ -33,6 +37,7 @@ public class Hopper extends SubsystemBase {
     // if (hopperSpeed != khopperSpeed) {
     //   setSpeed(hopperSpeed);
     // }
+
   }
 
   private void setSpeed(double newSpeed){
@@ -45,5 +50,9 @@ public class Hopper extends SubsystemBase {
 
   public void hopperStop(){
     m_hopper_motor.set(ControlMode.PercentOutput, 0);
+  }
+
+  public void hopperReverseStart() {
+    m_hopper_motor.set(ControlMode.PercentOutput, -khopperSpeed);
   }
 }
