@@ -93,6 +93,8 @@ public class PneumaticSubsystem extends SubsystemBase {
       setClimberOutput(PneuStatus.kClimberUp);
     } else if(m_climberValue == PneuStatus.kClimberUp) {
       setClimberOutput(PneuStatus.kClimberDown);
+    } else {
+      setClimberOutput(PneuStatus.kClimberUp);
     }
   }
 

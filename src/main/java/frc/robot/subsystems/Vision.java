@@ -54,7 +54,7 @@ public class Vision extends SubsystemBase {
     private double dist;
     private double constant;
 
-    public solveParameters() {
+    public void solveParameters() {
       dist = getTargetDistance();
       constant = Math.pow(2.0 * gravity * target_height, 0.5);
       setSpeed = 3500.0;

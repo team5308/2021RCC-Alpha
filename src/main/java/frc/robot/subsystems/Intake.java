@@ -20,7 +20,7 @@ public class Intake extends SubsystemBase {
   private VictorSPX m_intake_motor = new VictorSPX(CanId.MOTOR_INTAKE);
 
   public Intake() {
-    kintakeSpeed = 0.5;
+    kintakeSpeed = 0.8;
 
     m_intake_motor.setNeutralMode(NeutralMode.Coast);
     m_intake_motor.setInverted(true);
