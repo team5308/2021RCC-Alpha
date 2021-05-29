@@ -7,15 +7,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.subsystems.*;
-
-
-public class AutoShoot extends CommandBase {
-  /** Creates a new AutoShoot. */
-  Shooter m_shooter;
-
-  public AutoShoot() {
+public class Delay extends CommandBase {
+  /** Creates a new Delay. */
+  private final int m_seconds;
+  public Delay(int p_seconds) {
     // Use addRequirements() here to declare subsystem dependencies.
+    m_seconds = p_seconds;
   }
 
   // Called when the command is initially scheduled.
@@ -24,7 +21,9 @@ public class AutoShoot extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    Timer.delay(m_seconds);
+  }
 
   // Called once the command ends or is interrupted.
   @Override

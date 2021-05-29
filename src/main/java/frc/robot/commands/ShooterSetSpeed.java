@@ -12,21 +12,36 @@ public class ShooterSetSpeed extends CommandBase {
   private Shooter m_shooter;
   private Turret m_turret;
   private double m_speed;
+  private int m_duration;
   public ShooterSetSpeed(Shooter p_shooter, Turret p_turret) {
     addRequirements(p_shooter);
     // addRequirements(p_turret);
     m_shooter = p_shooter;
+    m_speed = 5000;
     // m_turret = p_turret;
   }
 
-  // Called when the command is initially scheduled.
+  public ShooterSetSpeed(Shooter p_shooter, Turret p_turret, boolean useTargetSpeed) {
+    addRequirements(p_shooter);
+    m_shooter = p_shooter;
+    m_speed = m_shooter.getTargetSpeed();
+  }
+
+  public ShooterSetSpeed(Shooter p_shooter, int p_duration) {
+    addRequirements(p_shooter);
+    m_shooter = p_shooter;
+    m_speed = m_shooter.getTargetSpeed();
+    m_duration = p_duration;
+  }
+
+  // Called when the command is initially schedulÍed.
   @Override
   public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_shooter.setVelocity(m_shooter.getTargetSpeed());
+    m_shooter.setVelocity(m_speed);
     // m_shooter.getCurrent();
   }
 

@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import java.util.logging.Logger;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -13,6 +15,8 @@ public class AutoLinearDrive extends CommandBase {
   private double m_targetDist;
   private double m_accEncoderRotation;
   private int initEncoderReadings;
+
+  private Logger logger = Logger.getLogger("frc.auto");
   // set distance in centimeter
   public AutoLinearDrive(DriveSubsystem p_drive, double p_dist) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -32,9 +36,7 @@ public class AutoLinearDrive extends CommandBase {
   @Override
   public void execute() {
     m_accEncoderRotation = Math.abs(m_drive.getBaseEncoderReading() - initEncoderReadings);
-    while (m_drive.encoderToRawLength(m_accEncoderRotation) - Math.abs(m_targetDist) > 0.01) {
-      m_drive.ArcadeDrive(Math.copySign(0.3, m_targetDist), 0);
-    }
+    m_drive.ArcadeDrive(Math.copySign(0.2, m_targetDist), 0);
   }
 
   // Called once the command ends or is interrupted.
@@ -47,6 +49,9 @@ public class AutoLinearDrive extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if(m_drive.encoderToRawLength(m_accEncoderRotation) - Math.abs(m_targetDist) < 0.1) {
+      return true;
+    }
     return false;
   }
 }
