@@ -33,14 +33,16 @@ public class AutoLinearDrive extends CommandBase {
   public void execute() {
     m_accEncoderRotation = Math.abs(m_drive.getBaseEncoderReading() - initEncoderReadings);
     while (m_drive.encoderToRawLength(m_accEncoderRotation) - Math.abs(m_targetDist) > 0.01) {
-      m_drive.ArcadeDrive(Math.copySign(0.5, m_targetDist), 0);
+      m_drive.ArcadeDrive(Math.copySign(0.3, m_targetDist), 0);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
 
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_drive.stopMotor();
+  }
 
   // Returns true when the command should end.
   @Override

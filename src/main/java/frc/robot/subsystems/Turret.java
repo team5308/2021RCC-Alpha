@@ -136,12 +136,12 @@ public class Turret extends SubsystemBase {
 
   public void turnLeft()
   {
-    m_turret_motor.set(ControlMode.PercentOutput, 0.3);
+    m_turret_motor.set(ControlMode.PercentOutput, 0.2);
   }
 
   public void turnRight()
   {
-    m_turret_motor.set(ControlMode.PercentOutput, -0.3);
+    m_turret_motor.set(ControlMode.PercentOutput, -0.2);
   }
 
   public void stopMotor(){

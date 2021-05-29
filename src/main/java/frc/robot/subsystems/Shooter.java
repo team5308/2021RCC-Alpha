@@ -62,6 +62,7 @@ public class Shooter extends SubsystemBase {
 
     m_tfx_shooter_left.configAllSettings(configWheel);
     m_tfx_shooter_right.configAllSettings(configWheel);
+    SmartDashboard.putNumber("vshooter", targetSpeed);
   }
 
   @Override
@@ -69,10 +70,11 @@ public class Shooter extends SubsystemBase {
     configShooterFX(shutdownmode);
     outputRPM();
     if (m_rightJoy.getY() < -0.7) {
-      setVelocity(targetSpeed);
+      setVelocity(-targetSpeed);
     } else {
       stopMotor();
     }
+    targetSpeed = SmartDashboard.getNumber("vshooter", 4000);
   }
 
   public void setWorkMode() {

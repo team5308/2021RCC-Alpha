@@ -18,12 +18,14 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.CanId;
 import frc.robot.Constants.Deadband;
 import frc.robot.commands.TurretAimCommand;
@@ -51,6 +53,10 @@ public class DriveSubsystem extends SubsystemBase {
   private final double WHEEL_DIAMETER = 5 * 2.54;
   private final double WHEEL_PERIMETER = Math.PI * WHEEL_DIAMETER;
   private final double ENCODER_RESOLUTION = 2048;
+
+  private final JoystickButton main_btn1 = new JoystickButton(new Joystick(0), 1);
+
+  private double kfactor = 1.0;
 
   private final Logger logger = Logger.getLogger("frc.subsystems.drive");
 
@@ -86,6 +92,12 @@ public class DriveSubsystem extends SubsystemBase {
     double rightv = m_rightMotorFront.get();
     // logger.info(String.format("l: %.2f r: %.2f\n", leftv, rightv));
     // System.out.println(m_leftMotorFront.getSelectedSensorVelocity());
+    if(main_btn1.get()) {
+      kfactor = 0.7;
+    }
+    else {
+      kfactor = 1.0;
+    }
   }
 
   public void TankDrive(double leftPower, double rightPower) {
@@ -93,7 +105,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void ArcadeDrive(double forward, double rotation) {
-    m_diff.arcadeDrive(reverseBase*deadband(forward), reverseBase*rotationScale(deadband(rotation)), true);
+    m_diff.arcadeDrive(kfactor * reverseBase*deadband(forward), reverseBase*rotationScale(deadband(rotation)), true);
   }
 
   public double deadband(double input) {
@@ -173,4 +185,10 @@ public class DriveSubsystem extends SubsystemBase {
     reverseBase *= -1;
   }
 
+  public void stopMotor() {
+    m_leftMotorFront.stopMotor();
+    m_leftMotorBack.stopMotor();
+    m_rightMotorFront.stopMotor();
+    m_rightMotorBack.stopMotor();
+  }
 }
