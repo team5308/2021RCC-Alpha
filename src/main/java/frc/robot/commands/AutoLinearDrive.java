@@ -23,7 +23,7 @@ public class AutoLinearDrive extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(p_drive);
     m_drive = p_drive;
-    m_targetDist = p_dist;
+    m_targetDist = p_dist;                                        
     targetEncoder = (int) m_drive.rawLengthToEncoder(m_targetDist);
   }
 
@@ -52,7 +52,7 @@ public class AutoLinearDrive extends CommandBase {
   @Override
   public boolean isFinished() {
     logger.info(String.format("Target: %d, curPos: %d init:", targetEncoder, m_accEncoderRotation));
-    if (Math.abs(m_accEncoderRotation) - Math.abs(targetEncoder) < 10) {
+    if (Math.abs(m_accEncoderRotation) > Math.abs(targetEncoder)) {
       return true;
     }
     return false;

@@ -144,7 +144,6 @@ public class RobotContainer {
   private void configureButtonBindings() {
     logger.info("configure Button Bindings!");
 
-
     m_leftButton1.whenHeld(m_intakeCommand);
 
     // Climber Sets
