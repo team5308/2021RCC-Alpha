@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.*;
 
-public class DriveForwardCommand extends CommandBase {
+public class AutoForward extends CommandBase {
   /** Creates a new DriveForwardCommand. */
   private static DriveSubsystem m_drive;
   private double length;
@@ -19,7 +19,7 @@ public class DriveForwardCommand extends CommandBase {
   //encoder unit per 2048
   double allowedErrorRange = 10;
 
-  public DriveForwardCommand(DriveSubsystem p_drive, double lengthCm) {
+  public AutoForward(DriveSubsystem p_drive, double lengthCm) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(p_drive);
     m_drive = p_drive;

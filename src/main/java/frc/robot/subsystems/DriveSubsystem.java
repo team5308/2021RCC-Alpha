@@ -49,6 +49,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   //wheel diameter in centimeter
   private final double WHEEL_DIAMETER = 5 * 2.54;
+  private final double WHEEL_PERIMETER = Math.PI * WHEEL_DIAMETER;
   private final double ENCODER_RESOLUTION = 2048;
 
   private final Logger logger = Logger.getLogger("frc.subsystems.drive");
@@ -102,6 +103,10 @@ public class DriveSubsystem extends SubsystemBase {
     return Math.abs(rotation) > 0.6 ? Math.copySign(0.6, rotation) : rotation;
   }
 
+  public int getBaseEncoderReading() {
+    return m_leftMotorFront.getSelectedSensorPosition();
+  }
+
   // TODO: tune the PID openloop ramp for the base
   private void configBaseFX() {
     configDrive.slot1.kP = 0.04;
@@ -115,11 +120,11 @@ public class DriveSubsystem extends SubsystemBase {
     m_navX.reset();
   }
 
-  public double getGyro() {
+  public double getGyroAngle() {
     return Math.IEEEremainder(Math.round(m_navX.getAngle() * 100) / 100, 360);
   }
 
-  public double getRawGyro() {
+  public double getRawGyroAngle() {
     return m_navX.getAngle();
   }
 
@@ -143,17 +148,14 @@ public class DriveSubsystem extends SubsystemBase {
     return m_rightMotorFront.getSelectedSensorVelocity();
   }
 
-  public void sensorUpdate() {
-  }
-
-  public double encoderToRawLength(double encoderPosChange){
-    double length = encoderPosChange/ENCODER_RESOLUTION * WHEEL_DIAMETER;
+  public double encoderToRawLength(double encoderValue){
+    double length = encoderValue/ENCODER_RESOLUTION * WHEEL_PERIMETER;
     return length;
   }
 
   //length should be in units of cm!!!
-  public double rawLengthToEncoder(double rawLengthChange){
-    double encoderPos = rawLengthChange/WHEEL_DIAMETER * ENCODER_RESOLUTION;
+  public int rawLengthToEncoder(double rawLengthChange){
+    int encoderPos = (int) (rawLengthChange/WHEEL_PERIMETER * ENCODER_RESOLUTION);
     return encoderPos;
   }
 
@@ -167,7 +169,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void reverseBase() {
-
+    reverseBase *= -1;
   }
 
 }
