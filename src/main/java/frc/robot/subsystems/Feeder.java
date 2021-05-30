@@ -55,4 +55,9 @@ public class Feeder extends SubsystemBase {
   public void setSpeed(double feederSpeed){
     kfeederSpeed = feederSpeed;
   }
+
+  public boolean ready()
+  {
+    return SmartDashboard.getBoolean("Ready", true);
+  }
 }

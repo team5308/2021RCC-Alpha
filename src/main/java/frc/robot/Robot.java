@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -24,6 +25,9 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
   private static Logger logger = Logger.getLogger("frc.Robot");
+
+  private static int timercount = 0;
+  private static boolean runAuto = false;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -72,9 +76,10 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     logger.info("autonomousInit");
+    runAuto = true;
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
     // schedule the autonomous command (example)
+    timercount++;
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
@@ -85,6 +90,17 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    timercount++;
+    if (runAuto && timercount >= 500) {
+      runAuto = false;
+      if (m_autonomousCommand != null) {
+        m_autonomousCommand.schedule();
+      }
+
+    }
+    if (timercount >= 500 && timercount <= 600) {
+      m_robotContainer.m_drive.ArcadeDrive(0.4, 0);
+    }
   }
 
   @Override

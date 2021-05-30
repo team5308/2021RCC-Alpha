@@ -55,8 +55,15 @@ public class DriveSubsystem extends SubsystemBase {
   private final double ENCODER_RESOLUTION = 2048;
 
   private final JoystickButton main_btn1 = new JoystickButton(new Joystick(0), 1);
+  private final JoystickButton main_btn3 = new JoystickButton(new Joystick(0), 3);
+  private final JoystickButton main_btn4 = new JoystickButton(new Joystick(0), 4);
+
 
   private double kfactor = 1.0;
+
+  private boolean climbing_left = false;
+  private boolean climbing_right = false;
+
 
   private final Logger logger = Logger.getLogger("frc.subsystems.drive");
 
@@ -98,6 +105,25 @@ public class DriveSubsystem extends SubsystemBase {
     else {
       kfactor = 1.0;
     }
+
+    if(main_btn3.get()) {
+      leftTrainClimb();
+      climbing_left = true;
+    } else {
+      if (climbing_left) {
+        leftTrainStop();
+        climbing_left = false;
+      }
+    }
+    if (main_btn4.get()) {
+      rightTrainClimb();
+      climbing_right = true;
+    } else {
+      if (climbing_right) {
+        rightTrainStop();
+        climbing_right = false;
+      }
+    }
   }
 
   public void TankDrive(double leftPower, double rightPower) {
@@ -126,7 +152,7 @@ public class DriveSubsystem extends SubsystemBase {
     configDrive.slot1.kI = 0;
     configDrive.slot1.kD = 0;
     configDrive.slot1.kF = 0;
-    configDrive.openloopRamp = 1;
+    configDrive.openloopRamp = 0;
   }
 
   public void resetGyro() {
@@ -193,12 +219,22 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void leftTrainClimb() {
-    m_leftMotorFront.set(ControlMode.PercentOutput, 0.4);
-    m_leftMotorBack.set(ControlMode.PercentOutput, 0.4);
+    m_leftMotorFront.set(ControlMode.PercentOutput, -0.8);
+    m_leftMotorBack.set(ControlMode.PercentOutput, -0.8);
   }
 
   public void rightTrainClimb() {
-    m_rightMotorFront.set(ControlMode.PercentOutput, 0.4);
-    m_rightMotorBack.set(ControlMode.PercentOutput, 0.4);
+    m_rightMotorFront.set(ControlMode.PercentOutput, 0.8);
+    m_rightMotorBack.set(ControlMode.PercentOutput, 0.8);
+  }
+
+  public void leftTrainStop() {
+    m_leftMotorFront.stopMotor();
+    m_leftMotorBack.stopMotor();
+  }
+
+  public void rightTrainStop() {
+    m_rightMotorFront.stopMotor();
+    m_rightMotorBack.stopMotor();
   }
 }

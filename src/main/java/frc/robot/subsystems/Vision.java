@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Vision extends SubsystemBase {
@@ -39,6 +40,8 @@ public class Vision extends SubsystemBase {
     tV = table.getEntry("tv");
     ledMode = table.getEntry("ledMode");
     camMode = table.getEntry("camMode");
+
+    SmartDashboard.putNumber("AutoAim", 0);
   }
 
   @Override

@@ -41,17 +41,10 @@ public class AutoCommand extends SequentialCommandGroup {
     m_hopper = p_hopper;
     m_feeder = p_feeder;
 
-    // addCommands(
-    //   new TurretAimCommand(m_turret, m_vision),
-    //   new ShooterSetSpeed(m_shooter, m_turret),
-
-    //   new ChangeIntake(m_pneumatic, PneuStatus.kIntakeRelease),
-    //   new AutoForwjrd(m_drive, line1)
-    // );
-    // addCommands(new TurretAimCommand(m_turret, m_vision));
-    addCommands(new AutoLockAndDropIntake(m_turret, m_pneumatic, m_vision),
-                new AutoShooterFire(m_shooter, m_hopper, m_feeder),
-                new AutoDriveAndIntake(m_drive, m_intake));
+    //new AutoLockAndDropIntake(m_turret, m_pneumatic, m_vision),
+    addCommands(new AutoShooterFire(m_drive, m_turret, m_vision, m_shooter, m_hopper, m_feeder),   
+                new LeaveLine(m_drive)
+                );
                 
   }
 }

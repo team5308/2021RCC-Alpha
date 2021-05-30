@@ -33,10 +33,11 @@ import frc.robot.Constants.Converters;
 
 @SuppressWarnings({ "all" })
 public class Shooter extends SubsystemBase {
-  private double targetSpeed = 6000;
+  private double targetSpeed = 6200;
   private double targetAngle;
 
   private boolean shutdownmode;
+  private double auto_target_speed;
 
   // TODO: calculate this converter's value and implement it to the shooter set
   // speed fragment
@@ -63,6 +64,7 @@ public class Shooter extends SubsystemBase {
     m_tfx_shooter_left.configAllSettings(configWheel);
     m_tfx_shooter_right.configAllSettings(configWheel);
     SmartDashboard.putNumber("vshooter", targetSpeed);
+    SmartDashboard.putBoolean("ready", false);
   }
 
   @Override
@@ -74,7 +76,11 @@ public class Shooter extends SubsystemBase {
     } else {
       stopMotor();
     }
-    targetSpeed = SmartDashboard.getNumber("vshooter", 4000);
+    targetSpeed = SmartDashboard.getNumber("vshooter", 5000);
+    if(Math.abs(getVelocity() - targetSpeed) <= 500)
+    {
+      SmartDashboard.putBoolean("ready", true);
+    }
   }
 
   public void setWorkMode() {
@@ -162,8 +168,11 @@ public class Shooter extends SubsystemBase {
     } else {
       if (RawSensorUnittoRPM(m_tfx_shooter_left.getSelectedSensorVelocity()) < 800) {
         configWheel.slot0.kP = 0.03;
+        configWheel.slot0.kI = 0;
       } else {
         configWheel.slot0.kP = 0.8;
+        configWheel.slot0.kI = 0.02;
+        
         // System.out.println("Damn!");
       }
       //TODO: get a suitable rawZone for Integration

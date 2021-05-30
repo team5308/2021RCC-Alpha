@@ -18,6 +18,7 @@ public class DelayedFeederWork extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     m_feeder = p_feeder;
-    addCommands(new Delay(3), new FeederWorkCommand(m_feeder));
+    addCommands(new FeederWorkCommand(m_feeder));
+    // new Delay(2),
   }
 }

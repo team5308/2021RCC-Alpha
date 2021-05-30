@@ -18,7 +18,7 @@ public class ShooterSetSpeed extends CommandBase {
     addRequirements(p_shooter);
     // addRequirements(p_turret);
     m_shooter = p_shooter;
-    m_speed = 5000;
+    m_speed = -6200;
     // m_turret = p_turret;
   }
 
@@ -31,7 +31,7 @@ public class ShooterSetSpeed extends CommandBase {
   public ShooterSetSpeed(Shooter p_shooter, int p_duration) {
     addRequirements(p_shooter);
     m_shooter = p_shooter;
-    m_speed = m_shooter.getTargetSpeed();
+    m_speed = -m_shooter.getTargetSpeed();
     m_duration = p_duration;
   }
 
@@ -43,7 +43,6 @@ public class ShooterSetSpeed extends CommandBase {
   @Override
   public void execute() {
     m_shooter.setVelocity(m_speed);
-    Timer.delay(m_duration);
     // m_shooter.getCurrent();
   }
 

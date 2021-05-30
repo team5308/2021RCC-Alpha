@@ -4,11 +4,14 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Hopper;
 
 public class HopperWorkCommand extends CommandBase {
   private static Hopper m_hopper;
+  private static int i = 1;
   public HopperWorkCommand(Hopper p_hopper) {
     addRequirements(p_hopper);
     m_hopper = p_hopper;
@@ -21,7 +24,11 @@ public class HopperWorkCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_hopper.hopperStart();
+    if(i <= 180) {
+      i++;
+      return ;
+    }
+     m_hopper.hopperStart();
   }
 
   // Called once the command ends or is interrupted.

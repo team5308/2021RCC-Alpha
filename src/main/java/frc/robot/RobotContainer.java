@@ -45,7 +45,7 @@ public class RobotContainer {
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
-  private final DriveSubsystem m_drive = new DriveSubsystem();
+  public final DriveSubsystem m_drive = new DriveSubsystem();
   private final PneumaticSubsystem m_pneumatic = new PneumaticSubsystem();
   private final Shooter m_shooter = new Shooter();
   private final Turret m_turret = new Turret();
@@ -93,6 +93,7 @@ public class RobotContainer {
   private JoystickButton m_coButton4 = new JoystickButton(m_rightJoy,4);
   private JoystickButton m_coButton14 = new JoystickButton(m_rightJoy,14);
   private JoystickButton m_coButton15 = new JoystickButton(m_rightJoy,15);
+  private JoystickButton m_coButton16 = new JoystickButton(m_rightJoy, 16);
 
   private final ChangeBase changeBase = new ChangeBase(m_pneumatic);
   private final ChangeIntake changeIntake = new ChangeIntake(m_pneumatic);
@@ -108,6 +109,9 @@ public class RobotContainer {
   private final ChangeIntake setIntakeLock = new ChangeIntake(m_pneumatic, PneuStatus.kIntakeLock);
   private final ChangeLock setLockRelease = new ChangeLock(m_pneumatic, PneuStatus.kClimberRelease);
 
+  private final AutoShooterFire m_fire = new AutoShooterFire(m_drive, m_turret, m_vision, m_shooter, m_hopper, m_feeder);
+  public final LeaveLine m_line = new LeaveLine(m_drive);
+  private final AutoCommand m_auton = new AutoCommand(m_turret, m_intake, m_pneumatic, m_drive, m_vision, m_shooter, m_hopper, m_feeder);
   // Autonomous command
   private final AutoLinearDrive m_straight = new AutoLinearDrive(m_drive, 50);
   private final AutoRotate m_rotate = new AutoRotate(m_drive, 45);
@@ -149,9 +153,9 @@ public class RobotContainer {
     // Climber Sets
     // m_leftButton1.whenHeld(new InstantCommand(m_intake::intakeStart, m_intake)).whenReleased(new InstantCommand(m_intake::intakeStop, m_intake));
 
-    m_leftButton1.whenPressed(new InstantCommand(m_hopper::hopperStart, m_hopper)).whenReleased(new InstantCommand(m_drive::stopMotor, m_drive));
-    m_leftButton3.whenPressed(new InstantCommand(m_drive::leftTrainClimb, m_drive)).whenReleased(new InstantCommand(m_drive::stopMotor, m_drive));
-    m_leftButton4.whenPressed(new InstantCommand(m_drive::rightTrainClimb, m_drive)).whenReleased(new InstantCommand(m_drive::stopMotor, m_drive));
+    m_leftButton1.whenPressed(new InstantCommand(m_hopper::hopperStart, m_hopper)).whenReleased(new InstantCommand(m_hopper::hopperStop, m_hopper));
+    // m_leftButton3.whenPressed(new InstantCommand(m_drive::leftTrainClimb, m_drive)).whenReleased(new InstantCommand(m_drive::stopMotor, m_drive));
+    // m_leftButton4.whenPressed(new InstantCommand(m_drive::rightTrainClimb, m_drive)).whenReleased(new InstantCommand(m_drive::stopMotor, m_drive));
 
     m_leftButton5.whenPressed(new ChangeClimber(m_pneumatic, PneuStatus.kClimberUp));
     m_leftButton13.whenPressed(new ChangeClimber(m_pneumatic));
@@ -163,6 +167,7 @@ public class RobotContainer {
     
     m_coButton14.whenHeld(m_feederWork);
     m_coButton15.whenHeld(new InstantCommand(m_feeder::feederReverseWork, m_feeder)).whenReleased(new InstantCommand(m_feeder::feederStop, m_feeder));
+    m_coButton16.whenHeld(new InstantCommand(m_hopper::hopperReverseStart, m_hopper)).whenReleased(new InstantCommand(m_hopper::hopperStop, m_hopper));
     m_coButton2.whenHeld(autoAimdCommand); 
 
     m_coButton3.whenHeld(new InstantCommand(m_turret::turnLeft, m_turret)).whenReleased(new InstantCommand(m_turret::stopMotor, m_turret));
@@ -212,7 +217,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_straight;
+    return m_auton;
   }
 
   public void teleopInit() {
@@ -222,6 +227,7 @@ public class RobotContainer {
     m_pneumatic.setBaseOutput(PneuStatus.kBaseDrive);
     final Command arcadeDriveCommand = new RunCommand(() -> m_drive.ArcadeDrive(m_leftJoy.getY(), -m_leftJoy.getX()), m_drive);
     m_drive.setDefaultCommand(arcadeDriveCommand);
+    SmartDashboard.putNumber("AutoAim", 1);
   }
 
   public void disableInit() {

@@ -18,7 +18,6 @@ public class AutoDriveAndIntake extends ParallelCommandGroup {
   public AutoDriveAndIntake(DriveSubsystem p_drive, Intake p_intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addRequirements(p_drive, p_intake);
     m_drive = p_drive;
     m_intake = p_intake;
     addCommands(new AutoLinearDrive(m_drive, 50),

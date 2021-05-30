@@ -14,13 +14,19 @@ public class AutoShooterFire extends ParallelCommandGroup {
   private final Shooter m_shooter;
   private final Hopper m_hopper;
   private final Feeder m_feeder;
+  private final Turret m_turret;
+  private final Vision m_vision;
+  private final DriveSubsystem m_drive;
 
-  public AutoShooterFire(Shooter p_shooter, Hopper p_hopper, Feeder p_feeder) {
+  public AutoShooterFire(DriveSubsystem p_drive, Turret p_turret, Vision p_vision, Shooter p_shooter, Hopper p_hopper, Feeder p_feeder) {
     // Use addRequirements() here to declare subsystem dependencies.
+    m_turret = p_turret;
+    m_vision = p_vision;
     m_shooter = p_shooter;
     m_hopper = p_hopper;
     m_feeder = p_feeder;
+    m_drive = p_drive;
   
-    addCommands(new ShooterSetSpeed(m_shooter, 5), new HopperWorkCommand(m_hopper), new DelayedFeederWork(m_feeder));
+    addCommands(new ShooterSetSpeed(m_shooter, 6), new HopperWorkCommand(m_hopper), new FeederWorkCommand(m_feeder));
   }
 }
