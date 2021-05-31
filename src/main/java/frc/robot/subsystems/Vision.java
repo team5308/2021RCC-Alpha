@@ -33,6 +33,9 @@ public class Vision extends SubsystemBase {
   private double target_height = 2;
   private double limelight_mount_height = 0.5;
   private double limelight_mount_angle = 20;
+
+  public boolean inAuto = true; 
+
   public Vision() {
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight-ytz");
     tX = table.getEntry("tx");
@@ -57,12 +60,16 @@ public class Vision extends SubsystemBase {
     private double dist;
     private double constant;
 
+  
+
     public void solveParameters() {
       dist = getTargetDistance();
       constant = Math.pow(2.0 * gravity * target_height, 0.5);
       setSpeed = 3500.0;
       setAngle = 0.0;
     }
+
+
 
     public double getAngle() {
       setAngle = Math.asin(constant / setSpeed);
@@ -76,6 +83,10 @@ public class Vision extends SubsystemBase {
       }
       return setAngle;
     }
+  }
+
+  public void exitAuto() {
+    inAuto = false;
   }
 
   public double getTargetDistance() {

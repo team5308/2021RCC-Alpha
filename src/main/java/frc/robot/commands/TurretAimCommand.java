@@ -52,7 +52,7 @@ public class TurretAimCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return m_vision.inAuto;
     // return  1 != SmartDashboard.getNumber("AutoAim", 1) && (Vision.getValidTarget() && Math.abs(m_vision.getTargetAngle()) <= 1.0);
   }
 }

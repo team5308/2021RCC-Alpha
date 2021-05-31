@@ -222,6 +222,7 @@ public class RobotContainer {
 
   public void teleopInit() {
     logger.info("teleopInit - start compressor");
+    m_vision.exitAuto();
     m_vision.setLightOff();
     m_pneumatic.CompressorBegin();
     m_pneumatic.setBaseOutput(PneuStatus.kBaseDrive);
