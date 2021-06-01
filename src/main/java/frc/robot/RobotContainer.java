@@ -86,6 +86,7 @@ public class RobotContainer {
   private JoystickButton m_leftButton12 = new JoystickButton(m_leftJoy, 12);
   private JoystickButton m_leftButton13 = new JoystickButton(m_leftJoy, 13);
   private JoystickButton m_leftButton14 = new JoystickButton(m_leftJoy, 14);
+  private JoystickButton m_leftButton16 = new JoystickButton(m_leftJoy, 16);
 
   private JoystickButton m_coButton1 = new JoystickButton(m_rightJoy,1);
   private JoystickButton m_coButton2 = new JoystickButton(m_rightJoy,2);
@@ -159,8 +160,9 @@ public class RobotContainer {
 
     m_leftButton5.whenPressed(new ChangeClimber(m_pneumatic, PneuStatus.kClimberUp));
     m_leftButton13.whenPressed(new ChangeClimber(m_pneumatic));
-    m_leftButton12.whenPressed(new ChangeLock(m_pneumatic));
-    m_leftButton11.whenPressed(new ChangeBase(m_pneumatic));
+    m_leftButton12.whenPressed(new ChangeLock(m_pneumatic, PneuStatus.kClimberRelease));
+    m_leftButton16.whenPressed(new ChangeLock(m_pneumatic, PneuStatus.kClimberLock));
+    m_leftButton8.whenPressed(new ChangeBase(m_pneumatic));
     m_leftButton14.whenPressed(changeIntake);
     
     m_coButton1.whenPressed(new InstantCommand(m_hopper::hopperStart, m_hopper)).whenReleased(new InstantCommand(m_hopper::hopperStop,m_hopper));

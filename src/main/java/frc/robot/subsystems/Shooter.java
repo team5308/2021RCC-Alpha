@@ -64,7 +64,7 @@ public class Shooter extends SubsystemBase {
     m_tfx_shooter_left.configAllSettings(configWheel);
     m_tfx_shooter_right.configAllSettings(configWheel);
     SmartDashboard.putNumber("vshooter", targetSpeed);
-    SmartDashboard.putBoolean("ready", false);
+    SmartDashboard.putBoolean("ready", true);
   }
 
   @Override
@@ -77,9 +77,13 @@ public class Shooter extends SubsystemBase {
       stopMotor();
     }
     targetSpeed = SmartDashboard.getNumber("vshooter", 5000);
-    if(Math.abs(getVelocity() - targetSpeed) <= 500)
+    if(Math.abs(getVelocity()) > Math.abs( targetSpeed) - 1200)
     {
       SmartDashboard.putBoolean("ready", true);
+    }
+    else
+    {
+      SmartDashboard.putBoolean("ready", false);
     }
   }
 
@@ -155,7 +159,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void outputRPM() {
-    SmartDashboard.putNumber("RPM", RawSensorUnittoRPM(m_tfx_shooter_left.getSelectedSensorVelocity()));
+    SmartDashboard.putNumber("RPM", -RawSensorUnittoRPM(m_tfx_shooter_left.getSelectedSensorVelocity()));
   }
 
   // values: P 0.06,1; I 0.000125; D 0;
