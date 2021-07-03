@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.geometry.Translation2d;
 public class diff {
 
     private final double m_base;
-    private Pose2d m_pos;
+    public Pose2d m_pos;
     private Transform2d m_last_trans;
     private double m_last_dt;
     
@@ -21,16 +21,27 @@ public class diff {
 
     public Transform2d update(double distL, double distR, double dt) {
         m_last_dt = dt;
+        if(Math.abs(distL) <= 0.00001 && Math.abs(distR) <= 0.00001) {
+            return new Transform2d();
+        }
         if (Num.signOne(distL) * Num.signOne(distR) >= 0) {
             boolean inverse = Num.signOne(distL) >= 0;
             
             distL = Math.abs(distL);
             distR = Math.abs(distR);
             double distC = (distL + distR) / 2.0;
-            double dtheta = Math.abs(distL - distR) / m_base; 
-            double rk = distC / dtheta;
-            double xk = rk * Math.sin(dtheta);
-            double yk = rk - rk * Math.cos(dtheta);
+            double dtheta = Math.abs(distL - distR) / m_base;
+            double rk = 0;
+            double xk = Math.sin(dtheta);
+            double yk = 1 - Math.cos(dtheta);
+            if (Math.abs(dtheta) > 0.0001) {
+                rk = distC / dtheta;
+                xk = rk * Math.sin(dtheta);
+                yk = rk - rk * Math.cos(dtheta);
+            } else {
+                xk = distC;
+                yk = 0;
+            }
             
             if (distR > distL) {
                 yk *= -1;
@@ -41,7 +52,7 @@ public class diff {
             
             if (inverse)
                 m_last_trans = m_last_trans.inverse();
-            m_pos.plus(m_last_trans);
+            m_pos = m_pos.plus(m_last_trans);
             return m_last_trans;
         } else {
             /**
@@ -56,7 +67,7 @@ public class diff {
                 rtheta *= -1;
             
             m_last_trans = new Transform2d(new Translation2d(), new Rotation2d(rtheta));
-            m_pos.plus(m_last_trans);
+            m_pos = m_pos.plus(m_last_trans);
             return m_last_trans;
         }
     }

@@ -13,8 +13,8 @@ public class AutoLinearDrive extends CommandBase {
   /** Creates a new AutoLinearDrive. */
   private DriveSubsystem m_drive;
   private double m_targetDist;
-  private int m_accEncoderRotation;
-  private int initEncoderReadings;
+  private double m_accEncoderRotation;
+  private double initEncoderReadings;
   private int targetEncoder;
 
   private Logger logger = Logger.getLogger("frc.auto");

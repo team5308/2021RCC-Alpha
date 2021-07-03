@@ -7,8 +7,6 @@
 
 package frc.robot.subsystems;
 
-import java.sql.Time;
-import java.util.Timer;
 import java.util.logging.Logger;
 
 import com.wuyuanhun.diff;
@@ -19,10 +17,18 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.geometry.Transform2d;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -69,6 +75,12 @@ public class DriveSubsystem extends SubsystemBase {
   private double previous_time;
   private double previous_left_pos;
   private double previous_right_pos;
+  private NetworkTable loc = NetworkTableInstance.getDefault().getTable("loc");
+  private NetworkTableEntry xcord = loc.getEntry("x");
+  private NetworkTableEntry ycord = loc.getEntry("y");
+  private NetworkTableEntry theta = loc.getEntry("theta");
+
+  private final Timer timer = new Timer();
 
   public DriveSubsystem() {
     // logger.setLevel(Level.OFF);
@@ -94,7 +106,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_navX.calibrate();
     resetGyro();
 
-    previous_time = System.currentTimeMillis();
+    previous_time = timer.getFPGATimestamp();
     previous_left_pos = m_leftMotorFront.getSelectedSensorPosition();
     previous_right_pos = m_rightMotorFront.getSelectedSensorPosition();
   }
@@ -104,7 +116,14 @@ public class DriveSubsystem extends SubsystemBase {
     // sensorUpdate();
     double leftv = m_leftMotorFront.get();
     double rightv = m_rightMotorFront.get();
-    // logger.info(String.format("l: %.2f r: %.2f\n", leftv, rightv));
+
+    double current_time = timer.getFPGATimestamp();
+    double current_left_pos = m_leftMotorFront.getSelectedSensorPosition();
+    double current_right_pos = m_rightMotorFront.getSelectedSensorPosition();
+    double dLeftDist = encoderToRawLength(current_left_pos - previous_left_pos)/100;
+    double dRightDist = encoderToRawLength(current_right_pos - previous_right_pos)/100;
+    double dTime = current_time - previous_time;
+    // logger.info(String.format("dl: %.2f dr: %.2f dt:%.2f\n", dLeftDist, dRightDist, dTime));
     // System.out.println(m_leftMotorFront.getSelectedSensorVelocity());
     if(main_btn1.get()) {
       kfactor = 0.7;
@@ -132,16 +151,18 @@ public class DriveSubsystem extends SubsystemBase {
       }
     }
 
-    double current_time = System.currentTimeMillis();
-    double current_left_pos = m_leftMotorFront.getSelectedSensorPosition();
-    double current_right_pos = m_rightMotorFront.getSelectedSensorPosition();
-    double dLeftDist = current_left_pos - previous_left_pos;
-    double dRightDist = current_right_pos - previous_right_pos;
-    double dTime = current_time - previous_time;
-    
-    logger.info(String.format("leftDistance: %.2f rightDistance: %d",dLeftDist, dRightDist));
 
-    m_baseDiff.update(dLeftDist, dRightDist, dTime);
+    
+    // double t = timer.getFPGATimestamp();
+    m_baseDiff.update(-dLeftDist, dRightDist, dTime);
+    // logger.info(String.format("%f", timer.getFPGATimestamp() - t));
+    logger.info(m_baseDiff.m_pos.toString());
+    Translation2d pos2 = m_baseDiff.m_pos.getTranslation();
+    Rotation2d rot2 = m_baseDiff.m_pos.getRotation();
+    xcord.setDouble(pos2.getX());
+    ycord.setDouble(pos2.getY());
+    theta.setDouble(rot2.getDegrees());
+
     previous_time = current_time;
     previous_left_pos = current_left_pos;
     previous_right_pos = current_right_pos;
@@ -163,7 +184,7 @@ public class DriveSubsystem extends SubsystemBase {
     return Math.abs(rotation) > 0.6 ? Math.copySign(0.6, rotation) : rotation;
   }
 
-  public int getBaseEncoderReading() {
+  public double getBaseEncoderReading() {
     return m_leftMotorFront.getSelectedSensorPosition();
   }
 
@@ -210,6 +231,7 @@ public class DriveSubsystem extends SubsystemBase {
     return m_rightMotorFront.getSelectedSensorVelocity();
   }
 
+  // cm
   public double encoderToRawLength(double encoderValue){
     double length = encoderValue/ENCODER_RESOLUTION * WHEEL_PERIMETER;
     return length;
