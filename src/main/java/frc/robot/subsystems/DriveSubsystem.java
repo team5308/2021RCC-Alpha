@@ -7,13 +7,14 @@
 
 package frc.robot.subsystems;
 
-import java.util.logging.Level;
+import java.sql.Time;
+import java.util.Timer;
 import java.util.logging.Logger;
+
+import com.wuyuanhun.diff;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
@@ -21,14 +22,12 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.CanId;
 import frc.robot.Constants.Deadband;
-import frc.robot.commands.TurretAimCommand;
 
 public class DriveSubsystem extends SubsystemBase {
   private WPI_TalonFX m_leftMotorFront = new WPI_TalonFX(CanId.DRIVE_LEFT_FRONT);
@@ -41,6 +40,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   private AHRS m_navX = new AHRS(SPI.Port.kMXP);
   private final PowerDistributionPanel PDP = new PowerDistributionPanel(CanId.kPDP);
+
+  private diff m_baseDiff = new diff(0.7);
 
   private double kP = 0.5;
   private double kI = 0;
@@ -58,14 +59,16 @@ public class DriveSubsystem extends SubsystemBase {
   private final JoystickButton main_btn3 = new JoystickButton(new Joystick(0), 3);
   private final JoystickButton main_btn4 = new JoystickButton(new Joystick(0), 4);
 
-
   private double kfactor = 1.0;
 
   private boolean climbing_left = false;
   private boolean climbing_right = false;
 
-
   private final Logger logger = Logger.getLogger("frc.subsystems.drive");
+
+  private double previous_time;
+  private double previous_left_pos;
+  private double previous_right_pos;
 
   public DriveSubsystem() {
     // logger.setLevel(Level.OFF);
@@ -82,7 +85,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_leftMotorBack.setNeutralMode(NeutralMode.Brake);
     m_rightMotorFront.setNeutralMode(NeutralMode.Brake);
     m_rightMotorBack.setNeutralMode(NeutralMode.Brake);
-  
+    
     SmartDashboard.putNumber("Base P Gain", kP);
     SmartDashboard.putNumber("Base I Gain", kI);
     SmartDashboard.putNumber("Base D Gain", kD);
@@ -90,6 +93,10 @@ public class DriveSubsystem extends SubsystemBase {
 
     m_navX.calibrate();
     resetGyro();
+
+    previous_time = System.currentTimeMillis();
+    previous_left_pos = m_leftMotorFront.getSelectedSensorPosition();
+    previous_right_pos = m_rightMotorFront.getSelectedSensorPosition();
   }
 
   @Override
@@ -124,6 +131,20 @@ public class DriveSubsystem extends SubsystemBase {
         climbing_right = false;
       }
     }
+
+    double current_time = System.currentTimeMillis();
+    double current_left_pos = m_leftMotorFront.getSelectedSensorPosition();
+    double current_right_pos = m_rightMotorFront.getSelectedSensorPosition();
+    double dLeftDist = current_left_pos - previous_left_pos;
+    double dRightDist = current_right_pos - previous_right_pos;
+    double dTime = current_time - previous_time;
+    
+    logger.info(String.format("leftDistance: %.2f rightDistance: %d",dLeftDist, dRightDist));
+
+    m_baseDiff.update(dLeftDist, dRightDist, dTime);
+    previous_time = current_time;
+    previous_left_pos = current_left_pos;
+    previous_right_pos = current_right_pos;
   }
 
   public void TankDrive(double leftPower, double rightPower) {
@@ -154,6 +175,8 @@ public class DriveSubsystem extends SubsystemBase {
     configDrive.slot1.kF = 0;
     configDrive.openloopRamp = 0;
   }
+
+  
 
   public void resetGyro() {
     m_navX.reset();
